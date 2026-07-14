@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModuleCell | Modern Modular Prefab Architectural Design Studio</title>
+    <meta name="description" content="ModuleCell specializes in sustainable, modern, and elder-friendly modular prefab architectural design. We create high-quality spaces through precise proportions and material contrasts.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo-area">
+                <img src="assets/logo.png" alt="ModuleCell Logo" class="nav-logo">
+                <span class="brand-name">MODULECELL</span>
+            </a>
+            <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link">
+                    <span class="nav-en">Philosophy</span>
+                    <span class="nav-zh">設計理念</span>
+                </a>
+                <a href="#services" class="nav-link">
+                    <span class="nav-en">Service</span>
+                    <span class="nav-zh">服務項目</span>
+                </a>
+                <a href="#projects" class="nav-link">
+                    <span class="nav-en">Past Experience</span>
+                    <span class="nav-zh">過往作品</span>
+                </a>
+                <a href="#lab" class="nav-link">
+                    <span class="nav-en">The Lab</span>
+                    <span class="nav-zh">實作工坊</span>
+                </a>
+
+                <a href="#contact" class="nav-link-btn">
+                    <span class="nav-en">Contact Us</span>
+                    <span class="nav-zh">聯絡我們</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section (Bilingual Slider Split Layout) -->
+    <section class="hero-section" id="home">
+        <div class="container hero-container">
+            <div class="hero-split-grid reveal">
+                <!-- Left Content -->
+                <div class="hero-left-content">
+                    <span class="hero-tag">MODULAR ARCHITECTURE</span>
+                    <h1 class="hero-title">Modular Design, <br><span class="accent-text">Infinite Possibilities</span></h1>
+                    <p class="hero-subtitle">
+                        We focus on sustainable pre-fab cells, refined details, and elder-friendly design — translating rational modular configurations into rich living experiences.
+                        <span class="translation-sub">我們專注於永續預製單元、精緻細部美學與樂齡友善設計，用最理性的模組配置實踐生活想像。</span>
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#about" class="btn btn-primary">
+                            <span class="btn-en">Our Philosophy</span>
+                            <span class="btn-zh">核心理念</span>
+                        </a>
+                        <a href="#projects" class="btn btn-secondary">
+                            <span class="btn-en">Past Experience</span>
+                            <span class="btn-zh">過往作品</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Right Image Window -->
+                <div class="hero-right-image">
+                    <div class="hero-window">
+                        <div class="hero-slider">
+                            <div class="hero-slide active" style="background-image: url('assets/circle_tesoro.png');"></div>
+                            <div class="hero-slide" style="background-image: url('assets/angle_alma.png');"></div>
+                            <div class="hero-slide" style="background-image: url('assets/moce_rv.png');"></div>
+                            <div class="hero-slide" style="background-image: url('assets/community_layout.png');"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span class="mouse">
+                <span class="wheel"></span>
+            </span>
+            <span class="scroll-text">SCROLL</span>
+        </div>
+    </section>
+
+    <!-- About / Core Philosophy Section (Split Layout) -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-split-grid reveal">
+                <div class="about-left-title">
+                    <span class="section-tag">PHILOSOPHY</span>
+                    <h2>Our Design<br>Philosophy</h2>
+                    <div class="accent-bar"></div>
+                </div>
+                
+                <div class="about-right-content">
+                    <p>
+                        We believe that exceptional architecture is not defined by expensive construction costs, but by meaningful space arrangements, precise proportions, contrast of materials and colors, and elegant detailing.
+                        <span class="translation-sub">我們深信，好的建築不取決於昂貴的營建成本，而在於空間配置的意義、精準的比例、材料與色彩的對比，以及細部的巧思。</span>
+                    </p>
+                    <p>
+                        Through our "ModuleCell" pre-fab system, we standardize these design values to make premium modern spaces accessible, comfortable, and sustainable.
+                        <span class="translation-sub">透過「ModuleCell」預製單元系統，我們將這樣的設計精神商品化與預製化，讓高品質的現代居住空間觸手可及。</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Numbered Services List (BIOTOPE Style) -->
+            <div class="services-list-container reveal" id="services">
+                <!-- Row 1 -->
+                <div class="service-row">
+                    <div class="service-meta">
+                        <span class="service-num">01</span>
+                        <h3>Architectural Service<br><span class="translation-sub" style="margin-top: 0.1rem; font-size: 0.75em; color: var(--accent);">建築設計與規劃服務</span></h3>
+                    </div>
+                    <div class="service-body">
+                        <p>Providing custom modern residential designs, commercial renovations, and comprehensive master planning. We focus on spatial efficiency, material contrasts, and refined aesthetic detailing.</p>
+                        <p class="translation-sub">提供客製化現代住宅設計、商業空間改裝及綜合開發總體規劃，專注於空間效益、材質對比與優雅細部的融合。</p>
+                    </div>
+                </div>
+                <!-- Row 2 -->
+                <div class="service-row">
+                    <div class="service-meta">
+                        <span class="service-num">02</span>
+                        <h3>AI Code & Regulation Consultant<br><span class="translation-sub" style="margin-top: 0.1rem; font-size: 0.75em; color: var(--accent);">AI 建築法規與條例諮詢</span></h3>
+                    </div>
+                    <div class="service-body">
+                        <p>Leveraging AI tools and automated checking technology to accelerate zoning reviews, code analyses, and building permit clearance with local government regulations.</p>
+                        <p class="translation-sub">結合 AI 技術與自動化代碼審查系統，加速土地分區法規審核與建築法規分析，大幅縮短執照送審與審查流程。</p>
+                    </div>
+                </div>
+                <!-- Row 3 -->
+                <div class="service-row">
+                    <div class="service-meta">
+                        <span class="service-num">03</span>
+                        <h3>BIM & Digital Content<br><span class="translation-sub" style="margin-top: 0.1rem; font-size: 0.75em; color: var(--accent);">BIM 與數位建材元件庫開發</span></h3>
+                    </div>
+                    <div class="service-body">
+                        <p>Developing highly detailed Revit parametric families, custom project templates, and standardized digital building assets for manufacturers and designers.</p>
+                        <p class="translation-sub">為建材商與設計團隊開發高精度 Revit 參數化元件庫（Families）、專案樣板與標準化 BIM 數位模型資產。</p>
+                    </div>
+                </div>
+                <!-- Row 4 -->
+                <div class="service-row">
+                    <div class="service-meta">
+                        <span class="service-num">04</span>
+                        <h3>Digital Twin Construction Simulation<br><span class="translation-sub" style="margin-top: 0.1rem; font-size: 0.75em; color: var(--accent);">數位雙生與施工裝配模擬</span></h3>
+                    </div>
+                    <div class="service-body">
+                        <p>Creating immersive virtual models and Twinmotion/stop-motion assembly animations to visualize complex structural joints and verify construction sequencing.</p>
+                        <p class="translation-sub">建置虛擬數位雙生模型，產出動態裝配與施工定格動畫，使施工團隊與業主同步掌握複雜結構節點與施作順序。</p>
+                    </div>
+                </div>
+                <!-- Row 5 -->
+                <div class="service-row">
+                    <div class="service-meta">
+                        <span class="service-num">05</span>
+                        <h3>Pre-Fab Modular Unit<br><span class="translation-sub" style="margin-top: 0.1rem; font-size: 0.75em; color: var(--accent);">預製模組單元開發</span></h3>
+                    </div>
+                    <div class="service-body">
+                        <p>Designing standardized factory-built modules (Pre-fab Cells) that adapt to diverse site conditions, ensuring rapid on-site assembly, high structural precision, and minimum waste.</p>
+                        <p class="translation-sub">開發高精準度、低耗能的工廠預製單元（Pre-fab Cell），彈性拼接適應各種基地與坡地地形，實現快速組裝與永續營建。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section (Minimalist Table list) -->
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">PAST EXPERIENCE</span>
+                <h2 class="section-title">Past Experience <span class="subtitle-zh">/ 過往作品</span></h2>
+                <div class="title-bar"></div>
+            </div>
+
+            <!-- Project Filters -->
+            <div class="project-filters reveal">
+                <button class="filter-btn active" data-filter="all">All / 全部</button>
+                <button class="filter-btn" data-filter="residential">Residential / 住宅設計</button>
+                <button class="filter-btn" data-filter="commercial">Commercial / 商業餐飲</button>
+                <button class="filter-btn" data-filter="urban">Urban Planning / 都市規劃</button>
+                <button class="filter-btn" data-filter="infrastructure">Infrastructure / 基礎設施</button>
+            </div>
+
+            <!-- Projects Grid List -->
+            <div class="projects-grid-container reveal">
+                <!-- Card 1 (MoCe 100 ADU - Circle Tesoro - 2024) -->
+                <div class="project-card" data-category="residential" data-project-id="circle-tesoro">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/circle_tesoro.png" alt="MoCe 100 ADU (Circle Tesoro)" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Prefab Residential / 預製住宅</span>
+                        <h4 class="project-card-title">MoCe 100 ADU <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Circle Tesoro)</span></h4>
+                        <span class="project-card-year">2024</span>
+                    </div>
+                </div>
+                <!-- Card 2 (MoCe Angle Alma - 2025) -->
+                <div class="project-card" data-category="residential" data-project-id="angle-alma">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/angle_alma.png" alt="MoCe Angle Alma" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Prefab Residential / 預製住宅</span>
+                        <h4 class="project-card-title">MoCe Angle Alma <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Angled Modular Unit)</span></h4>
+                        <span class="project-card-year">2025</span>
+                    </div>
+                </div>
+                <!-- Card 3 (MoCe RV Mobile Unit - 2024) -->
+                <div class="project-card" data-category="residential" data-project-id="moce-rv">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/moce_rv.png" alt="MoCe RV Mobile Unit" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Mobile Prefab / 移動式預製單元</span>
+                        <h4 class="project-card-title">MoCe RV <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Mobile Modular Living)</span></h4>
+                        <span class="project-card-year">2024</span>
+                    </div>
+                </div>
+                <!-- Card 4 (SCE Substation Addition - 2019) -->
+                <div class="project-card" data-category="infrastructure" data-project-id="substation">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/substation.jpg" alt="SCE Substation Addition" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Infrastructure / 辦公與基礎設施</span>
+                        <h4 class="project-card-title">SCE Substation Addition <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(A Yellow Protection)</span></h4>
+                        <span class="project-card-year">2019</span>
+                    </div>
+                </div>
+                <!-- Card 2 (Antojitos Cocina Mexicana - 2018) -->
+                <div class="project-card" data-category="commercial" data-project-id="antojitos">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/antojitos.jpg" alt="Antojitos Cocina Mexicana" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Commercial / 商業與餐飲</span>
+                        <h4 class="project-card-title">Antojitos Cocina Mexicana <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Universal City Walk)</span></h4>
+                        <span class="project-card-year">2018</span>
+                    </div>
+                </div>
+                <!-- Card 3 (Montecito Canyon Residence - 2014) -->
+                <div class="project-card" data-category="residential" data-project-id="montecito">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/montecito.jpg" alt="Montecito Canyon Residence" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Residential / 住宅設計</span>
+                        <h4 class="project-card-title">Montecito Canyon Residence <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Net-Zero Estate)</span></h4>
+                        <span class="project-card-year">2014</span>
+                    </div>
+                </div>
+                <!-- Card 4 (Castaway Newport Beach - 2014) -->
+                <div class="project-card" data-category="commercial" data-project-id="castaway">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/castaway.jpg" alt="Castaway Newport Beach" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Commercial / 商業與餐飲</span>
+                        <h4 class="project-card-title">Castaway Newport Beach <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Medical Facade Re-Skin)</span></h4>
+                        <span class="project-card-year">2014</span>
+                    </div>
+                </div>
+                <!-- Card 5 (Shenzhou Peninsula Master Plan - 2008) -->
+                <div class="project-card" data-category="urban" data-project-id="shenzhou">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/shenzhou.jpg" alt="Shenzhou Peninsula Master Plan" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Urban Planning / 都市與社區規劃</span>
+                        <h4 class="project-card-title">Shenzhou Peninsula Master Plan <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Resort Center)</span></h4>
+                        <span class="project-card-year">2008</span>
+                    </div>
+                </div>
+                <!-- Card 6 (Master Thesis - 2005) -->
+                <div class="project-card" data-category="urban" data-project-id="thesis">
+                    <div class="project-circle-wrapper">
+                        <img src="assets/thesis_thumb.jpg" alt="Master Thesis - Design with Animals" class="project-circle-img">
+                    </div>
+                    <div class="project-card-info">
+                        <span class="project-card-cat">Research & Theory / 仿生與動態建築碩士論文</span>
+                        <h4 class="project-card-title">Design with Animals: Dynamic Structure <br><span class="translation-sub" style="margin-top: 0.15rem; font-size: 0.82em; color: var(--text-secondary);">(Master's Thesis Modernization)</span></h4>
+                        <span class="project-card-year">2005</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lab / Prototyping Section -->
+    <section class="lab-section" id="lab">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">WORKFLOW</span>
+                <h2 class="section-title">The Lab & Design Workflow <span class="subtitle-zh">/ 實作工坊與設計流程</span></h2>
+                <div class="title-bar"></div>
+            </div>
+
+            <div class="lab-grid reveal">
+                <div class="lab-image-area">
+                    <div class="lab-window">
+                        <div class="lab-slider">
+                            <div class="lab-slide active" style="background-image: url('assets/prototype.jpg');"></div>
+                            <div class="lab-slide" style="background-image: url('assets/lab-print1.jpg');"></div>
+                            <div class="lab-slide" style="background-image: url('assets/lab-print2.jpg');"></div>
+                            <div class="lab-slide" style="background-image: url('assets/lab-render1.jpg');"></div>
+                        </div>
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag"><i class="fa-solid fa-cube"></i> Revit Parametric</span>
+                        <span class="tech-tag"><i class="fa-solid fa-scissors"></i> Cricut Cutting</span>
+                        <span class="tech-tag"><i class="fa-solid fa-print"></i> 3D Printing</span>
+                        <span class="tech-tag"><i class="fa-solid fa-film"></i> Twinmotion & Animation</span>
+                    </div>
+                </div>
+                <div class="lab-content-area">
+                    <h3>Bridging Imagination & Reality through Craft and Tech <br><span class="translation-sub" style="font-size: 0.65em; display: inline-block; color: var(--accent); margin-top: 0.25rem;">用雙手與科技拉近夢想的距離</span></h3>
+                    <p>
+                        At ModuleCell, we design beyond the screen. We have established a robust "digital-to-physical" prototyping workflow to ensure high-fidelity design execution:
+                        <span class="translation-sub">在 ModuleCell，我們不只在螢幕前做設計。我們開發了一套「從數位到物理原型」的完整工作流，確保設計的完美實踐：</span>
+                    </p>
+                    
+                    <ul class="workflow-list">
+                        <li>
+                            <div class="step-num">01</div>
+                            <div class="step-desc">
+                                <strong>Revit Parametric Library / 參數化 Revit 族群開發：</strong>
+                                Developing standardized wall modules and hardware libraries to guarantee drawing precision and constructability.
+                                <span class="translation-sub">建立標準化牆體模組與五金節點參數庫，確保圖紙的高精準度與現場組裝的可行性。</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-num">02</div>
+                            <div class="step-desc">
+                                <strong>Cricut Cardboard Cutting / Cricut 精密紙模型切割：</strong>
+                                Exporting 2D Revit layouts to automated cutters to assemble fine cardboard models for checking spatial proportions under real light.
+                                <span class="translation-sub">將 Revit 平立面導出至自動切割機，組裝精製的卡紙比例模型，在實際日光下驗證空間比例與遮陽夾角。</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-num">03</div>
+                            <div class="step-desc">
+                                <strong>3D Printed Prototypes / 3D 列印快速原型：</strong>
+                                Printing complex joints and custom structural pieces to provide tactile demonstrations of physical assembly interfaces.
+                                <span class="translation-sub">將複雜的幾何單元或節點配件進行 3D 列印，提供給業主與工廠可觸摸、可拆裝的物理卡榫原型。</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-num">04</div>
+                            <div class="step-desc">
+                                <strong>Twinmotion & Stop-motion / 渲染與定格動畫：</strong>
+                                Generating photo-real visuals and assembly animations to align spatial execution with contractors and clients.
+                                <span class="translation-sub">產出高擬真渲染效果圖與裝配縮時影片，讓施工團隊與業主完全同步未來的空間實景與組裝步驟。</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-box reveal">
+                <div class="contact-info-panel">
+                    <span class="section-tag light">GET IN TOUCH</span>
+                    <h2>Initiate Your Project <span class="subtitle-zh">/ 啟動您的模組居所</span></h2>
+                    <p>
+                        Whether you need a bespoke residential ADU rebuild, are a developer interested in modular communities, or want to order a mobile cabin, we're ready to consult.
+                        <span class="translation-sub">不論您是有特定基地需要客製化住宅/ADU重建、對我們的社區模組有興趣的開發商，還是想要訂製移動車艙，我們都能為您提供最專業的設計諮詢。</span>
+                    </p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>hello@modulecell.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>
+                                Design Consultations (By Appointment, Limited to 20h/week)
+                                <span class="translation-sub" style="margin-top: 0.15rem;">預約制設計諮詢 (每週限量20工時)</span>
+                            </span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>
+                                Design Studio (Taiwan / USA)
+                                <span class="translation-sub" style="margin-top: 0.15rem;">設計工坊工作室 (台灣/美國)</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-panel">
+                    <form id="contactForm" onsubmit="event.preventDefault(); alert('Thank you for reaching out! We will contact you within 24 hours. / 感謝您的來信！我們將於24小時內與您聯絡。');">
+                        <div class="form-group">
+                            <label for="name">Full Name / 您的姓名</label>
+                            <input type="text" id="name" placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email / 電子郵件</label>
+                            <input type="email" id="email" placeholder="example@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="project-type">Project Type / 諮詢項目</label>
+                            <select id="project-type" required>
+                                <option value="" disabled selected>Please select your requirement / 請選擇需求</option>
+                                <option value="architectural">1 Architectural Service / 建築設計與規劃服務</option>
+                                <option value="ai-consultant">2 AI Code & Regulation Consultant / AI 建築法規與條例諮詢</option>
+                                <option value="bim-content">3 BIM & Digital Content / BIM 與數位建材元件庫開發</option>
+                                <option value="digital-twin">4 Digital Twin Construction Simulation / 數位雙生與施工裝配模擬</option>
+                                <option value="prefab-modular">5 Pre-Fab Modular Unit / 預製模組單元開發</option>
+                                <option value="other">Other Inquiry / 其他合作洽談</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Project Description / 專案簡述</label>
+                            <textarea id="message" rows="5" placeholder="Please tell us about your site, timeframe, and space ideas... / 請告訴我們關於您的基地條件、時程與空間想法..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span class="btn-en">Send Inquiry</span>
+                            <span class="btn-zh">傳送諮詢需求</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <img src="assets/logo.png" alt="ModuleCell Logo" class="footer-logo">
+                <span class="brand-name">MODULECELL</span>
+                <p>
+                    Exploring space boundaries, redefining living orders. A design studio dedicated to modern modular prefab architecture.
+                    <span class="translation-sub" style="font-size: 0.85em; margin-top: 0.5rem;">探索空間極限，重構生活秩序。專注於現代模組化預製建築的設計工坊。</span>
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links / 快速連結</h4>
+                <a href="#home">Back to Top / 回到頂部</a>
+                <a href="#about">Philosophy / 設計理念</a>
+                <a href="#services">Service / 服務項目</a>
+                <a href="#projects">Past Experience / 過往作品</a>
+                <a href="#lab">The Lab / 實作工坊</a>
+
+            </div>
+            <div class="footer-social">
+                <h4>Follow Us / 關注我們</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 ModuleCell Studio. All rights reserved. 版權所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Detail Modal (Generic overlay loaded with JS) -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            
+            <!-- Upgraded Slideshow Gallery -->
+            <div class="modal-gallery-wrapper">
+                <div class="modal-gallery-viewport">
+                    <img id="modalMainImg" src="" alt="Project Image">
+                </div>
+                <button class="gallery-nav-btn prev" id="galleryPrev" aria-label="Previous image">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="gallery-nav-btn next" id="galleryNext" aria-label="Next image">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <div class="modal-gallery-thumbnails" id="modalThumbnails">
+                    <!-- Dynamic Thumbnails inserted via JS -->
+                </div>
+            </div>
+
+            <!-- Upgraded Two-Column Content Grid -->
+            <div class="modal-body">
+                <div class="modal-content-grid">
+                    <!-- Left Column: Main Description & Phases -->
+                    <div class="modal-main-content">
+                        <span class="project-cat" id="modalCat">Category</span>
+                        <h3 id="modalTitle">Project Title</h3>
+                        <p class="modal-desc" id="modalDesc">Project description text...</p>
+                        
+                        <h4 class="modal-section-title">ModuleCell Professional Phases <span class="subtitle-zh">/ 專業設計流程階段</span></h4>
+                        <div class="phases-grid">
+                            <div class="phase-box">
+                                <div class="phase-header">
+                                    <span class="phase-badge">Phase 1</span>
+                                    <h5>Conceptual Design / 概念設計</h5>
+                                </div>
+                                <p id="modalPhase1">General layouts, proportions, and material concept proposals. Methods: Sketching, card models, case study.</p>
+                            </div>
+                            <div class="phase-box">
+                                <div class="phase-header">
+                                    <span class="phase-badge">Phase 2</span>
+                                    <h5>Schematic Design / 方案設計</h5>
+                                </div>
+                                <p id="modalPhase2">Exploring floor layouts and facade styling options. Methods: Twinmotion render, 3D printing, Revit CAD.</p>
+                            </div>
+                            <div class="phase-box">
+                                <div class="phase-header">
+                                    <span class="phase-badge">Phase 3</span>
+                                    <h5>Design Development / 設計發展</h5>
+                                </div>
+                                <p id="modalPhase3">Refining final plans and connection joints. Methods: 3D node detailing, material sample selections.</p>
+                            </div>
+                            <div class="phase-box">
+                                <div class="phase-header">
+                                    <span class="phase-badge">Phase 4</span>
+                                    <h5>Construction Documents / 施工圖面</h5>
+                                </div>
+                                <p id="modalPhase4">Preparing full detail drawings for permits and pre-fab factory ordering. Methods: Revit CAD documentation.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Specs Sidebar -->
+                    <div class="modal-spec-sidebar">
+                        <h4 class="sidebar-title">Technical Specifications <span class="subtitle-zh">/ 技術規格</span></h4>
+                        <div class="spec-card">
+                            <div class="spec-item">
+                                <div class="spec-icon"><i class="fa-solid fa-sitemap"></i></div>
+                                <div class="spec-details">
+                                    <span class="spec-label">Structure Type / 結構類型</span>
+                                    <strong id="specStructure">Prefab Steel Frame</strong>
+                                </div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-icon"><i class="fa-solid fa-ruler-combined"></i></div>
+                                <div class="spec-details">
+                                    <span class="spec-label">Lot & Built Area / 佔地與建物面積</span>
+                                    <strong id="specArea">6,500 sq ft</strong>
+                                </div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-icon"><i class="fa-solid fa-cubes"></i></div>
+                                <div class="spec-details">
+                                    <span class="spec-label">Key Materials / 主要建材</span>
+                                    <strong id="specMaterials">Weathering Steel</strong>
+                                </div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                                <div class="spec-details">
+                                    <span class="spec-label">BIM & Tech Stack / 數位軟體技術</span>
+                                    <strong id="specTech">Revit, Twinmotion</strong>
+                                </div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-icon"><i class="fa-solid fa-leaf"></i></div>
+                                <div class="spec-details">
+                                    <span class="spec-label">Sustainable Rating / 節能綠評級</span>
+                                    <strong id="specGreen">Net-Zero Energy</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollTopBtn" aria-label="Scroll to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
