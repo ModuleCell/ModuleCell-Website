@@ -1,241 +1,104 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ModuleCell | 磨石建築 — 溫暖極簡石質預製模組空間</title>
-    <meta name="description" content="ModuleCell 磨石建築融合北歐實用機能與日式空間肌理之美。我們專注於高品質預製磨石住宅、後院附屬住宅 (ADU) 與礦物材料工法，用天然石材骨料與無縫磨石質感，構築安寧溫馨的居住空間。">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom Style Sheet -->
+    <title>OpenBIM Tech Studio | Universal IFC Building Data & Tech Services | Los Angeles, CA</title>
+    <meta name="description" content="Los Angeles-based Open BIM (IFC) technology consultancy led by California Licensed Architect & LEED AP. Delivering universal data integration, IDS validation, and COBie asset handover across Design, Construction, and Operations.">
     <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome for sleek icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Header / Navigation -->
-    <header class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo-area">
-                <img src="assets/logo.png" alt="ModuleCell Logo" class="nav-logo">
-                <span class="brand-name">ModuleCell 磨石</span>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="brand-logo">
+                <img src="assets/logo.png" alt="OpenBIM Logo" onerror="this.style.display='none'">
+                <span class="brand-text">OpenBIM <span class="brand-badge">LA STUDIO</span></span>
             </a>
-            <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-            <nav class="nav-links" id="navLinks">
-                <a href="#about" class="nav-link">
-                    <span class="nav-en">Philosophy</span>
-                    <span class="nav-zh">設計理念</span>
-                </a>
-                <a href="#products" class="nav-link">
-                    <span class="nav-en">Products</span>
-                    <span class="nav-zh">模組系列</span>
-                </a>
-                <a href="#craft" class="nav-link">
-                    <span class="nav-en">Craft</span>
-                    <span class="nav-zh">工藝與細部</span>
-                </a>
-                <!-- ADU Hub (Temporarily Removed)
-                <a href="#adu-hub" class="nav-link">
-                    <span class="nav-en">ADU Hub</span>
-                    <span class="nav-zh">預估與評估</span>
-                </a>
-                -->
-                <a href="#contact" class="nav-link-btn">
-                    <span class="nav-en">Contact</span>
-                    <span class="nav-zh">聯絡諮詢</span>
-                </a>
-            </nav>
+            <ul class="nav-links">
+                <li><a href="#services" class="nav-link">Lifecycle Services</a></li>
+                <li><a href="#demo" class="nav-link">Web-IFC Viewer Demo</a></li>
+                <li><a href="#checker" class="nav-link">IDS Auto-Checker</a></li>
+                <li><a href="#pricing" class="nav-link">Pricing (USD)</a></li>
+                <li><a href="#contact" class="btn-primary" onclick="openContactModal(event)">Book US Advisory <i class="fa-solid fa-arrow-right"></i></a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
-    <!-- Hero Section (Split Layout) -->
-    <section class="hero-section" id="home">
-        <div class="container hero-container">
-            <div class="hero-split-grid reveal active">
-                <!-- Left Content -->
-                <div class="hero-left-content">
-                    <span class="hero-tag">Terrazzo Prefab Architecture</span>
-                    <h1 class="hero-title">Polishing the Stone, <br><span class="accent-text">Illuminating the Space.</span></h1>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <!-- Left: Headline & CTA -->
+                <div class="hero-content">
+                    <div class="location-chip">
+                        <span></span> Headquarters: Los Angeles, CA | Serving North America AEC
+                    </div>
+                    <h1 class="hero-title">
+                        Unlocking Universal <span class="text-gradient">Open BIM (IFC)</span> Data Pipelines
+                    </h1>
                     <p class="hero-subtitle">
-                        ModuleCell redefines architectural order by combining mineral-rich terrazzo surfaces with Scandi comfort. Prefabricated concrete panels, robust steel frames, and natural stone textures.
-                        <span class="translation-sub">「磨石」代表著多種天然骨料揉合後的無縫與堅韌。我們將北歐實用機能與日式細部工藝融合，於後院綠意間，為您構築一方安寧平靜的避風港。</span>
+                        Empowering US Architecture, Construction, and Facility Management teams with vendor-neutral IFC models, automated IDS validation, and seamless COBie asset handovers.
                     </p>
+
                     <div class="hero-actions">
-                        <a href="#products" class="btn btn-primary">
-                            <span class="btn-en">View Modules</span>
-                            <span class="btn-zh">探索模組系列</span>
-                        </a>
-                        <a href="#contact" class="btn btn-secondary">
-                            <span class="btn-en">Consultation</span>
-                            <span class="btn-zh">聯絡諮詢</span>
-                        </a>
+                        <a href="#demo" class="btn-primary"><i class="fa-solid fa-cube"></i> Explore Interactive IFC Demo</a>
+                        <a href="#services" class="btn-secondary"><i class="fa-solid fa-list-check"></i> View US Service Catalog</a>
                     </div>
-                </div>
-                <!-- Right Image Window (Slideshow) -->
-                <div class="hero-right-image">
-                    <div class="hero-window">
-                        <div class="hero-slider">
-                            <div class="hero-slide active" style="background-image: url('assets/terrazzo_hero_cabin.png');"></div>
-                            <div class="hero-slide" style="background-image: url('assets/terrazzo_interior.png');"></div>
-                            <div class="hero-slide" style="background-image: url('assets/terrazzo_detail.png');"></div>
+
+                    <!-- Leadership Credentials -->
+                    <div class="credentials-strip">
+                        <div class="cred-item">
+                            <i class="fa-solid fa-certificate"></i> California Licensed Architect (CAB)
+                        </div>
+                        <div class="cred-item">
+                            <i class="fa-solid fa-leaf"></i> LEED AP Accredited
+                        </div>
+                        <div class="cred-item">
+                            <i class="fa-solid fa-globe"></i> buildingSMART Entry Level
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <span class="mouse">
-                <span class="wheel"></span>
-            </span>
-            <span class="scroll-text">SCROLL</span>
-        </div>
-    </section>
 
-    <!-- About / Philosophy Section -->
-    <section class="about-section" id="about">
-        <div class="container">
-            <div class="about-split-grid reveal">
-                <div class="about-left-title">
-                    <span class="section-tag">PHILOSOPHY</span>
-                    <h2>磨石之美：<br>對話空間的肌理</h2>
-                    <div class="accent-bar"></div>
-                </div>
-                
-                <div class="about-right-content">
-                    <p>
-                        身為主持建築師，我認為住宅的質感應來自材料本身的重量與溫差。預製房屋絕非廉價臨時屋，而是利用工廠公厘級模具進行「精準澆灌與拋光」的高度工藝結晶。在 ModuleCell，我們將大理石、石英、花崗岩等碎石混入火山灰水泥基底，磨製成無縫的牆體與地坪。
-                        <span class="translation-sub">Through our carbon-curing terrazzo casting and light-weight steel frames, we deliver homes that are permanent, thermal-efficient, and structurally resilient.</span>
-                    </p>
-                    <p>
-                        相較於傳統木造或濕式泥作，ModuleCell 採用的礦物纖維牆體與磨石面板能長久抵禦潮濕氣候，不腐壞且具備高蓄熱能效（Thermal Mass）。在減少現場環境干擾的前提下，我們能在一日內將工廠預製的完美成品完成吊裝，將歲月沈澱的石質觸感，化為日日相伴的日常。
-                        <span class="translation-sub">Stone is silent, yet it breathes. Our mineral plaster envelopes create naturally soundproofed, cozy retreats in your backyard.</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Showcase Section -->
-    <section class="products-section" id="products">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">PRODUCTS</span>
-                <h2 class="section-title">ModuleCell Units <span class="subtitle-zh">/ 磨石預製模組系列</span></h2>
-                <div class="title-bar"></div>
-            </div>
-
-            <div class="products-grid reveal">
-                <!-- Product Card 1: Moshi Cabin -->
-                <div class="product-card" data-project-id="moshi-cabin">
-                    <div class="product-card-img-wrapper">
-                        <img src="assets/terrazzo_hero_cabin.png" alt="Moshi Cabin Exterior">
+                <!-- Right: Interactive 3D Web-IFC Viewer Simulation -->
+                <div class="viewer-card glass-panel" id="demo">
+                    <div class="viewer-header">
+                        <div class="viewer-title">
+                            <i class="fa-solid fa-cubes text-gradient-cyan"></i> LIVE OPEN-IFC MODEL INSPECTOR [v4.3]
+                        </div>
+                        <div class="viewer-controls">
+                            <button class="v-btn active" id="btn-wire">Wireframe</button>
+                            <button class="v-btn" id="btn-shaded">Shaded</button>
+                            <button class="v-btn" id="btn-reset">Reset View</button>
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <h3>Moshi Cabin <span class="product-spec">磨石居 | 280 sq ft</span></h3>
-                        <p class="product-desc">
-                            A stone-clad modular cottage perfect for a quiet home office, studio, or private retreat. Polished terrazzo floor and mineral insulated walls.
-                            <span class="translation-sub">精巧石質單體模組，適合後院辦公室與私人工作室。室內配置無縫磨石地坪與天然礦物塗料抹灰牆。</span>
-                        </p>
-                    </div>
-                    <button class="btn btn-secondary">
-                        <span class="btn-en">Details & Specs</span>
-                        <span class="btn-zh">細部與規格</span>
-                    </button>
-                </div>
-
-                <!-- Product Card 2: Moshi ADU -->
-                <div class="product-card" data-project-id="moshi-adu">
-                    <div class="product-card-img-wrapper">
-                        <img src="assets/terrazzo_interior.png" alt="Moshi ADU Interior">
-                    </div>
-                    <div class="product-info">
-                        <h3>Moshi ADU <span class="product-spec">無垢石閣 | 480 sq ft</span></h3>
-                        <p class="product-desc">
-                            A luxurious backyard ADU featuring a full kitchen with terrazzo countertops, custom walk-in shower, master bedroom, and travertine accents.
-                            <span class="translation-sub">奢華後院住宅。全套廚衛、獨立主臥與休閒地台，中島採用純手工磨製石英磨石，搭配高效節能玻璃。</span>
-                        </p>
-                    </div>
-                    <button class="btn btn-secondary">
-                        <span class="btn-en">Details & Specs</span>
-                        <span class="btn-zh">細部與規格</span>
-                    </button>
-                </div>
-
-                <!-- Product Card 3: Moshi Villa -->
-                <div class="product-card" data-project-id="moshi-villa">
-                    <div class="product-card-img-wrapper">
-                        <img src="assets/terrazzo_detail.png" alt="Moshi Villa Details">
-                    </div>
-                    <div class="product-info">
-                        <h3>Moshi Villa <span class="product-spec">沐光石舍 | 960 sq ft</span></h3>
-                        <p class="product-desc">
-                            A spacious multi-module residence with double-height ceilings, basalt gray steel framing, modular terrazzo wall panels, and sustainable ventilation.
-                            <span class="translation-sub">多模組拼接石質別墅。挑高大客廳、玄武岩色鋼骨抗震骨架與外牆呼吸挂板，實現世代傳承的恆久居住價值。</span>
-                        </p>
-                    </div>
-                    <button class="btn btn-secondary">
-                        <span class="btn-en">Details & Specs</span>
-                        <span class="btn-zh">細部與規格</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Technical Craft Section -->
-    <section class="craft-section" id="craft">
-        <div class="container">
-            <div class="craft-grid reveal">
-                <!-- Left Image Area -->
-                <div class="craft-image-area">
-                    <div class="craft-window">
-                        <img src="assets/terrazzo_detail.png" alt="Terrazzo Stone Aggregate Texture Detail">
-                    </div>
-                    <div class="craft-tags">
-                        <span class="craft-tag"><i class="fa-solid fa-gem"></i> Polished Terrazzo Panels</span>
-                        <span class="craft-tag"><i class="fa-solid fa-shapes"></i> Travertine Wall Cladding</span>
-                        <span class="craft-tag"><i class="fa-solid fa-shield-halved"></i> Basalt Steel Frames</span>
-                        <span class="craft-tag"><i class="fa-solid fa-wind"></i> ERV Heat Recovery Air</span>
-                    </div>
-                </div>
-                <!-- Right Content Area -->
-                <div class="craft-content-area">
-                    <span class="section-tag">CRAFTSMANSHIP</span>
-                    <h3>The Permanence of Stone, <br>The warmth of Mineral.
-                        <span class="translation-sub">天然石材碎石骨料與工坊打磨技藝</span>
-                    </h3>
-                    <p>
-                        我們選用的水磨石（Terrazzo）材料係將白色無機水泥與台灣在地回收的大理石、花崗岩碎粒混煉。經工廠八道自動化水磨拋光後，質地緻密防潮，幾乎無毛細孔。結構體採用熱浸鍍鋅鋼架與高密度火山灰水泥外牆，比一般木造建築更防蟲蛀、防火、耐震，特別適應潮濕與高溫氣候。
-                        <span class="translation-sub">We combine state-of-the-art modular engineering with manual wet-sanding and polishing to ensure every edge is round, seamless, and pleasant to touch.</span>
-                    </p>
-                    
-                    <div class="craft-features">
-                        <div class="craft-feature">
-                            <span class="craft-feature-num">01</span>
-                            <div class="craft-feature-text">
-                                <strong>Eco Terrazzo Panels / 預製磨石複合面板</strong>
-                                <p>Manufactured using recycled structural aggregates and certified non-toxic minerals, offering high durability and natural stain resistance.<br><span class="translation-sub">採用天然石灰石、回收玉石晶體與低溫碳固水泥複合壓製而成，強度極高且易於保養。</span></p>
+                    <div class="canvas-wrapper">
+                        <canvas id="ifc-canvas"></canvas>
+                        
+                        <!-- Property Overlay Panel -->
+                        <div class="property-overlay">
+                            <div class="prop-row">
+                                <span class="prop-label">Selected Element:</span>
+                                <span class="prop-val" id="ifc-type">IfcBuildingElementProxy</span>
                             </div>
-                        </div>
-                        <div class="craft-feature">
-                            <span class="craft-feature-num">02</span>
-                            <div class="craft-feature-text">
-                                <strong>Travertine & Mineral Plaster / 洞石板與無毒礦物塗料</strong>
-                                <p>Interior finishes coated with natural breathing diatomaceous plaster to prevent mold and absorb airborne particles.<br><span class="translation-sub">室內壁面搭配天然火山灰與洞石裝飾板，能主動調節室內溫濕度，吸附異味，常保空氣乾爽。</span></p>
+                            <div class="prop-row">
+                                <span class="prop-label">GlobalID:</span>
+                                <span class="prop-val" id="ifc-guid">2Xb$9v04K_aZ9L</span>
                             </div>
-                        </div>
-                        <div class="craft-feature">
-                            <span class="craft-feature-num">03</span>
-                            <div class="craft-feature-text">
-                                <strong>Basalt Steel Frame & Foundation / 玄武岩防腐鋼架與地錨</strong>
-                                <p>Heavy-gauge zinc-coated steel frames paired with steel helical piles to minimize site soil excavation and ecological impact.<br><span class="translation-sub">重防腐鋼結構框架，搭配現地無振地錨樁基礎，不需大範圍開挖土方，保護原有的花草樹木。</span></p>
+                            <div class="prop-row">
+                                <span class="prop-label">OmniClass:</span>
+                                <span class="prop-val">23-15 11 00 (Pumps)</span>
+                            </div>
+                            <div class="prop-row">
+                                <span class="prop-label">Pset_COBie:</span>
+                                <span class="prop-val" style="color:var(--accent-emerald);">✓ Validated (COBie 2.4)</span>
+                            </div>
+                            <div class="prop-row">
+                                <span class="prop-label">CALGreen Title 24:</span>
+                                <span class="prop-val" style="color:var(--accent-emerald);">Compliant</span>
                             </div>
                         </div>
                     </div>
@@ -244,233 +107,262 @@
         </div>
     </section>
 
-    <!-- ADU Hub Section (Temporarily Removed) -->
-    <!--
-    <section class="adu-hub-section" id="adu-hub">
-        ...
-    </section>
-    -->
-
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
+    <!-- Lifecycle Services Section -->
+    <section class="section" id="services">
         <div class="container">
-            <div class="contact-box reveal">
-                <!-- Left panel info -->
-                <div class="contact-info-panel">
-                    <span class="section-tag">GET IN TOUCH</span>
-                    <h2>Start Your Terrazzo Space <span class="subtitle-zh">/ 開始您的磨石提案</span></h2>
-                    <p>
-                        不論您是需要客製後院小屋 (ADU)、進行老屋石質改造，或是對我們的預製度假屋產品有興趣，我們都十分歡迎您前來預約諮詢。我們將為您代查法規分區。
-                        <span class="translation-sub">Let us collaborate to build a solid retreat. Our team offers design, zoning audit, and factory assembly.</span>
+            <div class="section-header">
+                <span class="section-tag">// Lifecycle Solution Matrix</span>
+                <h2 class="section-title">End-to-End Open BIM Services across AEC</h2>
+                <p class="section-desc">Bridging proprietary software gaps (Revit, ArchiCAD, Tekla) with ISO 16739 IFC open standards from design ideation to multi-year facility operations.</p>
+            </div>
+
+            <div class="pillars-grid">
+                <!-- Pillar 1: Design Phase -->
+                <div class="pillar-card glass-panel">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-compass-drafting fa-2xl"></i>
+                    </div>
+                    <h3 class="pillar-title">1. Design Phase</h3>
+                    <div class="pillar-subtitle">AIA Architects & Engineering Consultants</div>
+                    <p style="color:var(--text-secondary); font-size:0.92rem;">
+                        Establishing vendor-neutral Exchange Information Requirements (EIR) and buildingSMART IDS data rules for seamless multi-disciplinary collaboration.
                     </p>
-                    
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fa-solid fa-envelope"></i>
-                            <span>
-                                architect@modulecell.com
-                                <span class="translation-sub">24小時內回覆郵件</span>
-                            </span>
+                    <ul class="pillar-list">
+                        <li>EIR & BEP Standardization (NBIMS-US)</li>
+                        <li>buildingSMART bSDD & IDS Definition</li>
+                        <li>Automated Quality Audit & Property Checks</li>
+                        <li>CALGreen & LEED Carbon Data Integration</li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 2: Construction Phase -->
+                <div class="pillar-card glass-panel">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-helmet-safety fa-2xl"></i>
+                    </div>
+                    <h3 class="pillar-title">2. Construction Phase</h3>
+                    <div class="pillar-subtitle">General Contractors (GCs) & Subcontractors</div>
+                    <p style="color:var(--text-secondary); font-size:0.92rem;">
+                        Transforming heavy design models into structured 5D QTO quantity takeoff data and clash-free execution files.
+                    </p>
+                    <ul class="pillar-list">
+                        <li>IFC Model Slimming & Geometry Optimization</li>
+                        <li>5D Cost Estimating (QTO) Mapping</li>
+                        <li>Field Verification & Clash Inspection</li>
+                        <li>Subcontractor IFC Data Alignment</li>
+                    </ul>
+                </div>
+
+                <!-- Pillar 3: Operations & FM Phase -->
+                <div class="pillar-card glass-panel">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-building-circle-check fa-2xl"></i>
+                    </div>
+                    <h3 class="pillar-title">3. Operations & FM</h3>
+                    <div class="pillar-subtitle">Developers, Higher Ed & Healthcare Facilities</div>
+                    <p style="color:var(--text-secondary); font-size:0.92rem;">
+                        Converting complex As-Built BIM into lightweight COBie asset data packages for instant Maximo, Archibus, and Digital Twin API integration.
+                    </p>
+                    <ul class="pillar-list">
+                        <li>As-Built to FM COBie Handover Conversion</li>
+                        <li>OmniClass & UniFormat Asset Structuring</li>
+                        <li>Web-Based Open BIM Cloud Asset Viewer</li>
+                        <li>BMS & IoT Real-Time Data API Interfacing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive IDS Checker Simulator -->
+    <section class="section" id="checker" style="background: rgba(15, 23, 42, 0.4);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Interactive Micro-Tool Simulator</span>
+                <h2 class="section-title">buildingSMART IDS Auto-Validation Suite</h2>
+                <p class="section-desc">Test how our automated Python/IfcOpenShell engines parse IFC files against US National BIM & COBie standards in real-time.</p>
+            </div>
+
+            <div class="checker-box glass-panel">
+                <div class="checker-flex">
+                    <div class="drop-zone" id="drop-zone">
+                        <i class="fa-solid fa-file-arrow-up fa-3x" style="color:var(--accent-cyan); margin-bottom:16px;"></i>
+                        <h4>Simulate IFC File Audit</h4>
+                        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:8px;">Click or drag an example .ifc file to run automated US COBie & CALGreen rule audit</p>
+                        <button class="btn-primary" style="margin-top:20px;" onclick="runSimulatedAudit()">Run Audit Simulation</button>
+                    </div>
+
+                    <div class="audit-results" id="audit-results">
+                        <div style="font-size:0.9rem; color:var(--accent-cyan); margin-bottom:12px;">Audit Engine Log:</div>
+                        <div class="result-item">
+                            <span>ISO 16739 IFC4 Schema Validation</span>
+                            <span class="status-pass"><i class="fa-solid fa-circle-check"></i> PASSED</span>
                         </div>
-                        <div class="contact-item">
-                            <i class="fa-solid fa-clock"></i>
-                            <span>
-                                Consultation Hours (By Appointment Only)
-                                <span class="translation-sub">週一至週五 09:00 - 18:00 (預約制)</span>
-                            </span>
+                        <div class="result-item">
+                            <span>COBie v2.4 Mandatory Property Sets</span>
+                            <span class="status-pass" id="res-cobie"><i class="fa-solid fa-circle-check"></i> PASSED (342 Assets)</span>
                         </div>
-                        <div class="contact-item">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span>
-                                ModuleCell Design Studio & Workshop
-                                <span class="translation-sub">設計工作室與預製示範工坊</span>
-                            </span>
+                        <div class="result-item">
+                            <span>OmniClass Table 23 Classification</span>
+                            <span class="status-pass"><i class="fa-solid fa-circle-check"></i> PASSED (100%)</span>
+                        </div>
+                        <div class="result-item">
+                            <span>CALGreen Title 24 Energy Data Check</span>
+                            <span class="status-warn" id="res-warn"><i class="fa-solid fa-triangle-exclamation"></i> 2 Psets Missing (Auto-Fixable)</span>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Right panel form -->
-                <div class="contact-form-panel">
-                    <form id="contactForm" onsubmit="event.preventDefault(); alert('感謝您的來信！我們的設計事務所建築師將在24小時內與您取得聯繫。 / Thank you! We will reach out within 24 hours.');">
-                        <div class="form-group">
-                            <label for="name">Your Name / 您的姓名</label>
-                            <input type="text" id="name" placeholder="姓名" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email / 電子郵件</label>
-                            <input type="email" id="email" placeholder="example@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="project-type">Requirement / 諮詢項目</label>
-                            <select id="project-type" required>
-                                <option value="" disabled selected>請選擇您的空間需求</option>
-                                <option value="cabin">1 Moshi Cabin 磨石居 (280 sq ft)</option>
-                                <option value="adu">2 Moshi ADU 無垢石閣 (480 sq ft)</option>
-                                <option value="villa">3 Moshi Villa 沐光石舍 (960 sq ft)</option>
-                                <option value="custom">Custom Pre-fab / 其他客製石質建築改建</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Project Context / 基地與想法</label>
-                            <textarea id="message" rows="5" placeholder="請填寫您的基地座落地區、空地尺寸或空間用途想法..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <span class="btn-en">Send Inquiry</span>
-                            <span class="btn-zh">送出設計諮詢</span>
-                        </button>
-                    </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section (USD) -->
+    <section class="section" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Transparent USD Pricing</span>
+                <h2 class="section-title">Engagement Tiers & Commercial Plans</h2>
+                <p class="section-desc">Tailored commercial models designed for US architecture firms, general contractors, and institutional asset owners.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Tier 1: Advisory -->
+                <div class="price-card glass-panel">
+                    <div>
+                        <div class="section-tag">// Advisory & Standards</div>
+                        <h3>Open BIM Strategy & EIR</h3>
+                        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For Developers & Lead Architecture Firms</p>
+                        <div class="price-amount">$15,000<span class="price-unit"> / project base</span></div>
+                        <ul class="pillar-list" style="margin-top:20px;">
+                            <li>EIR / AIR Definition & BEP Alignment</li>
+                            <li>buildingSMART IDS Rule Configuration</li>
+                            <li>US National BIM & COBie Setup</li>
+                            <li>California Licensed Architect Oversight</li>
+                        </ul>
+                    </div>
+                    <button class="btn-secondary" style="width:100%; margin-top:30px;" onclick="openContactModal(event)">Request Advisory Proposal</button>
+                </div>
+
+                <!-- Tier 2: Data Processing (Featured) -->
+                <div class="price-card glass-panel featured">
+                    <div>
+                        <div class="section-tag" style="color:var(--accent-cyan);">// Most Popular</div>
+                        <h3>IFC Data & COBie Handover</h3>
+                        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For General Contractors & FM Teams</p>
+                        <div class="price-amount">$0.08<span class="price-unit"> / Sq. Ft.</span></div>
+                        <ul class="pillar-list" style="margin-top:20px;">
+                            <li>Full IFC Audit & Automated Fixes</li>
+                            <li>COBie v2.4 Asset Data Handover Export</li>
+                            <li>5D QTO Quantity Takeoff Mapping</li>
+                            <li>Model Slimming for Web/Mobile</li>
+                        </ul>
+                    </div>
+                    <button class="btn-primary" style="width:100%; margin-top:30px;" onclick="openContactModal(event)">Start IFC Processing</button>
+                </div>
+
+                <!-- Tier 3: SaaS Platform -->
+                <div class="price-card glass-panel">
+                    <div>
+                        <div class="section-tag">// Tech Platform</div>
+                        <h3>Open BIM Cloud & API</h3>
+                        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For Asset Managers & Software Partners</p>
+                        <div class="price-amount">$499<span class="price-unit"> / month</span></div>
+                        <ul class="pillar-list" style="margin-top:20px;">
+                            <li>Web-IFC 3D Cloud Model Inspector</li>
+                            <li>Automated IDS Checker API Access</li>
+                            <li>Maximo / Archibus / Procore Interfacing</li>
+                            <li>Unlimited Client Viewing Invites</li>
+                        </ul>
+                    </div>
+                    <button class="btn-secondary" style="width:100%; margin-top:30px;" onclick="openContactModal(event)">Subscribe to Platform</button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container footer-container">
-            <div class="footer-brand">
-                <img src="assets/logo.png" alt="ModuleCell Logo" class="footer-logo">
-                <span class="brand-name">ModuleCell 磨石</span>
-                <p>
-                    ModuleCell 以結構為骨架，以磨石與礦物為表皮。專注於北歐/日式極簡石質與混凝土預製工法之推廣與預鑄。
-                    <span class="translation-sub">Redefining modular structures through simplicity, carbon-negative materials, and exquisite detailing.</span>
-                </p>
-            </div>
-            <div class="footer-links">
-                <h4>Explore / 瀏覽</h4>
-                <a href="#about">Philosophy / 設計理念</a>
-                <a href="#products">Products / 模組系列</a>
-                <a href="#craft">Craftsmanship / 精工細部</a>
-                <a href="#contact">Consultation / 聯絡諮詢</a>
-            </div>
-            <div class="footer-social">
-                <h4>Connect / 關注</h4>
-                <div class="social-icons">
-                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="brand-text">OpenBIM <span class="brand-badge">LA STUDIO</span></span>
+                    <p>
+                        Los Angeles-based Open BIM (IFC) technology consultancy & data service provider. Transforming US AEC lifecycle data with vendor-neutral standards.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Solutions</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Design EIR & IDS</a></li>
+                        <li><a href="#services">Construction 5D QTO</a></li>
+                        <li><a href="#services">As-Built COBie Handover</a></li>
+                        <li><a href="#services">Digital Twin API</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Standards</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">ISO 16739 (IFC4)</a></li>
+                        <li><a href="#">buildingSMART IDS & bSDD</a></li>
+                        <li><a href="#">NIBS COBie v2.4</a></li>
+                        <li><a href="#">BIMForum LOD</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-title">Location & Contact</h4>
+                    <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.6;">
+                        📍 Downtown Los Angeles, CA<br>
+                        ✉️ contact@openbim-la.com<br>
+                        ☎️ +1 (213) 555-BIM1
+                    </p>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <p>&copy; 2026 ModuleCell Studio. All rights reserved. 磨石建築設計事務所。</p>
+
+            <div class="copyright">
+                © 2026 OpenBIM Tech Studio LLC. All Rights Reserved. Led by CA Licensed Architect & LEED AP.
             </div>
         </div>
     </footer>
 
-    <!-- Project Detail Modal -->
-    <div class="modal-overlay" id="projectModal">
-        <div class="modal-box">
-            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
-            
-            <div class="modal-gallery-wrapper">
-                <div class="modal-gallery-viewport">
-                    <img id="modalMainImg" src="" alt="Project Image">
-                </div>
-                <button class="gallery-nav-btn prev" id="galleryPrev" aria-label="Previous image">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button class="gallery-nav-btn next" id="galleryNext" aria-label="Next image">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-                <div class="modal-gallery-thumbnails" id="modalThumbnails">
-                    <!-- Dots via JS -->
-                </div>
-            </div>
+    <!-- Contact Modal -->
+    <div class="modal-backdrop" id="contact-modal">
+        <div class="modal-card glass-panel">
+            <button class="modal-close" onclick="closeContactModal()">&times;</button>
+            <h3 style="margin-bottom:8px;">Schedule US Open BIM Advisory</h3>
+            <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px;">Direct consultation with our California Licensed Architect & Open BIM Specialist.</p>
 
-            <div class="modal-body">
-                <div class="modal-content-grid">
-                    <!-- Left Column -->
-                    <div class="modal-main-content">
-                        <span class="project-cat" id="modalCat">Category</span>
-                        <h3 id="modalTitle">Project Title</h3>
-                        <p class="modal-desc" id="modalDesc">Description...</p>
-                        
-                        <h4 class="modal-section-title">Structural Execution Stages <span class="subtitle-zh">/ 預製工序階段</span></h4>
-                        <div class="phases-grid">
-                            <div class="phase-box">
-                                <div class="phase-header">
-                                    <span class="phase-badge">Step 1</span>
-                                    <h5>Zoning & BIM Design / 地規核對與 3D 建模</h5>
-                                </div>
-                                <p id="modalPhase1">Details...</p>
-                            </div>
-                            <div class="phase-box">
-                                <div class="phase-header">
-                                    <span class="phase-badge">Step 2</span>
-                                    <h5>Precision Casting / 精準注模預鑄</h5>
-                                </div>
-                                <p id="modalPhase2">Details...</p>
-                            </div>
-                            <div class="phase-box">
-                                <div class="phase-header">
-                                    <span class="phase-badge">Step 3</span>
-                                    <h5>Factory Polishing & Assembly / 廠內精細打磨裝配</h5>
-                                </div>
-                                <p id="modalPhase3">Details...</p>
-                            </div>
-                            <div class="phase-box">
-                                <div class="phase-header">
-                                    <span class="phase-badge">Step 4</span>
-                                    <h5>Site Craning & Handover / 現地起重吊裝與點交</h5>
-                                </div>
-                                <p id="modalPhase4">Details...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Column Specifications -->
-                    <div class="modal-spec-sidebar">
-                        <h4 class="sidebar-title">Technical Specifications <span class="subtitle-zh">/ 技術規格表</span></h4>
-                        <div class="spec-card">
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fa-solid fa-sitemap"></i></div>
-                                <div class="spec-details">
-                                    <span class="spec-label">Structure Type / 結構結構工法</span>
-                                    <strong id="specStructure">Prefab Steel-Mineral Structure</strong>
-                                </div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fa-solid fa-ruler-combined"></i></div>
-                                <div class="spec-details">
-                                    <span class="spec-label">Total Built Area / 室內實用面積</span>
-                                    <strong id="specArea">480 sq ft</strong>
-                                </div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fa-solid fa-cubes"></i></div>
-                                <div class="spec-details">
-                                    <span class="spec-label">Primary Finish / 主要飾面材質</span>
-                                    <strong id="specMaterials">Polished Terrazzo Panels / Travertine</strong>
-                                </div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fa-solid fa-laptop-code"></i></div>
-                                <div class="spec-details">
-                                    <span class="spec-label">Insulation Value / 隔熱防潮係數</span>
-                                    <strong id="specTech">Volcanic Cement Envelope</strong>
-                                </div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-icon"><i class="fa-solid fa-leaf"></i></div>
-                                <div class="spec-details">
-                                    <span class="spec-label">Carbon Impact / 碳排環保評級</span>
-                                    <strong id="specGreen">Low Carbon Curing</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <form onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" placeholder="e.g. John Doe, AIA" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label class="form-label">Company / Organization</label>
+                    <input type="text" class="form-input" placeholder="e.g. LA Architecture / GC Group" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Service Interest</label>
+                    <select class="form-select">
+                        <option>Design EIR & IDS Standards Setup</option>
+                        <option>Construction 5D QTO & IFC Slimming</option>
+                        <option>As-Built COBie Asset Handover</option>
+                        <option>Open BIM Cloud SaaS & API</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Project Location / Details</label>
+                    <textarea class="form-textarea" rows="3" placeholder="Tell us about your project scope, GFA, or software workflow..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%;">Submit Consultation Request</button>
+            </form>
         </div>
     </div>
 
-    <!-- Scroll to Top Button -->
-    <button class="scroll-to-top" id="scrollTopBtn" aria-label="Scroll to top">
-        <i class="fa-solid fa-arrow-up"></i>
-    </button>
-
-    <!-- Custom JavaScript -->
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
