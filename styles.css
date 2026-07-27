@@ -173,6 +173,22 @@ h1, h2, h3, h4 {
     text-transform: uppercase;
 }
 
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.nav-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .nav-links {
     display: flex;
     gap: 32px;
@@ -910,20 +926,225 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
-   Responsive Adaptations
+   Responsive Adaptations (Tablet & Mobile Optimization)
    ========================================================================== */
 
 @media (max-width: 1024px) {
-    .hero-grid, .checker-flex {
-        grid-template-columns: 1fr;
+    .container {
+        padding: 0 20px;
     }
     .hero-title {
-        font-size: 2.6rem;
+        font-size: 2.8rem;
     }
-    .pillars-grid, .pricing-grid, .qualifications-grid {
+    .pillars-grid, .qualifications-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+    .checker-flex {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile Navigation Drawer */
+    .nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px 20px;
+        gap: 16px;
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+        display: none;
+    }
+
+    .nav-links.active {
+        display: flex;
+        animation: fadeInDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        display: block;
+    }
+
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .navbar .btn-primary {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+        margin-top: 8px;
+    }
+
+    /* Hero Layout Optimization */
+    .hero {
+        padding: 130px 0 60px 0;
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: 2.1rem;
+        letter-spacing: -0.5px;
+    }
+
+    .hero-subtitle {
+        font-size: 0.98rem;
+        margin-bottom: 28px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .hero-actions .btn-primary,
+    .hero-actions .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .credentials-strip {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .bs-badge-card {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    /* Grids to Single Column */
+    .pillars-grid,
+    .qualifications-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .section {
+        padding: 60px 0;
+    }
+
+    .section-header {
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        font-size: 1.9rem;
+    }
+
+    .section-desc {
+        font-size: 0.95rem;
+    }
+
+    .pillar-card,
+    .qual-card,
+    .price-card {
+        padding: 24px 20px;
+    }
+
+    .checker-box {
+        padding: 24px 18px;
+        margin-top: 24px;
+    }
+
+    .drop-zone {
+        padding: 28px 16px;
+    }
+
+    .result-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .modal-card {
+        width: 92%;
+        max-width: 480px;
+        padding: 24px 20px;
+        margin: 0 16px;
+    }
+
+    .code-block {
+        font-size: 0.78rem;
+        padding: 14px 16px;
+    }
+
+    /* Thesis Page Responsiveness */
+    .thesis-main-title {
+        font-size: 2rem;
+    }
+    .overview-grid {
         grid-template-columns: 1fr;
     }
-    .footer-grid {
-        grid-template-columns: 1fr 1fr;
+    .matrix-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-text {
+        font-size: 1.05rem;
+    }
+
+    .brand-badge {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+        line-height: 1.25;
+    }
+
+    .hero-subtitle {
+        font-size: 0.92rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .location-chip {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

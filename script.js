@@ -4,7 +4,36 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     init3DViewer();
+    initMobileNav();
 });
+
+// Mobile Navigation Toggle
+function initMobileNav() {
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-xmark');
+            }
+        });
+
+        // Close mobile nav when clicking links
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = navToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-xmark');
+                }
+            });
+        });
+    }
+}
 
 // Modal Logic
 function openContactModal(e) {
