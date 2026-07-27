@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenBIM Tech Studio | Universal IFC Building Data & Tech Services | Los Angeles, CA</title>
+    <title>ModuleCell | OpenBIM Specialist & Universal IFC Building Data Services | Los Angeles, CA</title>
     <meta name="description" content="Los Angeles-based Open BIM (IFC) technology consultancy led by California Licensed Architect & LEED AP. Delivering universal data integration, IDS validation, and COBie asset handover across Design, Construction, and Operations.">
     <link rel="stylesheet" href="styles.css">
     <!-- FontAwesome for sleek icons -->
@@ -15,13 +15,12 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="#" class="brand-logo">
-                <img src="assets/logo.png" alt="OpenBIM Logo" onerror="this.style.display='none'">
-                <span class="brand-text">OpenBIM <span class="brand-badge">LA STUDIO</span></span>
+                <img src="assets/logo.png" alt="ModuleCell Logo" onerror="this.style.display='none'">
+                <span class="brand-text">ModuleCell <span class="brand-badge">OpenBIM Specialist</span></span>
             </a>
             <ul class="nav-links">
-                <li><a href="#services" class="nav-link">Lifecycle Services</a></li>
-                <li><a href="#demo" class="nav-link">Web-IFC Viewer Demo</a></li>
-                <li><a href="#checker" class="nav-link">IDS Auto-Checker</a></li>
+                <li><a href="#services" class="nav-link">AEC 3-Phase Services</a></li>
+                <li><a href="#qualifications" class="nav-link">Qualifications & Tech</a></li>
                 <li><a href="#pricing" class="nav-link">Pricing (USD)</a></li>
                 <li><a href="#contact" class="btn-primary" onclick="openContactModal(event)">Book US Advisory <i class="fa-solid fa-arrow-right"></i></a></li>
             </ul>
@@ -31,75 +30,45 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <div class="hero-grid">
-                <!-- Left: Headline & CTA -->
-                <div class="hero-content">
-                    <div class="location-chip">
-                        <span></span> Headquarters: Los Angeles, CA | Serving North America AEC
-                    </div>
-                    <h1 class="hero-title">
-                        Unlocking Universal <span class="text-gradient">Open BIM (IFC)</span> Data Pipelines
-                    </h1>
-                    <p class="hero-subtitle">
-                        Empowering US Architecture, Construction, and Facility Management teams with vendor-neutral IFC models, automated IDS validation, and seamless COBie asset handovers.
-                    </p>
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Unlocking Universal <span class="text-yellow">Open BIM (IFC)</span> Data Pipelines
+                </h1>
+                <p class="hero-subtitle">
+                    Empowering US Architecture, Construction, and Facility Management teams with vendor-neutral IFC models, automated IDS validation, and seamless COBie asset handovers across all project lifecycle phases.
+                </p>
 
-                    <div class="hero-actions">
-                        <a href="#demo" class="btn-primary"><i class="fa-solid fa-cube"></i> Explore Interactive IFC Demo</a>
-                        <a href="#services" class="btn-secondary"><i class="fa-solid fa-list-check"></i> View US Service Catalog</a>
-                    </div>
-
-                    <!-- Leadership Credentials -->
-                    <div class="credentials-strip">
-                        <div class="cred-item">
-                            <i class="fa-solid fa-certificate"></i> California Licensed Architect (CAB)
-                        </div>
-                        <div class="cred-item">
-                            <i class="fa-solid fa-leaf"></i> LEED AP Accredited
-                        </div>
-                        <div class="cred-item">
-                            <i class="fa-solid fa-globe"></i> buildingSMART Entry Level
-                        </div>
-                    </div>
+                <div class="hero-actions">
+                    <a href="#services" class="btn-primary"><i class="fa-solid fa-layer-group"></i> Explore AEC 3-Phase Services</a>
+                    <a href="#qualifications" class="btn-secondary"><i class="fa-solid fa-certificate"></i> View US Qualifications</a>
                 </div>
 
-                <!-- Right: Interactive 3D Web-IFC Viewer Simulation -->
-                <div class="viewer-card glass-panel" id="demo">
-                    <div class="viewer-header">
-                        <div class="viewer-title">
-                            <i class="fa-solid fa-cubes text-gradient-cyan"></i> LIVE OPEN-IFC MODEL INSPECTOR [v4.3]
-                        </div>
-                        <div class="viewer-controls">
-                            <button class="v-btn active" id="btn-wire">Wireframe</button>
-                            <button class="v-btn" id="btn-shaded">Shaded</button>
-                            <button class="v-btn" id="btn-reset">Reset View</button>
+                <!-- Leadership & Certification Credentials -->
+                <div class="credentials-strip">
+                    <!-- 1. Architect (with California Seal) -->
+                    <div class="bs-badge-card">
+                        <img src="assets/california_architect_seal.png" alt="California Licensed Architect Seal" class="bs-badge-img" style="border-radius: 50%;">
+                        <div class="bs-badge-info">
+                            <span class="bs-badge-title">California Licensed Architect</span>
+                            <span class="bs-badge-sub">California Architects Board (CAB)</span>
                         </div>
                     </div>
-                    <div class="canvas-wrapper">
-                        <canvas id="ifc-canvas"></canvas>
-                        
-                        <!-- Property Overlay Panel -->
-                        <div class="property-overlay">
-                            <div class="prop-row">
-                                <span class="prop-label">Selected Element:</span>
-                                <span class="prop-val" id="ifc-type">IfcBuildingElementProxy</span>
-                            </div>
-                            <div class="prop-row">
-                                <span class="prop-label">GlobalID:</span>
-                                <span class="prop-val" id="ifc-guid">2Xb$9v04K_aZ9L</span>
-                            </div>
-                            <div class="prop-row">
-                                <span class="prop-label">OmniClass:</span>
-                                <span class="prop-val">23-15 11 00 (Pumps)</span>
-                            </div>
-                            <div class="prop-row">
-                                <span class="prop-label">Pset_COBie:</span>
-                                <span class="prop-val" style="color:var(--accent-emerald);">✓ Validated (COBie 2.4)</span>
-                            </div>
-                            <div class="prop-row">
-                                <span class="prop-label">CALGreen Title 24:</span>
-                                <span class="prop-val" style="color:var(--accent-emerald);">Compliant</span>
-                            </div>
+
+                    <!-- 2. LEED AP BD+C Accredited -->
+                    <div class="bs-badge-card">
+                        <img src="assets/leed_ap_badge.png" alt="LEED AP BD+C Badge" class="bs-badge-img" style="border-radius: 2px;">
+                        <div class="bs-badge-info">
+                            <span class="bs-badge-title">LEED AP BD+C</span>
+                            <span class="bs-badge-sub">USGBC Accredited Professional</span>
+                        </div>
+                    </div>
+
+                    <!-- 3. buildingSMART Certified -->
+                    <div class="bs-badge-card">
+                        <img src="assets/buildingSMART_Professional_Certification-Entry_Badge_(English).png" alt="buildingSMART Professional Certification - Entry Badge" class="bs-badge-img">
+                        <div class="bs-badge-info">
+                            <span class="bs-badge-title">buildingSMART Certified</span>
+                            <span class="bs-badge-sub">Individual Qualification (Entry Level)</span>
                         </div>
                     </div>
                 </div>
@@ -112,7 +81,7 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">// Lifecycle Solution Matrix</span>
-                <h2 class="section-title">End-to-End Open BIM Services across AEC</h2>
+                <h2 class="section-title">End-to-End Open BIM Services across AECO</h2>
                 <p class="section-desc">Bridging proprietary software gaps (Revit, ArchiCAD, Tekla) with ISO 16739 IFC open standards from design ideation to multi-year facility operations.</p>
             </div>
 
@@ -174,47 +143,103 @@
         </div>
     </section>
 
-    <!-- Interactive IDS Checker Simulator -->
-    <section class="section" id="checker" style="background: rgba(15, 23, 42, 0.4);">
+    <!-- Qualifications & Tech Stack Section -->
+    <section class="section" id="qualifications">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">// Interactive Micro-Tool Simulator</span>
-                <h2 class="section-title">buildingSMART IDS Auto-Validation Suite</h2>
-                <p class="section-desc">Test how our automated Python/IfcOpenShell engines parse IFC files against US National BIM & COBie standards in real-time.</p>
+                <span class="section-tag">// Professional Qualifications & Engineering Stack</span>
+                <h2 class="section-title">Open BIM Standards & Automation Blueprint</h2>
+                <p class="section-desc">combining buildingSMART international certifications with open-source Python scripting (IfcOpenShell, BlenderBIM) to break proprietary software silos.</p>
             </div>
 
-            <div class="checker-box glass-panel">
-                <div class="checker-flex">
-                    <div class="drop-zone" id="drop-zone">
-                        <i class="fa-solid fa-file-arrow-up fa-3x" style="color:var(--accent-cyan); margin-bottom:16px;"></i>
-                        <h4>Simulate IFC File Audit</h4>
-                        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:8px;">Click or drag an example .ifc file to run automated US COBie & CALGreen rule audit</p>
-                        <button class="btn-primary" style="margin-top:20px;" onclick="runSimulatedAudit()">Run Audit Simulation</button>
+            <div class="qualifications-grid">
+                <!-- Qualification 1: buildingSMART Certification -->
+                <div class="qual-card glass-panel">
+                    <div class="qual-icon">
+                        <i class="fa-solid fa-award fa-2xl" style="color: var(--accent-cyan);"></i>
                     </div>
+                    <h3>buildingSMART Certified</h3>
+                    <div class="qual-sub">Individual Qualification (Entry Level)</div>
+                    <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:16px;">
+                        Certified expertise in ISO 16739 IFC standards, buildingSMART Data Dictionary (bSDD), and Information Delivery Specifications (IDS).
+                    </p>
+                    <ul class="pillar-list">
+                        <li>ISO 16739 IFC4 / IFC2x3 Schema Mastery</li>
+                        <li>buildingSMART bSDD Data Dictionary Mapping</li>
+                        <li>Machine-Readable IDS Validation Rules</li>
+                        <li>BCF (BIM Collaboration Format) Workflows</li>
+                    </ul>
+                </div>
 
-                    <div class="audit-results" id="audit-results">
-                        <div style="font-size:0.9rem; color:var(--accent-cyan); margin-bottom:12px;">Audit Engine Log:</div>
-                        <div class="result-item">
-                            <span>ISO 16739 IFC4 Schema Validation</span>
-                            <span class="status-pass"><i class="fa-solid fa-circle-check"></i> PASSED</span>
-                        </div>
-                        <div class="result-item">
-                            <span>COBie v2.4 Mandatory Property Sets</span>
-                            <span class="status-pass" id="res-cobie"><i class="fa-solid fa-circle-check"></i> PASSED (342 Assets)</span>
-                        </div>
-                        <div class="result-item">
-                            <span>OmniClass Table 23 Classification</span>
-                            <span class="status-pass"><i class="fa-solid fa-circle-check"></i> PASSED (100%)</span>
-                        </div>
-                        <div class="result-item">
-                            <span>CALGreen Title 24 Energy Data Check</span>
-                            <span class="status-warn" id="res-warn"><i class="fa-solid fa-triangle-exclamation"></i> 2 Psets Missing (Auto-Fixable)</span>
-                        </div>
+                <!-- Qualification 2: Python & BlenderBIM Scripting -->
+                <div class="qual-card glass-panel">
+                    <div class="qual-icon">
+                        <i class="fa-brands fa-python fa-2xl" style="color: var(--accent-blue);"></i>
+                    </div>
+                    <h3>Python & BlenderBIM Engine</h3>
+                    <div class="qual-sub">Parametric IFC Development</div>
+                    <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:16px;">
+                        Programmatic model generation, property enrichment, and automated auditing using custom Python scripts and IfcOpenShell.
+                    </p>
+                    <ul class="pillar-list">
+                        <li>Parametric Element Generation (Roof, Door, Wall)</li>
+                        <li>IfcOpenShell Automated Data Wrangling</li>
+                        <li>Open-Source BlenderBIM Authoring Pipelines</li>
+                        <li>Headless IFC Batch Slimming & Processing</li>
+                    </ul>
+                </div>
+
+                <!-- Qualification 3: US Standards & COBie Handover -->
+                <div class="qual-card glass-panel">
+                    <div class="qual-icon">
+                        <i class="fa-solid fa-database fa-2xl" style="color: var(--accent-teal);"></i>
+                    </div>
+                    <h3>US Standards & Asset Handover</h3>
+                    <div class="qual-sub">COBie 2.4 & CALGreen Compliance</div>
+                    <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:16px;">
+                        Bridging California architecture practice with National BIM Standards (NBIMS-US) for seamless FM handover.
+                    </p>
+                    <ul class="pillar-list">
+                        <li>NIBS COBie v2.4 Mandatory Asset Export</li>
+                        <li>OmniClass Table 23 & UniFormat Classifications</li>
+                        <li>CALGreen & Title 24 Sustainability Tracking</li>
+                        <li>CMMS & Digital Twin API Schema Alignment</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Interactive Code & Script Showcase -->
+            <div class="code-showcase-card glass-panel" style="margin-top: 32px; padding: 24px;">
+                <div class="code-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <h4 style="font-size:1.1rem; color:var(--text-primary);"><i class="fa-solid fa-code" style="color:var(--accent-cyan); margin-right:8px;"></i> Open BIM Python Scripting Pipeline (IfcOpenShell / BlenderBIM)</h4>
+                        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Demonstrating automated parametric element creation & property set injection</p>
+                    </div>
+                    <div class="code-badges" style="display:flex; gap:8px;">
+                        <span class="badge-pill">IfcOpenShell v0.8</span>
+                        <span class="badge-pill">BlenderBIM</span>
+                        <span class="badge-pill">ISO 16739</span>
                     </div>
                 </div>
+                <pre class="code-block"><code><span class="c-keyword">import</span> ifcopenshell
+<span class="c-keyword">import</span> ifcopenshell.api
+
+<span class="c-comment"># Initialize IFC4 Schema Model</span>
+model = ifcopenshell.api.run(<span class="c-str">"project.create_file"</span>, version=<span class="c-str">"IFC4"</span>)
+project = ifcopenshell.api.run(<span class="c-str">"root.create_entity"</span>, model, ifc_class=<span class="c-str">"IfcProject"</span>, name=<span class="c-str">"Via Madronas ADU"</span>)
+
+<span class="c-comment"># Automated Parametric Door & Roof Generation (2604 Via Madronas ADU Pipeline)</span>
+door = ifcopenshell.api.run(<span class="c-str">"root.create_entity"</span>, model, ifc_class=<span class="c-str">"IfcDoor"</span>, name=<span class="c-str">"D-01 Entry Door"</span>)
+ifcopenshell.api.run(<span class="c-str">"pset.add_pset"</span>, model, product=door, name=<span class="c-str">"Pset_DoorCommon"</span>)
+ifcopenshell.api.run(<span class="c-str">"pset.edit_pset"</span>, model, pset=pset, properties={<span class="c-str">"FireRating"</span>: <span class="c-str">"90 Min"</span>, <span class="c-str">"IsExternal"</span>: <span class="c-keyword">True</span>})
+
+<span class="c-comment"># Validate against buildingSMART IDS Rules & Export COBie 2.4</span>
+print(<span class="c-str">"[SUCCESS] Model validated against buildingSMART IDS & ready for COBie handover!"</span>)</code></pre>
             </div>
         </div>
     </section>
+
+
 
     <!-- Pricing Section (USD) -->
     <section class="section" id="pricing">
@@ -232,7 +257,7 @@
                         <div class="section-tag">// Advisory & Standards</div>
                         <h3>Open BIM Strategy & EIR</h3>
                         <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For Developers & Lead Architecture Firms</p>
-                        <div class="price-amount">$15,000<span class="price-unit"> / project base</span></div>
+                        <div class="price-amount">$10,000<span class="price-unit"> / project</span> <span style="font-size:1rem; color:var(--text-muted); font-weight:300;">or</span> $100<span class="price-unit"> / hr</span></div>
                         <ul class="pillar-list" style="margin-top:20px;">
                             <li>EIR / AIR Definition & BEP Alignment</li>
                             <li>buildingSMART IDS Rule Configuration</li>
@@ -249,7 +274,7 @@
                         <div class="section-tag" style="color:var(--accent-cyan);">// Most Popular</div>
                         <h3>IFC Data & COBie Handover</h3>
                         <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For General Contractors & FM Teams</p>
-                        <div class="price-amount">$0.08<span class="price-unit"> / Sq. Ft.</span></div>
+                        <div class="price-amount">$0.10<span class="price-unit"> / sf</span></div>
                         <ul class="pillar-list" style="margin-top:20px;">
                             <li>Full IFC Audit & Automated Fixes</li>
                             <li>COBie v2.4 Asset Data Handover Export</li>
@@ -258,23 +283,6 @@
                         </ul>
                     </div>
                     <button class="btn-primary" style="width:100%; margin-top:30px;" onclick="openContactModal(event)">Start IFC Processing</button>
-                </div>
-
-                <!-- Tier 3: SaaS Platform -->
-                <div class="price-card glass-panel">
-                    <div>
-                        <div class="section-tag">// Tech Platform</div>
-                        <h3>Open BIM Cloud & API</h3>
-                        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For Asset Managers & Software Partners</p>
-                        <div class="price-amount">$499<span class="price-unit"> / month</span></div>
-                        <ul class="pillar-list" style="margin-top:20px;">
-                            <li>Web-IFC 3D Cloud Model Inspector</li>
-                            <li>Automated IDS Checker API Access</li>
-                            <li>Maximo / Archibus / Procore Interfacing</li>
-                            <li>Unlimited Client Viewing Invites</li>
-                        </ul>
-                    </div>
-                    <button class="btn-secondary" style="width:100%; margin-top:30px;" onclick="openContactModal(event)">Subscribe to Platform</button>
                 </div>
             </div>
         </div>
@@ -285,9 +293,9 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <span class="brand-text">OpenBIM <span class="brand-badge">LA STUDIO</span></span>
+                    <span class="brand-text">ModuleCell <span class="brand-badge">OpenBIM Specialist</span></span>
                     <p>
-                        Los Angeles-based Open BIM (IFC) technology consultancy & data service provider. Transforming US AEC lifecycle data with vendor-neutral standards.
+                        Los Angeles-based ModuleCell OpenBIM technology consultancy & data service provider. Transforming US AEC lifecycle data with vendor-neutral standards.
                     </p>
                 </div>
 
@@ -297,7 +305,6 @@
                         <li><a href="#services">Design EIR & IDS</a></li>
                         <li><a href="#services">Construction 5D QTO</a></li>
                         <li><a href="#services">As-Built COBie Handover</a></li>
-                        <li><a href="#services">Digital Twin API</a></li>
                     </ul>
                 </div>
 
@@ -310,19 +317,10 @@
                         <li><a href="#">BIMForum LOD</a></li>
                     </ul>
                 </div>
-
-                <div>
-                    <h4 class="footer-title">Location & Contact</h4>
-                    <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.6;">
-                        📍 Downtown Los Angeles, CA<br>
-                        ✉️ contact@openbim-la.com<br>
-                        ☎️ +1 (213) 555-BIM1
-                    </p>
-                </div>
             </div>
 
             <div class="copyright">
-                © 2026 OpenBIM Tech Studio LLC. All Rights Reserved. Led by CA Licensed Architect & LEED AP.
+                © 2026 ModuleCell LLC. All Rights Reserved. Led by CA Licensed Architect & LEED AP.
             </div>
         </div>
     </footer>
@@ -346,10 +344,8 @@
                 <div class="form-group">
                     <label class="form-label">Service Interest</label>
                     <select class="form-select">
-                        <option>Design EIR & IDS Standards Setup</option>
-                        <option>Construction 5D QTO & IFC Slimming</option>
-                        <option>As-Built COBie Asset Handover</option>
-                        <option>Open BIM Cloud SaaS & API</option>
+                        <option>Open BIM Strategy & EIR ($10,000 / project or $100 / hr)</option>
+                        <option>IFC Data & COBie Handover ($0.10 / sf)</option>
                     </select>
                 </div>
                 <div class="form-group">

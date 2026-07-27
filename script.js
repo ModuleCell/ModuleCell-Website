@@ -39,7 +39,7 @@ function init3DViewer() {
 
     // Scene
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x04070D);
+    scene.background = new THREE.Color(0x040508);
 
     // Camera
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
@@ -55,81 +55,74 @@ function init3DViewer() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0x06B6D4, 1.2);
+    const dirLight1 = new THREE.DirectionalLight(0xFFEE00, 1.2);
     dirLight1.position.set(20, 40, 20);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x3B82F6, 0.8);
+    const dirLight2 = new THREE.DirectionalLight(0x00F0FF, 0.9);
     dirLight2.position.set(-20, -10, -20);
     scene.add(dirLight2);
 
     // Grid Helper
-    const grid = new THREE.GridHelper(40, 20, 0x06B6D4, 0x1E293B);
+    const grid = new THREE.GridHelper(40, 20, 0xFFEE00, 0x222633);
     grid.position.y = -0.1;
     scene.add(grid);
 
-    // Build 3D Architectural Model Structure (Simulating IFC elements)
+    // Build 3D Architectural Model Structure (Simulating 2604 Via Madronas ADU IFC Model)
     modelGroup = new THREE.Group();
 
-    // Slabs (IfcSlab)
-    const slabMat = new THREE.MeshPhongMaterial({
-        color: 0x0F172A,
-        emissive: 0x06B6D4,
-        emissiveIntensity: 0.1,
-        wireframe: isWireframe,
-        transparent: true,
-        opacity: 0.85
-    });
+    // Materials (Autodesk Color Palette)
+    const slabMat = new THREE.MeshPhongMaterial({ color: 0x181B24, emissive: 0x00F0FF, emissiveIntensity: 0.15, wireframe: isWireframe });
+    const wallMat = new THREE.MeshPhongMaterial({ color: 0x222633, emissive: 0x2563EB, emissiveIntensity: 0.1, wireframe: isWireframe });
+    const roofMat = new THREE.MeshPhongMaterial({ color: 0xFFEE00, emissive: 0xFFEE00, emissiveIntensity: 0.3, wireframe: isWireframe });
+    const doorMat = new THREE.MeshPhongMaterial({ color: 0x00F0FF, emissive: 0x00F0FF, emissiveIntensity: 0.4, wireframe: isWireframe });
 
-    const slabGeom = new THREE.BoxGeometry(16, 0.6, 16);
-    
-    const slab1 = new THREE.Mesh(slabGeom, slabMat);
-    slab1.position.set(0, 0, 0);
-    slab1.userData = { type: 'IfcSlab', guid: '3A$1v04K_SlabL1', name: 'Ground Floor Slab' };
-    modelGroup.add(slab1);
+    // Ground Slab (IfcSlab)
+    const slabGeom = new THREE.BoxGeometry(14, 0.5, 10);
+    const slab = new THREE.Mesh(slabGeom, slabMat);
+    slab.position.set(0, 0, 0);
+    slab.userData = { type: 'IfcSlab (Foundation Slab)', guid: '2604$VM_Slab_01', name: 'ADU Foundation Slab' };
+    modelGroup.add(slab);
 
-    const slab2 = new THREE.Mesh(slabGeom, slabMat);
-    slab2.position.set(0, 6, 0);
-    slab2.userData = { type: 'IfcSlab', guid: '3A$2v04K_SlabL2', name: 'Level 2 Slab' };
-    modelGroup.add(slab2);
+    // Exterior Walls (IfcWallStandardCase)
+    const wall1Geom = new THREE.BoxGeometry(14, 6, 0.4);
+    const wallBack = new THREE.Mesh(wall1Geom, wallMat);
+    wallBack.position.set(0, 3.25, -4.8);
+    modelGroup.add(wallBack);
 
-    const slab3 = new THREE.Mesh(slabGeom, slabMat);
-    slab3.position.set(0, 12, 0);
-    slab3.userData = { type: 'IfcSlab', guid: '3A$3v04K_SlabL3', name: 'Roof Slab' };
-    modelGroup.add(slab3);
+    const wall2Geom = new THREE.BoxGeometry(0.4, 6, 10);
+    const wallLeft = new THREE.Mesh(wall2Geom, wallMat);
+    wallLeft.position.set(-6.8, 3.25, 0);
+    modelGroup.add(wallLeft);
 
-    // Columns (IfcColumn)
-    const colMat = new THREE.MeshPhongMaterial({
-        color: 0x3B82F6,
-        wireframe: isWireframe
-    });
-    const colGeom = new THREE.BoxGeometry(0.8, 12, 0.8);
-    const colPositions = [[-7, 6, -7], [7, 6, -7], [-7, 6, 7], [7, 6, 7]];
+    const wallRight = new THREE.Mesh(wall2Geom, wallMat);
+    wallRight.position.set(6.8, 3.25, 0);
+    modelGroup.add(wallRight);
 
-    colPositions.forEach((pos, idx) => {
-        const col = new THREE.Mesh(colGeom, colMat);
-        col.position.set(...pos);
-        col.userData = { type: 'IfcColumn', guid: `1C$0${idx}v04K_Col`, name: `Structural Column C${idx+1}` };
-        modelGroup.add(col);
-    });
-
-    // Mechanical Pump Equipment Proxy (IfcBuildingElementProxy / MEP)
-    const pumpMat = new THREE.MeshPhongMaterial({
-        color: 0x06B6D4,
-        emissive: 0x06B6D4,
-        emissiveIntensity: 0.4,
-        wireframe: isWireframe
-    });
-    const pumpGeom = new THREE.CylinderGeometry(1.5, 1.5, 3, 16);
-    const pump = new THREE.Mesh(pumpGeom, pumpMat);
-    pump.position.set(0, 1.8, 0);
-    pump.userData = {
-        type: 'IfcBuildingElementProxy',
-        guid: '2Xb$9v04K_aZ9L',
-        name: 'Chilled Water Pump P-101',
-        omniClass: '23-15 11 00 (Pumps)'
+    // Parametric Pitched Roof (IfcRoof - generated via add_roof.py script)
+    const roofGeom = new THREE.ConeGeometry(9.5, 4.5, 4);
+    const roof = new THREE.Mesh(roofGeom, roofMat);
+    roof.position.set(0, 8.5, 0);
+    roof.rotation.y = Math.PI / 4;
+    roof.userData = {
+        type: 'IfcRoof (Parametric Roof)',
+        guid: '2604$VM_Roof_01',
+        name: 'Via Madronas Gable Roof',
+        script: 'add_roof.py'
     };
-    modelGroup.add(pump);
+    modelGroup.add(roof);
+
+    // Entry Door (IfcDoor - generated via add_door.py script)
+    const doorGeom = new THREE.BoxGeometry(2.2, 4.2, 0.5);
+    const door = new THREE.Mesh(doorGeom, doorMat);
+    door.position.set(0, 2.3, 4.8);
+    door.userData = {
+        type: 'IfcDoor (Main Entrance)',
+        guid: '2604$VM_Door_01',
+        name: 'Parametric Exterior Door D-01',
+        script: 'add_door.py'
+    };
+    modelGroup.add(door);
 
     scene.add(modelGroup);
 
