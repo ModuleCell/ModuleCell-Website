@@ -1,0 +1,28 @@
+{
+  "siteUrl": "https://www.modulecell.com",
+  "brand": "ModuleCell",
+  "tagline": {
+    "en": "An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.",
+    "zh": "不設限的個人創作展演舞台——視覺實驗、繪圖、影像與日常靈感。"
+  },
+  "about": {
+    "heading": {
+      "en": "Fifty\nArchitect\nSocial Anxiety",
+      "zh": "五十歲\n建築師\n社恐"
+    },
+    "bio": {
+      "en": [],
+      "zh": []
+    },
+    "location": {
+      "en": "Los Angeles, California",
+      "zh": "美國加州・洛杉磯"
+    },
+    "email": "hello@modulecell.com",
+    "socials": [
+      { "label": "Instagram", "url": "https://instagram.com/modulecell" },
+      { "label": "LinkedIn", "url": "https://linkedin.com/company/modulecell" },
+      { "label": "X / Twitter", "url": "https://x.com/modulecell" }
+    ]
+  }
+}

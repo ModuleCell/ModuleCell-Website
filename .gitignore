@@ -1,9 +1,5 @@
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+node_modules/
+_raw/
+_inbox/
 .DS_Store
 Thumbs.db
-
-# Local-only originals, not published
-_archive/

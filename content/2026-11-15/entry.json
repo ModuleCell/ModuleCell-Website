@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-15",
+  "createdAt": "2026-11-15T17:36:02",
+  "title": {
+    "en": "Clear Glass Cat",
+    "zh": "透明琉璃貓"
+  },
+  "caption": {
+    "en": "Smoky-blue points and spun-glass whiskers emerge from a clear crystal feline form, caught mid-gesture with one paw gently lifted.",
+    "zh": "煙灰藍重點色與拉絲玻璃鬍鬚從透明水晶貓身中浮現，凝結於輕抬前掌的瞬間神態。"
+  },
+  "images": [
+    {
+      "file": "2026_1115_Cat_Gemini.jpg",
+      "focus": [52, 34],
+      "alt": {
+        "en": "Clear and smoky-blue glass Siamese cat sculpture with blue eyes and raised paw against a muted teal background",
+        "zh": "灰青背景前輕抬前掌的透明煙灰藍琉璃暹羅貓雕塑"
+      }
+    }
+  ]
+}

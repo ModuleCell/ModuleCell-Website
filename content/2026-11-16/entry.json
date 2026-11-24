@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-16",
+  "createdAt": "2026-11-16T15:35:12",
+  "title": {
+    "en": "Amber Glass Kitten",
+    "zh": "琥珀琉璃小貓"
+  },
+  "caption": {
+    "en": "Warm amber, verdigris, and violet tones swirl through sculpted glass fur as a curious kitten rests one translucent paw over a frosted ledge.",
+    "zh": "暖琥珀、孔雀綠與紫韻在琉璃毛紋間流動，小貓將透明前爪搭在霧面玻璃檯緣好奇凝望。"
+  },
+  "images": [
+    {
+      "file": "Gemini_Generated_Image_248rmw248rmw248r.jpg",
+      "focus": [50, 38],
+      "alt": {
+        "en": "Iridescent amber, teal, and violet glass tabby kitten resting one paw over a frosted glass ledge",
+        "zh": "將琥珀色透明前爪搭在霧面玻璃邊緣的彩韻琉璃虎斑小貓雕塑"
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "date": "2005-01-18",
+  "createdAt": "2005-01-18T00:00:00",
+  "title": {
+    "en": "Design with Animals: Locomotion Trajectories",
+    "zh": "向動物學習：運動軌跡與建築原型"
+  },
+  "caption": {
+    "en": "Four-plate biomimetic study tracing animal locomotion trajectories, skeletal mechanics, wireframe telemetry, and comparative kinetic architecture matrices.",
+    "zh": "四張系列圖版串聯動物運動軌跡、骨骼力學手繪、線框數據介面，以及自然機制對應人造機械與可動建築的原型矩陣。"
+  },
+  "images": [
+    {
+      "file": "Gemini_Generated_Image_20e04r20e04r20e0.png",
+      "focus": [46, 44],
+      "alt": {
+        "en": "Watercolor study plate showing animal locomotion trajectories and skeletal structures",
+        "zh": "水彩手繪圖版：呈現動物運動軌跡與骨骼動態構造研究"
+      }
+    },
+    {
+      "file": "Gemini_Generated_Image_enrzdoenrzdoenrz.png",
+      "alt": {
+        "en": "Dark wireframe data-driven design interface translating animal locomotion into telemetry graphs",
+        "zh": "深色線框數據設計介面：將動物運動軌跡轉譯為生物力學遙測圖表"
+      }
+    },
+    {
+      "file": "Gemini_Generated_Image_k8tfnk8tfnk8tfnk.png",
+      "alt": {
+        "en": "Comparative diagram plate I mapping animal mechanics to man-made tools and architecture",
+        "zh": "對照矩陣圖版一：動物力學對應人造裝置與當代建築案例"
+      }
+    },
+    {
+      "file": "Gemini_Generated_Image_kwffj4kwffj4kwff.png",
+      "alt": {
+        "en": "Comparative diagram plate II refining architectural adaptation case studies",
+        "zh": "對照矩陣圖版二：進一步整理人造結構與建築適應性原型"
+      }
+    }
+  ]
+}

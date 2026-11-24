@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-10",
+  "createdAt": "2026-11-10T10:53:29",
+  "title": {
+    "en": "Glass Mandrill",
+    "zh": "琉璃山魈"
+  },
+  "caption": {
+    "en": "Hand-blown glass study of a mandrill—crimson, cobalt, and amber pigments suspended within clear sculpted fur catching prismatic light.",
+    "zh": "以吹製琉璃質感詮釋山魈，將朱紅、鈷藍與琥珀色澤封存於透明流線毛紋之間，在林間折出細微虹光。"
+  },
+  "images": [
+    {
+      "file": "2026_1110_Baboon_Gemini.jpg",
+      "focus": [19, 44],
+      "alt": {
+        "en": "Translucent hand-blown glass sculpture of a mandrill with red nose, golden beard, and swirling clear glass fur",
+        "zh": "透明吹製琉璃山魈雕塑，具紅色鼻樑、金色鬍鬚與流線透明玻璃毛紋"
+      }
+    }
+  ]
+}

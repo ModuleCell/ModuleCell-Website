@@ -1,370 +1,299 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ModuleCell | OpenBIM Specialist & Universal IFC Building Data Services | Los Angeles, CA</title>
-    <meta name="description" content="Los Angeles-based Open BIM (IFC) technology consultancy led by California Licensed Architect & LEED AP. Delivering universal data integration, IDS validation, and COBie asset handover across Design, Construction, and Operations.">
-    <link rel="stylesheet" href="styles.css">
-    <!-- FontAwesome for sleek icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-title-en="ModuleCell — Personal Creations" data-title-zh="ModuleCell — 個人創作展演舞台">ModuleCell — Personal Creations</title>
+  <meta name="description" content="An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.">
+  <link rel="canonical" href="https://www.modulecell.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ModuleCell — Personal Creations">
+  <meta property="og:description" content="An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.">
+  <meta property="og:url" content="https://www.modulecell.com/">
+  <meta property="og:image" content="https://www.modulecell.com/media/2026-11-16/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ModuleCell — Personal Creations">
+  <meta name="twitter:description" content="An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.">
+  <meta name="twitter:image" content="https://www.modulecell.com/media/2026-11-16/og.jpg">
+  <script>
+    (() => {
+      try {
+        const saved = localStorage.getItem('mc_lang');
+        const lang = saved === 'zh' || saved === 'en'
+          ? saved
+          : ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        document.documentElement.dataset.lang = lang;
+        document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+      } catch {
+        document.documentElement.dataset.lang = 'en';
+        document.documentElement.lang = 'en';
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body>
-
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="brand-logo">
-                <img src="assets/logo.png" alt="ModuleCell Logo" onerror="this.style.display='none'">
-                <span class="brand-text">ModuleCell <span class="brand-badge">OpenBIM Specialist</span></span>
-            </a>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <ul class="nav-links">
-                <li><a href="#services" class="nav-link">AECO-3 Phase Services</a></li>
-                <li><a href="#qualifications" class="nav-link">Qualifications & Tech</a></li>
-                <li><a href="#pricing" class="nav-link">Pricing (USD)</a></li>
-                <li><a href="#contact" class="btn-primary" onclick="openContactModal(event)">Book US Advisory <i class="fa-solid fa-arrow-right"></i></a></li>
-            </ul>
-        </div>
+  <header class="site-header">
+  <div class="container header-inner">
+    <a href="./index.html" class="brand-link">
+      <span class="brand-wordmark">ModuleCell</span>
+    </a>
+    <nav class="header-nav" aria-label="Primary">
+      <a href="./index.html" class="nav-item" aria-current="page">
+        <span class="t-en">Works</span>
+        <span class="t-zh">創作</span>
+      </a>
+      <a href="./about/index.html" class="nav-item">
+        <span class="t-en">About</span>
+        <span class="t-zh">關於</span>
+      </a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn is-active" data-set-lang="en" aria-pressed="true">EN</button>
+        <span class="lang-sep" aria-hidden="true">/</span>
+        <button type="button" class="lang-btn" data-set-lang="zh" aria-pressed="false">中文</button>
+      </div>
     </nav>
+  </div>
+</header>
+  <main class="container">
+    <h1 class="sr-only">
+      <span class="t-en">ModuleCell — An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.</span>
+      <span class="t-zh">ModuleCell — 不設限的個人創作展演舞台——視覺實驗、繪圖、影像與日常靈感。</span>
+    </h1>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    Unlocking Universal <span class="text-yellow">Open BIM (IFC)</span> Data Pipelines
-                </h1>
-                <p class="hero-subtitle">
-                    Empowering US Architecture, Construction, and Facility Management teams with vendor-neutral IFC models, automated IDS validation, and seamless COBie asset handovers across all project lifecycle phases.
-                </p>
-
-                <div class="hero-actions">
-                    <a href="#services" class="btn-primary"><i class="fa-solid fa-layer-group"></i> Explore AECO-3 Phase Services</a>
-                    <a href="#qualifications" class="btn-secondary"><i class="fa-solid fa-certificate"></i> View US Qualifications</a>
-                </div>
-
-                <!-- Leadership & Certification Credentials -->
-                <div class="credentials-strip">
-                    <!-- 1. Architect (text credential; seal image intentionally not published) -->
-                    <a class="bs-badge-card" href="https://search.dca.ca.gov/" target="_blank" rel="noopener" title="Verify on the California DCA license search">
-                        <span class="bs-badge-icon" aria-hidden="true"><i class="fa-solid fa-building-columns"></i></span>
-                        <div class="bs-badge-info">
-                            <span class="bs-badge-title">California Licensed Architect &middot; C-40990</span>
-                            <span class="bs-badge-sub">California Architects Board (CAB) &middot; Verify <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem;"></i></span>
-                        </div>
-                    </a>
-
-                    <!-- 2. LEED AP BD+C Accredited -->
-                    <div class="bs-badge-card">
-                        <img src="assets/leed_ap_badge.png" alt="LEED AP BD+C Badge" class="bs-badge-img" style="border-radius: 2px;">
-                        <div class="bs-badge-info">
-                            <span class="bs-badge-title">LEED AP BD+C</span>
-                            <span class="bs-badge-sub">USGBC Accredited Professional</span>
-                        </div>
-                    </div>
-
-                    <!-- 3. buildingSMART Certified -->
-                    <div class="bs-badge-card">
-                        <img src="assets/buildingSMART_Professional_Certification-Entry_Badge_(English).png" alt="buildingSMART Professional Certification - Entry Badge" class="bs-badge-img">
-                        <div class="bs-badge-info">
-                            <span class="bs-badge-title">buildingSMART Certified</span>
-                            <span class="bs-badge-sub">Individual Qualification (Entry Level)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="gallery-section" aria-label="Personal Creations Gallery">
+      <div class="freeform-stage" id="freeform-stage">
+      <article class="entry-card" data-aspect="0.858" data-focus-x="50" data-focus-y="38" style="--mc-origin-x:50%;--mc-origin-y:38%;">
+        <a href="./work/2026-11-16/index.html" class="entry-link">
+          <div class="card-media">
+            <img
+              src="./media/2026-11-16/01-gemini-generated-image-248rmw248rmw248r-thumb.webp"
+              alt="Iridescent amber, teal, and violet glass tabby kitten resting one paw over a frosted glass ledge"
+              width="900"
+              height="1049" fetchpriority="high">
+            
+          </div>
+        </a>
+        <div class="card-placard">
+          <div class="placard-meta">
+            <span>No. 006</span>
+            <time datetime="2026-11-16">2026.11.16</time>
+          </div>
+          <div class="placard-title-row">
+            <h2 class="placard-title">
+              <a href="./work/2026-11-16/index.html" class="placard-title-link">
+                <span class="t-en">Amber Glass Kitten</span>
+                <span class="t-zh">琥珀琉璃小貓</span>
+              </a>
+            </h2>
+            <button type="button" class="like-btn" data-like-id="2026-11-16" aria-pressed="false" aria-label="Like Amber Glass Kitten">
+                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
+                </svg>
+                <span class="like-count" aria-live="polite"></span>
+              </button>
+          </div>
+          <p class="placard-caption">
+            <span class="t-en">Warm amber, verdigris, and violet tones swirl through sculpted glass fur as a curious kitten rests one translucent paw over a frosted ledge.</span>
+            <span class="t-zh">暖琥珀、孔雀綠與紫韻在琉璃毛紋間流動，小貓將透明前爪搭在霧面玻璃檯緣好奇凝望。</span>
+          </p>
         </div>
+      </article>
+      <article class="entry-card" data-aspect="1.000" data-focus-x="52" data-focus-y="34" style="--mc-origin-x:52%;--mc-origin-y:34%;">
+        <a href="./work/2026-11-15/index.html" class="entry-link">
+          <div class="card-media">
+            <img
+              src="./media/2026-11-15/01-2026-1115-cat-gemini-thumb.webp"
+              alt="Clear and smoky-blue glass Siamese cat sculpture with blue eyes and raised paw against a muted teal background"
+              width="900"
+              height="900" fetchpriority="high">
+            
+          </div>
+        </a>
+        <div class="card-placard">
+          <div class="placard-meta">
+            <span>No. 005</span>
+            <time datetime="2026-11-15">2026.11.15</time>
+          </div>
+          <div class="placard-title-row">
+            <h2 class="placard-title">
+              <a href="./work/2026-11-15/index.html" class="placard-title-link">
+                <span class="t-en">Clear Glass Cat</span>
+                <span class="t-zh">透明琉璃貓</span>
+              </a>
+            </h2>
+            <button type="button" class="like-btn" data-like-id="2026-11-15" aria-pressed="false" aria-label="Like Clear Glass Cat">
+                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
+                </svg>
+                <span class="like-count" aria-live="polite"></span>
+              </button>
+          </div>
+          <p class="placard-caption">
+            <span class="t-en">Smoky-blue points and spun-glass whiskers emerge from a clear crystal feline form, caught mid-gesture with one paw gently lifted.</span>
+            <span class="t-zh">煙灰藍重點色與拉絲玻璃鬍鬚從透明水晶貓身中浮現，凝結於輕抬前掌的瞬間神態。</span>
+          </p>
+        </div>
+      </article>
+      <article class="entry-card" data-aspect="0.747" data-focus-x="69" data-focus-y="34" style="--mc-origin-x:69%;--mc-origin-y:34%;">
+        <a href="./work/2026-11-12/index.html" class="entry-link">
+          <div class="card-media">
+            <img
+              src="./media/2026-11-12/01-2026-1112-honey-bird-gemini-thumb.webp"
+              alt="Iridescent green, gold, and violet glass hummingbird hovering beside a red and purple glass fuchsia flower"
+              width="900"
+              height="1205" loading="lazy">
+            
+          </div>
+        </a>
+        <div class="card-placard">
+          <div class="placard-meta">
+            <span>No. 004</span>
+            <time datetime="2026-11-12">2026.11.12</time>
+          </div>
+          <div class="placard-title-row">
+            <h2 class="placard-title">
+              <a href="./work/2026-11-12/index.html" class="placard-title-link">
+                <span class="t-en">Glass Hummingbird &amp; Fuchsia</span>
+                <span class="t-zh">琉璃蜂鳥與吊鐘花</span>
+              </a>
+            </h2>
+            <button type="button" class="like-btn" data-like-id="2026-11-12" aria-pressed="false" aria-label="Like Glass Hummingbird &amp; Fuchsia">
+                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
+                </svg>
+                <span class="like-count" aria-live="polite"></span>
+              </button>
+          </div>
+          <p class="placard-caption">
+            <span class="t-en">A weightless glass hummingbird suspended mid-flight—violet-tinted wings, emerald crown, and micro-bubbles trapped inside a clear torso reaching for a ruby glass blossom.</span>
+            <span class="t-zh">懸停半空的琉璃蜂鳥，紫暈羽翼、翠綠冠羽與腹中懸浮的微氣泡，在光影中探向緋紅琉璃花蕊。</span>
+          </p>
+        </div>
+      </article>
+      <article class="entry-card" data-aspect="0.737" data-focus-x="66" data-focus-y="22" style="--mc-origin-x:66%;--mc-origin-y:22%;">
+        <a href="./work/2026-11-10-violet-bird/index.html" class="entry-link">
+          <div class="card-media">
+            <img
+              src="./media/2026-11-10-violet-bird/01-2026-1110-bird-gtp-thumb.webp"
+              alt="Deep violet translucent glass bird sculpture with layered glass feathers perched on a tree branch"
+              width="900"
+              height="1221" loading="lazy">
+            
+          </div>
+        </a>
+        <div class="card-placard">
+          <div class="placard-meta">
+            <span>No. 003</span>
+            <time datetime="2026-11-10">2026.11.10</time>
+          </div>
+          <div class="placard-title-row">
+            <h2 class="placard-title">
+              <a href="./work/2026-11-10-violet-bird/index.html" class="placard-title-link">
+                <span class="t-en">Amethyst Starling</span>
+                <span class="t-zh">紫晶琉璃鳥</span>
+              </a>
+            </h2>
+            <button type="button" class="like-btn" data-like-id="2026-11-10-violet-bird" aria-pressed="false" aria-label="Like Amethyst Starling">
+                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
+                </svg>
+                <span class="like-count" aria-live="polite"></span>
+              </button>
+          </div>
+          <p class="placard-caption">
+            <span class="t-en">Layered violet glass plumage resting on a raw branch—overlapping translucent scales softening into clear crystal along the belly.</span>
+            <span class="t-zh">層疊紫晶琉璃羽片棲於粗獷枯枝上，半透明羽鱗向下漸融為純淨透明水晶腹身。</span>
+          </p>
+        </div>
+      </article>
+      <article class="entry-card" data-aspect="1.793" data-focus-x="19" data-focus-y="44" style="--mc-origin-x:19%;--mc-origin-y:44%;">
+        <a href="./work/2026-11-10-mandrill/index.html" class="entry-link">
+          <div class="card-media">
+            <img
+              src="./media/2026-11-10-mandrill/01-2026-1110-baboon-gemini-thumb.webp"
+              alt="Translucent hand-blown glass sculpture of a mandrill with red nose, golden beard, and swirling clear glass fur"
+              width="900"
+              height="502" loading="lazy">
+            
+          </div>
+        </a>
+        <div class="card-placard">
+          <div class="placard-meta">
+            <span>No. 002</span>
+            <time datetime="2026-11-10">2026.11.10</time>
+          </div>
+          <div class="placard-title-row">
+            <h2 class="placard-title">
+              <a href="./work/2026-11-10-mandrill/index.html" class="placard-title-link">
+                <span class="t-en">Glass Mandrill</span>
+                <span class="t-zh">琉璃山魈</span>
+              </a>
+            </h2>
+            <button type="button" class="like-btn" data-like-id="2026-11-10-mandrill" aria-pressed="false" aria-label="Like Glass Mandrill">
+                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
+                </svg>
+                <span class="like-count" aria-live="polite"></span>
+              </button>
+          </div>
+          <p class="placard-caption">
+            <span class="t-en">Hand-blown glass study of a mandrill—crimson, cobalt, and amber pigments suspended within clear sculpted fur catching prismatic light.</span>
+            <span class="t-zh">以吹製琉璃質感詮釋山魈，將朱紅、鈷藍與琥珀色澤封存於透明流線毛紋之間，在林間折出細微虹光。</span>
+          </p>
+        </div>
+      </article>
+      <article class="entry-card" data-aspect="1.471" data-focus-x="46" data-focus-y="44" style="--mc-origin-x:46%;--mc-origin-y:44%;">
+        <a href="./work/2005-01-18/index.html" class="entry-link">
+          <div class="card-media">
+            <img
+              src="./media/2005-01-18/01-gemini-generated-image-20e04r20e04r20e0-thumb.webp"
+              alt="Watercolor study plate showing animal locomotion trajectories and skeletal structures"
+              width="900"
+              height="612" loading="lazy">
+            <span class="card-count-badge" aria-label="4 images">04 PLATES</span>
+          </div>
+        </a>
+        <div class="card-placard">
+          <div class="placard-meta">
+            <span>No. 001</span>
+            <time datetime="2005-01-18">2005.01.18</time>
+          </div>
+          <div class="placard-title-row">
+            <h2 class="placard-title">
+              <a href="./work/2005-01-18/index.html" class="placard-title-link">
+                <span class="t-en">Design with Animals: Locomotion Trajectories</span>
+                <span class="t-zh">向動物學習：運動軌跡與建築原型</span>
+              </a>
+            </h2>
+            <button type="button" class="like-btn" data-like-id="2005-01-18" aria-pressed="false" aria-label="Like Design with Animals: Locomotion Trajectories">
+                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
+                </svg>
+                <span class="like-count" aria-live="polite"></span>
+              </button>
+          </div>
+          <p class="placard-caption">
+            <span class="t-en">Four-plate biomimetic study tracing animal locomotion trajectories, skeletal mechanics, wireframe telemetry, and comparative kinetic architecture matrices.</span>
+            <span class="t-zh">四張系列圖版串聯動物運動軌跡、骨骼力學手繪、線框數據介面，以及自然機制對應人造機械與可動建築的原型矩陣。</span>
+          </p>
+        </div>
+      </article>
+      </div>
     </section>
-
-    <!-- Lifecycle Services Section -->
-    <section class="section" id="services">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">// Lifecycle Solution Matrix</span>
-                <h2 class="section-title">End-to-End Open BIM Services across AECO</h2>
-                <p class="section-desc">Bridging proprietary software gaps (Revit, ArchiCAD, Tekla) with ISO 16739 IFC open standards from design ideation to multi-year facility operations.</p>
-            </div>
-
-            <div class="pillars-grid">
-                <!-- Pillar 1: Design Phase -->
-                <div class="pillar-card glass-panel">
-                    <div class="pillar-icon">
-                        <i class="fa-solid fa-compass-drafting fa-2xl"></i>
-                    </div>
-                    <h3 class="pillar-title">1. Design Phase</h3>
-                    <div class="pillar-subtitle">AIA Architects & Engineering Consultants</div>
-                    <p style="color:var(--text-secondary); font-size:0.92rem;">
-                        Establishing vendor-neutral Exchange Information Requirements (EIR) and buildingSMART IDS data rules for seamless multi-disciplinary collaboration.
-                    </p>
-                    <ul class="pillar-list">
-                        <li>EIR & BEP Standardization (NBIMS-US)</li>
-                        <li>buildingSMART bSDD & IDS Definition</li>
-                        <li>Automated Quality Audit & Property Checks</li>
-                        <li>Building Code Compliance Check</li>
-                        <li>Preliminary Cost Estimation</li>
-                        <li>CALGreen & LEED Carbon Data Integration</li>
-                    </ul>
-                </div>
-
-                <!-- Pillar 2: Construction Phase -->
-                <div class="pillar-card glass-panel">
-                    <div class="pillar-icon">
-                        <i class="fa-solid fa-helmet-safety fa-2xl"></i>
-                    </div>
-                    <h3 class="pillar-title">2. Construction Phase</h3>
-                    <div class="pillar-subtitle">General Contractors (GCs) & Subcontractors</div>
-                    <p style="color:var(--text-secondary); font-size:0.92rem;">
-                        Transforming heavy design models into structured 5D QTO quantity takeoff data and clash-free execution files.
-                    </p>
-                    <ul class="pillar-list">
-                        <li>IFC Model Slimming & Geometry Optimization</li>
-                        <li>4D Construction Simulation & Planning</li>
-                        <li>5D Cost Estimating (QTO) Mapping</li>
-                        <li>Field Verification & Clash Inspection</li>
-                        <li>Subcontractor IFC Data Alignment</li>
-                    </ul>
-                </div>
-
-                <!-- Pillar 3: Operations & FM Phase -->
-                <div class="pillar-card glass-panel">
-                    <div class="pillar-icon">
-                        <i class="fa-solid fa-building-circle-check fa-2xl"></i>
-                    </div>
-                    <h3 class="pillar-title">3. Operations & FM</h3>
-                    <div class="pillar-subtitle">Developers, Higher Ed & Healthcare Facilities</div>
-                    <p style="color:var(--text-secondary); font-size:0.92rem;">
-                        Converting complex As-Built BIM into lightweight COBie asset data packages for instant Maximo, Archibus, and Digital Twin API integration.
-                    </p>
-                    <ul class="pillar-list">
-                        <li>As-Built to FM COBie Handover Conversion</li>
-                        <li>OmniClass & UniFormat Asset Structuring</li>
-                        <li>Web-Based Open BIM Cloud Asset Viewer</li>
-                        <li>BMS & IoT Real-Time Data API Interfacing</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Qualifications & Tech Stack Section -->
-    <section class="section" id="qualifications">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">// Professional Qualifications & Engineering Stack</span>
-                <h2 class="section-title">Open BIM Standards & Automation Blueprint</h2>
-                <p class="section-desc">combining buildingSMART international certifications with open-source Python scripting (IfcOpenShell, BlenderBIM) to break proprietary software silos.</p>
-            </div>
-
-            <div class="qualifications-grid">
-                <!-- Qualification 1: buildingSMART Certification -->
-                <div class="qual-card glass-panel">
-                    <div class="qual-icon">
-                        <i class="fa-solid fa-award fa-2xl" style="color: var(--accent-cyan);"></i>
-                    </div>
-                    <h3>buildingSMART Certified</h3>
-                    <div class="qual-sub">Individual Qualification (Entry Level)</div>
-                    <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:16px;">
-                        Certified expertise in ISO 16739 IFC standards, buildingSMART Data Dictionary (bSDD), and Information Delivery Specifications (IDS).
-                    </p>
-                    <ul class="pillar-list">
-                        <li>ISO 16739 IFC4 / IFC2x3 Schema Mastery</li>
-                        <li>buildingSMART bSDD Data Dictionary Mapping</li>
-                        <li>Machine-Readable IDS Validation Rules</li>
-                        <li>BCF (BIM Collaboration Format) Workflows</li>
-                    </ul>
-                </div>
-
-                <!-- Qualification 2: Python & BlenderBIM Scripting -->
-                <div class="qual-card glass-panel">
-                    <div class="qual-icon">
-                        <i class="fa-brands fa-python fa-2xl" style="color: var(--accent-blue);"></i>
-                    </div>
-                    <h3>Python & BlenderBIM Engine</h3>
-                    <div class="qual-sub">Parametric IFC Development</div>
-                    <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:16px;">
-                        Programmatic model generation, property enrichment, and automated auditing using custom Python scripts and IfcOpenShell.
-                    </p>
-                    <ul class="pillar-list">
-                        <li>Parametric Element Generation (Roof, Door, Wall)</li>
-                        <li>IfcOpenShell Automated Data Wrangling</li>
-                        <li>Open-Source BlenderBIM Authoring Pipelines</li>
-                        <li>Headless IFC Batch Slimming & Processing</li>
-                    </ul>
-                </div>
-
-                <!-- Qualification 3: US Standards & COBie Handover -->
-                <div class="qual-card glass-panel">
-                    <div class="qual-icon">
-                        <i class="fa-solid fa-database fa-2xl" style="color: var(--accent-teal);"></i>
-                    </div>
-                    <h3>US Standards & Asset Handover</h3>
-                    <div class="qual-sub">COBie 2.4 & CALGreen Compliance</div>
-                    <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:16px;">
-                        Bridging California architecture practice with National BIM Standards (NBIMS-US) for seamless FM handover.
-                    </p>
-                    <ul class="pillar-list">
-                        <li>NIBS COBie v2.4 Mandatory Asset Export</li>
-                        <li>OmniClass Table 23 & UniFormat Classifications</li>
-                        <li>CALGreen & Title 24 Sustainability Tracking</li>
-                        <li>CMMS & Digital Twin API Schema Alignment</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Interactive Code & Script Showcase -->
-            <div class="code-showcase-card glass-panel" style="margin-top: 32px; padding: 24px;">
-                <div class="code-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
-                    <div>
-                        <h4 style="font-size:1.1rem; color:var(--text-primary);"><i class="fa-solid fa-code" style="color:var(--accent-cyan); margin-right:8px;"></i> Open BIM Python Scripting Pipeline (IfcOpenShell / BlenderBIM)</h4>
-                        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Demonstrating automated parametric element creation & property set injection</p>
-                    </div>
-                    <div class="code-badges" style="display:flex; gap:8px;">
-                        <span class="badge-pill">IfcOpenShell v0.8</span>
-                        <span class="badge-pill">BlenderBIM</span>
-                        <span class="badge-pill">ISO 16739</span>
-                    </div>
-                </div>
-                <pre class="code-block"><code><span class="c-keyword">import</span> ifcopenshell
-<span class="c-keyword">import</span> ifcopenshell.api
-
-<span class="c-comment"># Initialize IFC4 Schema Model</span>
-model = ifcopenshell.api.run(<span class="c-str">"project.create_file"</span>, version=<span class="c-str">"IFC4"</span>)
-project = ifcopenshell.api.run(<span class="c-str">"root.create_entity"</span>, model, ifc_class=<span class="c-str">"IfcProject"</span>, name=<span class="c-str">"Via Madronas ADU"</span>)
-
-<span class="c-comment"># Automated Parametric Door & Roof Generation (2604 Via Madronas ADU Pipeline)</span>
-door = ifcopenshell.api.run(<span class="c-str">"root.create_entity"</span>, model, ifc_class=<span class="c-str">"IfcDoor"</span>, name=<span class="c-str">"D-01 Entry Door"</span>)
-ifcopenshell.api.run(<span class="c-str">"pset.add_pset"</span>, model, product=door, name=<span class="c-str">"Pset_DoorCommon"</span>)
-ifcopenshell.api.run(<span class="c-str">"pset.edit_pset"</span>, model, pset=pset, properties={<span class="c-str">"FireRating"</span>: <span class="c-str">"90 Min"</span>, <span class="c-str">"IsExternal"</span>: <span class="c-keyword">True</span>})
-
-<span class="c-comment"># Validate against buildingSMART IDS Rules & Export COBie 2.4</span>
-print(<span class="c-str">"[SUCCESS] Model validated against buildingSMART IDS & ready for COBie handover!"</span>)</code></pre>
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Pricing Section (USD) -->
-    <section class="section" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">// Transparent USD Pricing</span>
-                <h2 class="section-title">Engagement Tiers & Commercial Plans</h2>
-                <p class="section-desc">Tailored commercial models designed for US architecture firms, general contractors, and institutional asset owners.</p>
-            </div>
-
-            <div class="pricing-grid">
-                <!-- Tier 1: Advisory -->
-                <div class="price-card glass-panel">
-                    <div>
-                        <div class="section-tag">// Advisory & Standards</div>
-                        <h3>Open BIM Strategy & EIR</h3>
-                        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For Developers & Lead Architecture Firms</p>
-                        <div class="price-amount">$10,000<span class="price-unit"> / project</span> <span style="font-size:1rem; color:var(--text-muted); font-weight:300;">or</span> $100<span class="price-unit"> / hr</span></div>
-                        <ul class="pillar-list" style="margin-top:20px;">
-                            <li>EIR / AIR Definition & BEP Alignment</li>
-                            <li>buildingSMART IDS Rule Configuration</li>
-                            <li>US National BIM & COBie Setup</li>
-                            <li>California Licensed Architect Oversight</li>
-                        </ul>
-                    </div>
-                    <button class="btn-secondary" style="width:100%; margin-top:30px;" onclick="openContactModal(event)">Request Advisory Proposal</button>
-                </div>
-
-                <!-- Tier 2: Data Processing (Featured) -->
-                <div class="price-card glass-panel featured">
-                    <div>
-                        <div class="section-tag" style="color:var(--accent-cyan);">// Most Popular</div>
-                        <h3>IFC Data & COBie Handover</h3>
-                        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:6px;">For General Contractors & FM Teams</p>
-                        <div class="price-amount">$0.10<span class="price-unit"> / sf</span></div>
-                        <ul class="pillar-list" style="margin-top:20px;">
-                            <li>Full IFC Audit & Automated Fixes</li>
-                            <li>COBie v2.4 Asset Data Handover Export</li>
-                            <li>5D QTO Quantity Takeoff Mapping</li>
-                            <li>Model Slimming for Web/Mobile</li>
-                        </ul>
-                    </div>
-                    <button class="btn-primary" style="width:100%; margin-top:30px;" onclick="openContactModal(event)">Start IFC Processing</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <span class="brand-text">ModuleCell <span class="brand-badge">OpenBIM Specialist</span></span>
-                    <p>
-                        Los Angeles-based ModuleCell OpenBIM technology consultancy & data service provider. Transforming US AEC lifecycle data with vendor-neutral standards.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="footer-title">Solutions</h4>
-                    <ul class="footer-links">
-                        <li><a href="#services">Design EIR & IDS</a></li>
-                        <li><a href="#services">Construction 5D QTO</a></li>
-                        <li><a href="#services">As-Built COBie Handover</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="footer-title">Standards</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">ISO 16739 (IFC4)</a></li>
-                        <li><a href="#">buildingSMART IDS & bSDD</a></li>
-                        <li><a href="#">NIBS COBie v2.4</a></li>
-                        <li><a href="#">BIMForum LOD</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="copyright">
-                © 2026 ModuleCell LLC. All Rights Reserved. Led by CA Licensed Architect & LEED AP.
-            </div>
-        </div>
-    </footer>
-
-    <!-- Contact Modal -->
-    <div class="modal-backdrop" id="contact-modal">
-        <div class="modal-card glass-panel">
-            <button class="modal-close" onclick="closeContactModal()">&times;</button>
-            <h3 style="margin-bottom:8px;">Schedule US Open BIM Advisory</h3>
-            <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px;">Direct consultation with our California Licensed Architect & Open BIM Specialist.</p>
-
-            <form onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" class="form-input" placeholder="e.g. John Doe, AIA" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Company / Organization</label>
-                    <input type="text" class="form-input" placeholder="e.g. LA Architecture / GC Group" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Service Interest</label>
-                    <select class="form-select">
-                        <option>Open BIM Strategy & EIR ($10,000 / project or $100 / hr)</option>
-                        <option>IFC Data & COBie Handover ($0.10 / sf)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Project Location / Details</label>
-                    <textarea class="form-textarea" rows="3" placeholder="Tell us about your project scope, GFA, or software workflow..."></textarea>
-                </div>
-                <button type="submit" class="btn-primary" style="width:100%;">Submit Consultation Request</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js"></script>
+  </main>
+  <footer class="site-footer">
+  <div class="container footer-inner">
+    <span>&copy; 2026 ModuleCell</span>
+    <span>
+      <span class="t-en">Los Angeles, California &middot; Personal Creations</span>
+      <span class="t-zh">美國加州・洛杉磯 &middot; 個人創作展演</span>
+    </span>
+  </div>
+</footer>
+  <script src="./assets/app.js" defer></script>
 </body>
 </html>

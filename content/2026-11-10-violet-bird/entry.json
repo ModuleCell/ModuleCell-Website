@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-10",
+  "createdAt": "2026-11-10T11:31:27",
+  "title": {
+    "en": "Amethyst Starling",
+    "zh": "紫晶琉璃鳥"
+  },
+  "caption": {
+    "en": "Layered violet glass plumage resting on a raw branch—overlapping translucent scales softening into clear crystal along the belly.",
+    "zh": "層疊紫晶琉璃羽片棲於粗獷枯枝上，半透明羽鱗向下漸融為純淨透明水晶腹身。"
+  },
+  "images": [
+    {
+      "file": "2026_1110_Bird_GTP.jpg",
+      "focus": [66, 22],
+      "alt": {
+        "en": "Deep violet translucent glass bird sculpture with layered glass feathers perched on a tree branch",
+        "zh": "停棲於樹枝上的深紫色半透明琉璃鳥雕塑，具層疊玻璃羽片與透明腹部"
+      }
+    }
+  ]
+}

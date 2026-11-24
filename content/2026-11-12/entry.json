@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-12",
+  "createdAt": "2026-11-12T09:05:03",
+  "title": {
+    "en": "Glass Hummingbird & Fuchsia",
+    "zh": "琉璃蜂鳥與吊鐘花"
+  },
+  "caption": {
+    "en": "A weightless glass hummingbird suspended mid-flight—violet-tinted wings, emerald crown, and micro-bubbles trapped inside a clear torso reaching for a ruby glass blossom.",
+    "zh": "懸停半空的琉璃蜂鳥，紫暈羽翼、翠綠冠羽與腹中懸浮的微氣泡，在光影中探向緋紅琉璃花蕊。"
+  },
+  "images": [
+    {
+      "file": "2026_1112_Honey Bird_Gemini.jpg",
+      "focus": [69, 34],
+      "alt": {
+        "en": "Iridescent green, gold, and violet glass hummingbird hovering beside a red and purple glass fuchsia flower",
+        "zh": "懸停於紅紫色琉璃吊鐘花旁的翠綠紫翼琉璃蜂鳥雕塑"
+      }
+    }
+  ]
+}
