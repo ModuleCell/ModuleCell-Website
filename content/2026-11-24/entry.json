@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-24",
+  "createdAt": "2026-11-24T15:53:38",
+  "title": {
+    "en": "Opalescent Glass Egret",
+    "zh": "白玉琉璃鷺"
+  },
+  "caption": {
+    "en": "An opalescent white glass egret perched quietly on a waterside stone—windswept crystal plumes, dark translucent beak, and olive-glass legs casting sunlit caustics.",
+    "zh": "靜立水畔石上的乳白琉璃白鷺，微風吹拂的水晶冠羽、深色半透明長喙，與橄欖綠琉璃細足在石面折出淡淡光影。"
+  },
+  "images": [
+    {
+      "file": "IMG_9534_liuli_blur.jpg",
+      "focus": [54, 33],
+      "alt": {
+        "en": "Opalescent white translucent glass egret sculpture with windswept glass head plumes standing on a stone by sunlit water",
+        "zh": "站立於水邊石上的乳白色半透明琉璃白鷺雕塑，具飄逸玻璃冠羽與深色長喙"
+      }
+    }
+  ]
+}
