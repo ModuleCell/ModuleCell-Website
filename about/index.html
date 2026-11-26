@@ -28,6 +28,16 @@
         document.documentElement.dataset.lang = 'en';
         document.documentElement.lang = 'en';
       }
+      try {
+        const themes = ['mint', 'cerulean', 'yellow', 'klein', 'vermilion', 'pine'];
+        const prev = sessionStorage.getItem('mc_hdr_theme');
+        const pool = themes.filter((t) => t !== prev);
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        sessionStorage.setItem('mc_hdr_theme', pick);
+        document.documentElement.dataset.headerTheme = pick;
+      } catch {
+        document.documentElement.dataset.headerTheme = 'mint';
+      }
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">

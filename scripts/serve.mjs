@@ -18,6 +18,10 @@ const MIME_TYPES = {
   '.jpeg': 'image/jpeg',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
+  '.mp3': 'audio/mpeg',
+  '.m4a': 'audio/mp4',
+  '.ogg': 'audio/ogg',
+  '.wav': 'audio/wav',
   '.xml': 'application/xml; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
 };
@@ -48,7 +52,38 @@ const server = http.createServer(async (req, res) => {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
     const data = await fs.readFile(filePath);
-    res.writeHead(200, { 'Content-Type': contentType, 'Cache-Control': 'no-cache' });
+    const total = data.length;
+    const range = req.headers.range;
+
+    if (range) {
+      const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+      if (match) {
+        const start = match[1] ? Number(match[1]) : 0;
+        const end = match[2] ? Math.min(Number(match[2]), total - 1) : total - 1;
+        if (start <= end && start < total) {
+          const chunk = data.subarray(start, end + 1);
+          res.writeHead(206, {
+            'Content-Type': contentType,
+            'Content-Range': `bytes ${start}-${end}/${total}`,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': chunk.length,
+            'Cache-Control': 'no-cache',
+          });
+          res.end(chunk);
+          return;
+        }
+      }
+      res.writeHead(416, { 'Content-Range': `bytes */${total}` });
+      res.end();
+      return;
+    }
+
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': total,
+      'Cache-Control': 'no-cache',
+    });
     res.end(data);
   } catch (err) {
     res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });

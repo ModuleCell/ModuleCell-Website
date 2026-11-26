@@ -72,12 +72,21 @@ async function main() {
     .map((s) => s.trim())
     .filter(Boolean);
 
+  const medium =
+    args['medium-en'] || args['medium-zh'] || args.medium
+      ? {
+          en: args['medium-en'] || args.medium || args['medium-zh'],
+          zh: args['medium-zh'] || args.medium || args['medium-en'],
+        }
+      : undefined;
+
   const entry = {
     date,
     title: {
       en: args['title-en'] || `Study ${date}`,
       zh: args['title-zh'] || args['title-en'] || `作品 ${date}`,
     },
+    ...(medium ? { medium } : {}),
     caption: {
       en: args['caption-en'] || '',
       zh: args['caption-zh'] || args['caption-en'] || '',

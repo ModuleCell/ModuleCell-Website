@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-title-en="ModuleCell — Personal Creations" data-title-zh="ModuleCell — 個人創作展演舞台">ModuleCell — Personal Creations</title>
+  <title data-title-en="ModuleCell" data-title-zh="ModuleCell">ModuleCell</title>
   <meta name="description" content="An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.">
   <link rel="canonical" href="https://www.modulecell.com/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ModuleCell — Personal Creations">
+  <meta property="og:title" content="ModuleCell">
   <meta property="og:description" content="An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.">
   <meta property="og:url" content="https://www.modulecell.com/">
-  <meta property="og:image" content="https://www.modulecell.com/media/2026-11-24/og.jpg">
+  <meta property="og:image" content="https://www.modulecell.com/media/2026-11-25/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ModuleCell — Personal Creations">
+  <meta name="twitter:title" content="ModuleCell">
   <meta name="twitter:description" content="An open stage for personal creations — visual studies, drawings, objects, and everyday experiments.">
-  <meta name="twitter:image" content="https://www.modulecell.com/media/2026-11-24/og.jpg">
+  <meta name="twitter:image" content="https://www.modulecell.com/media/2026-11-25/og.jpg">
   <script>
     (() => {
       try {
@@ -27,6 +27,16 @@
       } catch {
         document.documentElement.dataset.lang = 'en';
         document.documentElement.lang = 'en';
+      }
+      try {
+        const themes = ['mint', 'cerulean', 'yellow', 'klein', 'vermilion', 'pine'];
+        const prev = sessionStorage.getItem('mc_hdr_theme');
+        const pool = themes.filter((t) => t !== prev);
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        sessionStorage.setItem('mc_hdr_theme', pick);
+        document.documentElement.dataset.headerTheme = pick;
+      } catch {
+        document.documentElement.dataset.headerTheme = 'mint';
       }
     })();
   </script>
@@ -66,6 +76,42 @@
 
     <section class="gallery-section" aria-label="Personal Creations Gallery">
       <div class="freeform-stage" id="freeform-stage">
+      <article class="entry-card" data-aspect="1.000" data-focus-x="51" data-focus-y="52" style="--mc-origin-x:51%;--mc-origin-y:52%;">
+        <a href="./work/2026-11-25/index.html" class="entry-link">
+          <div class="card-media">
+            <img
+              src="./media/2026-11-25/01-cover-macro-a-large-snowflake-thumb.webp"
+              alt="Macro photograph of a delicate crystalline snowflake resting upright on a frost-dusted black piano key amid warm ivory keys"
+              width="900"
+              height="900" fetchpriority="high">
+            <span class="card-count-badge card-audio-badge" aria-label="Audio piece, 01:02"><svg class="audio-badge-icon" viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M12.5 2.5v8.2a2.3 2.3 0 1 1-1.2-2V5.3L6 6.6v5.6a2.3 2.3 0 1 1-1.2-2V4.6l7.7-2.1Z" fill="currentColor"/></svg><span>01:02</span></span>
+          </div>
+        </a>
+        <div class="card-placard">
+          <div class="placard-meta">
+            <span>No. 006</span>
+            <time datetime="2026-11-25">2026.11.25</time>
+          </div>
+          <div class="placard-title-row">
+            <h2 class="placard-title">
+              <a href="./work/2026-11-25/index.html" class="placard-title-link">
+                <span class="t-en">Winter Piano Solo</span>
+                <span class="t-zh">冬日純鋼琴獨奏</span>
+              </a>
+            </h2>
+            <button type="button" class="like-btn" data-like-id="2026-11-25" aria-pressed="false" aria-label="Like Winter Piano Solo">
+                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
+                </svg>
+                <span class="like-count" aria-live="polite"></span>
+              </button>
+          </div>
+          <p class="placard-caption">
+            <span class="t-en">A quiet one-minute winter piano solo paired with a macro study of a single crystalline snowflake resting on frost-dusted ebony and ivory keys.</span>
+            <span class="t-zh">一段靜謐的一分鐘冬日純鋼琴獨奏，搭配微距鏡頭下停駐在覆霜黑鍵上的六角雪花結晶，在黑白琴鍵間凝結冬日氣息。</span>
+          </p>
+        </div>
+      </article>
       <article class="entry-card" data-aspect="0.747" data-focus-x="54" data-focus-y="33" style="--mc-origin-x:54%;--mc-origin-y:33%;">
         <a href="./work/2026-11-24/index.html" class="entry-link">
           <div class="card-media">
@@ -79,7 +125,7 @@
         </a>
         <div class="card-placard">
           <div class="placard-meta">
-            <span>No. 006</span>
+            <span>No. 005</span>
             <time datetime="2026-11-24">2026.11.24</time>
           </div>
           <div class="placard-title-row">
@@ -109,13 +155,13 @@
               src="./media/2026-11-16/01-gemini-generated-image-248rmw248rmw248r-thumb.webp"
               alt="Iridescent amber, teal, and violet glass tabby kitten resting one paw over a frosted glass ledge"
               width="900"
-              height="1049" fetchpriority="high">
+              height="1049" loading="lazy">
             
           </div>
         </a>
         <div class="card-placard">
           <div class="placard-meta">
-            <span>No. 005</span>
+            <span>No. 004</span>
             <time datetime="2026-11-16">2026.11.16</time>
           </div>
           <div class="placard-title-row">
@@ -151,7 +197,7 @@
         </a>
         <div class="card-placard">
           <div class="placard-meta">
-            <span>No. 004</span>
+            <span>No. 003</span>
             <time datetime="2026-11-15">2026.11.15</time>
           </div>
           <div class="placard-title-row">
@@ -187,7 +233,7 @@
         </a>
         <div class="card-placard">
           <div class="placard-meta">
-            <span>No. 003</span>
+            <span>No. 002</span>
             <time datetime="2026-11-12">2026.11.12</time>
           </div>
           <div class="placard-title-row">
@@ -223,7 +269,7 @@
         </a>
         <div class="card-placard">
           <div class="placard-meta">
-            <span>No. 002</span>
+            <span>No. 001</span>
             <time datetime="2026-11-10">2026.11.10</time>
           </div>
           <div class="placard-title-row">
@@ -243,42 +289,6 @@
           <p class="placard-caption">
             <span class="t-en">Layered violet glass plumage resting on a raw branch—overlapping translucent scales softening into clear crystal along the belly.</span>
             <span class="t-zh">層疊紫晶琉璃羽片棲於粗獷枯枝上，半透明羽鱗向下漸融為純淨透明水晶腹身。</span>
-          </p>
-        </div>
-      </article>
-      <article class="entry-card" data-aspect="1.793" data-focus-x="19" data-focus-y="44" style="--mc-origin-x:19%;--mc-origin-y:44%;">
-        <a href="./work/2026-11-10-mandrill/index.html" class="entry-link">
-          <div class="card-media">
-            <img
-              src="./media/2026-11-10-mandrill/01-2026-1110-baboon-gemini-thumb.webp"
-              alt="Translucent hand-blown glass sculpture of a mandrill with red nose, golden beard, and swirling clear glass fur"
-              width="900"
-              height="502" loading="lazy">
-            
-          </div>
-        </a>
-        <div class="card-placard">
-          <div class="placard-meta">
-            <span>No. 001</span>
-            <time datetime="2026-11-10">2026.11.10</time>
-          </div>
-          <div class="placard-title-row">
-            <h2 class="placard-title">
-              <a href="./work/2026-11-10-mandrill/index.html" class="placard-title-link">
-                <span class="t-en">Glass Mandrill</span>
-                <span class="t-zh">琉璃山魈</span>
-              </a>
-            </h2>
-            <button type="button" class="like-btn" data-like-id="2026-11-10-mandrill" aria-pressed="false" aria-label="Like Glass Mandrill">
-                <svg class="like-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                  <path d="M12 20.4c-.3 0-.6-.1-.8-.3C6.2 15.6 3 12.6 3 8.8 3 6 5.2 4 7.8 4c1.6 0 3.1.8 4.2 2.1C13.1 4.8 14.6 4 16.2 4 18.8 4 21 6 21 8.8c0 3.8-3.2 6.8-8.2 11.3-.2.2-.5.3-.8.3Z" />
-                </svg>
-                <span class="like-count" aria-live="polite"></span>
-              </button>
-          </div>
-          <p class="placard-caption">
-            <span class="t-en">Hand-blown glass study of a mandrill—crimson, cobalt, and amber pigments suspended within clear sculpted fur catching prismatic light.</span>
-            <span class="t-zh">以吹製琉璃質感詮釋山魈，將朱紅、鈷藍與琥珀色澤封存於透明流線毛紋之間，在林間折出細微虹光。</span>
           </p>
         </div>
       </article>

@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-title-en="No. 002 — Amethyst Starling | ModuleCell" data-title-zh="No. 002 — 紫晶琉璃鳥 | ModuleCell">No. 002 — Amethyst Starling | ModuleCell</title>
+  <title data-title-en="No. 001 — Amethyst Starling | ModuleCell" data-title-zh="No. 001 — 紫晶琉璃鳥 | ModuleCell">No. 001 — Amethyst Starling | ModuleCell</title>
   <meta name="description" content="Layered violet glass plumage resting on a raw branch—overlapping translucent scales softening into clear crystal along the belly.">
   <link rel="canonical" href="https://www.modulecell.com/work/2026-11-10-violet-bird/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="No. 002 — Amethyst Starling | ModuleCell">
+  <meta property="og:title" content="No. 001 — Amethyst Starling | ModuleCell">
   <meta property="og:description" content="Layered violet glass plumage resting on a raw branch—overlapping translucent scales softening into clear crystal along the belly.">
   <meta property="og:url" content="https://www.modulecell.com/work/2026-11-10-violet-bird/">
   <meta property="og:image" content="https://www.modulecell.com/media/2026-11-10-violet-bird/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="No. 002 — Amethyst Starling | ModuleCell">
+  <meta name="twitter:title" content="No. 001 — Amethyst Starling | ModuleCell">
   <meta name="twitter:description" content="Layered violet glass plumage resting on a raw branch—overlapping translucent scales softening into clear crystal along the belly.">
   <meta name="twitter:image" content="https://www.modulecell.com/media/2026-11-10-violet-bird/og.jpg">
   <script>
@@ -27,6 +27,16 @@
       } catch {
         document.documentElement.dataset.lang = 'en';
         document.documentElement.lang = 'en';
+      }
+      try {
+        const themes = ['mint', 'cerulean', 'yellow', 'klein', 'vermilion', 'pine'];
+        const prev = sessionStorage.getItem('mc_hdr_theme');
+        const pool = themes.filter((t) => t !== prev);
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        sessionStorage.setItem('mc_hdr_theme', pick);
+        document.documentElement.dataset.headerTheme = pick;
+      } catch {
+        document.documentElement.dataset.headerTheme = 'mint';
       }
     })();
   </script>
@@ -68,9 +78,10 @@
 
       <header class="work-header">
         <div class="work-meta-col">
-          <span class="work-number">No. 002</span>
+          <span class="work-number">No. 001</span>
           <time datetime="2026-11-10">2026.11.10</time>
           <span>01 PLATE</span>
+          <span class="work-medium"><span class="t-en">AI-Assisted</span><span class="t-zh">AI 輔助創作</span></span>
         </div>
         <div>
           <div class="work-title-row">
@@ -91,6 +102,7 @@
           </p>
         </div>
       </header>
+
 
       <section class="work-plates" aria-label="Artwork Plates">
       <figure class="plate-figure">
@@ -121,12 +133,9 @@
       </section>
 
       <nav class="work-pager" aria-label="Entry navigation">
-        <a href="../2026-11-10-mandrill/index.html" class="pager-link is-prev">
-        <span class="pager-dir">&larr; <span class="t-en">Previous</span><span class="t-zh">上一篇</span> &middot; No. 001</span>
-        <span class="pager-title"><span class="t-en">Glass Mandrill</span><span class="t-zh">琉璃山魈</span></span>
-      </a>
+        <div class="pager-empty"><span class="t-en">Earliest Entry</span><span class="t-zh">已是最早一篇</span></div>
         <a href="../2026-11-12/index.html" class="pager-link is-next">
-        <span class="pager-dir">No. 003 &middot; <span class="t-en">Next</span><span class="t-zh">下一篇</span> &rarr;</span>
+        <span class="pager-dir">No. 002 &middot; <span class="t-en">Next</span><span class="t-zh">下一篇</span> &rarr;</span>
         <span class="pager-title"><span class="t-en">Glass Hummingbird &amp; Fuchsia</span><span class="t-zh">琉璃蜂鳥與吊鐘花</span></span>
       </a>
       </nav>
@@ -141,8 +150,8 @@
           <button type="button" class="lightbox-btn" data-lightbox-prev aria-label="Previous plate">&larr;</button>
           <button type="button" class="lightbox-btn" data-lightbox-next aria-label="Next plate">&rarr;</button>
           <button type="button" class="lightbox-btn" data-lightbox-close>
-            <span class="t-en">Close (Esc)</span>
-            <span class="t-zh">關閉 (Esc)</span>
+            <span class="t-en">Close<span class="kbd-hint"> (Esc)</span></span>
+            <span class="t-zh">關閉<span class="kbd-hint"> (Esc)</span></span>
           </button>
         </div>
       </div>

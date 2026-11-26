@@ -1,8 +1,12 @@
 import fs from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+const execFileAsync = promisify(execFile);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -34,6 +38,104 @@ function loadSharp() {
 }
 
 const sharp = loadSharp();
+
+function loadFfmpeg() {
+  try {
+    const localReq = createRequire(import.meta.url);
+    const bin = localReq('ffmpeg-static');
+    if (bin && existsSync(bin)) return bin;
+  } catch {
+    // Fallback to shared tools dir
+  }
+  const toolsDir =
+    process.env.MODULECELL_TOOLS_DIR ||
+    path.join(process.env.LOCALAPPDATA || '', 'modulecell-tools');
+  const toolsPkg = path.join(toolsDir, 'package.json');
+  if (toolsDir && existsSync(toolsPkg)) {
+    try {
+      const toolsReq = createRequire(toolsPkg);
+      const bin = toolsReq('ffmpeg-static');
+      if (bin && existsSync(bin)) return bin;
+    } catch {
+      // Fallback to PATH
+    }
+  }
+  return 'ffmpeg';
+}
+
+function formatDuration(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) return '00:00';
+  const total = Math.round(seconds);
+  const mins = Math.floor(total / 60);
+  const secs = total % 60;
+  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+async function probeAudioDuration(ffmpegBin, filePath) {
+  try {
+    await execFileAsync(ffmpegBin, ['-i', filePath]);
+  } catch (err) {
+    const output = `${err.stdout || ''}\n${err.stderr || ''}`;
+    const match = output.match(/Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)/);
+    if (match) {
+      return Number(match[1]) * 3600 + Number(match[2]) * 60 + Number(match[3]);
+    }
+  }
+  return null;
+}
+
+async function processAudio(slug, audioItem) {
+  const srcPath = await resolveSourceImage(slug, audioItem.file);
+  const outDir = path.join(MEDIA_DIR, slug);
+  await ensureDir(outDir);
+
+  const ext = path.extname(audioItem.file).toLowerCase();
+  const baseSlug = slugify(audioItem.file) || 'audio';
+  const isNativeWebAudio = ext === '.mp3' || ext === '.m4a' || ext === '.ogg';
+  const outName = isNativeWebAudio ? `${baseSlug}${ext}` : `${baseSlug}.mp3`;
+  const outPath = path.join(outDir, outName);
+  const mime =
+    ext === '.m4a' ? 'audio/mp4' : ext === '.ogg' ? 'audio/ogg' : 'audio/mpeg';
+
+  const ffmpegBin = loadFfmpeg();
+
+  if (await needsRebuild(srcPath, outPath)) {
+    if (isNativeWebAudio) {
+      await fs.copyFile(srcPath, outPath);
+    } else {
+      await execFileAsync(ffmpegBin, [
+        '-y',
+        '-i',
+        srcPath,
+        '-vn',
+        '-c:a',
+        'libmp3lame',
+        '-b:a',
+        '192k',
+        '-ar',
+        '44100',
+        outPath,
+      ]);
+    }
+  }
+
+  let durationSec = null;
+  if (typeof audioItem.durationSeconds === 'number') {
+    durationSec = audioItem.durationSeconds;
+  } else {
+    durationSec = await probeAudioDuration(ffmpegBin, outPath);
+  }
+
+  const durationLabel =
+    audioItem.duration || (durationSec != null ? formatDuration(durationSec) : '');
+
+  return {
+    srcRel: `media/${slug}/${outName}`,
+    mime,
+    duration: durationLabel,
+    durationSec: durationSec || 0,
+  };
+}
 
 function escapeHtml(str = '') {
   return String(str)
@@ -174,6 +276,16 @@ function renderHead({ titleEn, titleZh, description, canonicalUrl, ogImageUrl, p
         document.documentElement.dataset.lang = 'en';
         document.documentElement.lang = 'en';
       }
+      try {
+        const themes = ['mint', 'cerulean', 'yellow', 'klein', 'vermilion', 'pine'];
+        const prev = sessionStorage.getItem('mc_hdr_theme');
+        const pool = themes.filter((t) => t !== prev);
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        sessionStorage.setItem('mc_hdr_theme', pick);
+        document.documentElement.dataset.headerTheme = pick;
+      } catch {
+        document.documentElement.dataset.headerTheme = 'mint';
+      }
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -235,8 +347,8 @@ function renderLikeButton(entry) {
 
 function renderHomePage(config, entriesDesc) {
   const head = renderHead({
-    titleEn: `${config.brand} — Personal Creations`,
-    titleZh: `${config.brand} — 個人創作展演舞台`,
+    titleEn: config.brand,
+    titleZh: config.brand,
     description: config.tagline.en,
     canonicalUrl: `${config.siteUrl}/`,
     ogImageUrl: entriesDesc[0]?.ogRel ? `${config.siteUrl}/${entriesDesc[0].ogRel}` : '',
@@ -251,6 +363,9 @@ function renderHomePage(config, entriesDesc) {
         entry.plates.length > 1
           ? `<span class="card-count-badge" aria-label="${entry.plates.length} images">${String(entry.plates.length).padStart(2, '0')} PLATES</span>`
           : '';
+      const audioBadge = entry.audio
+        ? `<span class="card-count-badge card-audio-badge" aria-label="Audio piece${entry.audio.duration ? `, ${entry.audio.duration}` : ''}"><svg class="audio-badge-icon" viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M12.5 2.5v8.2a2.3 2.3 0 1 1-1.2-2V5.3L6 6.6v5.6a2.3 2.3 0 1 1-1.2-2V4.6l7.7-2.1Z" fill="currentColor"/></svg><span>${escapeHtml(entry.audio.duration || 'AUDIO')}</span></span>`
+        : '';
 
       const focusAttrs = cover.focus
         ? ` data-focus-x="${cover.focus[0]}" data-focus-y="${cover.focus[1]}" style="--mc-origin-x:${cover.focus[0]}%;--mc-origin-y:${cover.focus[1]}%;"`
@@ -264,7 +379,7 @@ function renderHomePage(config, entriesDesc) {
               alt="${escapeHtml(cover.altEn || entry.title.en)}"
               width="${cover.thumbWidth}"
               height="${cover.thumbHeight}"${priorityAttr}>
-            ${multiBadge}
+            ${audioBadge || multiBadge}
           </div>
         </a>
         <div class="card-placard">
@@ -369,7 +484,7 @@ function renderDetailPage(config, entry, prevEntry, nextEntry) {
         <span class="pager-dir">No. ${nextEntry.number} &middot; <span class="t-en">Next</span><span class="t-zh">下一篇</span> &rarr;</span>
         <span class="pager-title"><span class="t-en">${escapeHtml(nextEntry.title.en)}</span><span class="t-zh">${escapeHtml(nextEntry.title.zh)}</span></span>
       </a>`
-    : `<div class="pager-empty" style="text-align:right;"><span class="t-en">Latest Entry</span><span class="t-zh">已是最新一篇</span></div>`;
+    : `<div class="pager-empty is-next"><span class="t-en">Latest Entry</span><span class="t-zh">已是最新一篇</span></div>`;
 
   return `${head}
 <body>
@@ -386,7 +501,17 @@ function renderDetailPage(config, entry, prevEntry, nextEntry) {
         <div class="work-meta-col">
           <span class="work-number">No. ${entry.number}</span>
           <time datetime="${entry.date}">${formatDotDate(entry.date)}</time>
-          <span>${String(entry.plates.length).padStart(2, '0')} ${entry.plates.length > 1 ? 'PLATES' : 'PLATE'}</span>
+          <span>${String(entry.plates.length).padStart(2, '0')} ${entry.plates.length > 1 ? 'PLATES' : 'PLATE'}</span>${
+            entry.audio
+              ? `\n          <span>AUDIO${entry.audio.duration ? ` &middot; ${escapeHtml(entry.audio.duration)}` : ''}</span>`
+              : ''
+          }${
+            entry.medium
+              ? typeof entry.medium === 'string'
+                ? `\n          <span class="work-medium">${escapeHtml(entry.medium)}</span>`
+                : `\n          <span class="work-medium"><span class="t-en">${escapeHtml(entry.medium.en || '')}</span><span class="t-zh">${escapeHtml(entry.medium.zh || entry.medium.en || '')}</span></span>`
+              : ''
+          }
         </div>
         <div>
           <div class="work-title-row">
@@ -402,6 +527,73 @@ function renderDetailPage(config, entry, prevEntry, nextEntry) {
           </p>
         </div>
       </header>
+${
+  entry.audio
+    ? `
+      <section class="work-audio" aria-label="Audio Piece">
+        <div class="audio-player" data-audio-player>
+          <audio class="audio-native" controls preload="metadata">
+            <source src="../../${entry.audio.srcRel}" type="${entry.audio.mime}">
+          </audio>
+          <div class="audio-ui" hidden>
+            <button
+              type="button"
+              class="audio-play-btn"
+              data-audio-toggle
+              aria-label="Play ${escapeHtml(entry.title.en)}"
+              aria-pressed="false">
+              <svg class="audio-icon-play" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                <path d="M4 2.5 13.5 8 4 13.5V2.5Z" fill="currentColor" />
+              </svg>
+              <svg class="audio-icon-pause" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                <rect x="3.5" y="2.5" width="3.2" height="11" fill="currentColor" />
+                <rect x="9.3" y="2.5" width="3.2" height="11" fill="currentColor" />
+              </svg>
+            </button>
+            <div class="audio-track-col">
+              <div class="audio-label-row">
+                <span class="audio-kicker">
+                  <span class="t-en">Listen</span>
+                  <span class="t-zh">聆聽作品</span>
+                </span>
+                <span class="audio-time" aria-live="off">
+                  <span data-audio-current>00:00</span>
+                  <span class="audio-time-sep" aria-hidden="true">/</span>
+                  <span data-audio-duration>${escapeHtml(entry.audio.duration || '00:00')}</span>
+                </span>
+              </div>
+              <label for="audio-scrubber-${escapeHtml(entry.slug)}" class="sr-only">Seek audio timeline</label>
+              <input
+                type="range"
+                id="audio-scrubber-${escapeHtml(entry.slug)}"
+                class="audio-scrubber"
+                data-audio-scrubber
+                min="0"
+                max="1000"
+                step="1"
+                value="0"
+                aria-valuetext="00:00 of ${escapeHtml(entry.audio.duration || '00:00')}">
+            </div>
+            <button
+              type="button"
+              class="audio-mute-btn"
+              data-audio-mute
+              aria-label="Mute audio"
+              aria-pressed="false">
+              <svg class="audio-icon-vol" viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
+                <path d="M3 6.8h3.1L10 3.5v11L6.1 11.2H3V6.8Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+                <path d="M12.6 6.4a3.6 3.6 0 0 1 0 5.2M14.7 4.4a6.4 6.4 0 0 1 0 9.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+              </svg>
+              <svg class="audio-icon-muted" viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
+                <path d="M3 6.8h3.1L10 3.5v11L6.1 11.2H3V6.8Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+                <path d="m12.5 6.8 3.8 4.4M16.3 6.8l-3.8 4.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>`
+    : ''
+}
 
       <section class="work-plates" aria-label="Artwork Plates">
 ${platesHtml}
@@ -422,8 +614,8 @@ ${platesHtml}
           <button type="button" class="lightbox-btn" data-lightbox-prev aria-label="Previous plate">&larr;</button>
           <button type="button" class="lightbox-btn" data-lightbox-next aria-label="Next plate">&rarr;</button>
           <button type="button" class="lightbox-btn" data-lightbox-close>
-            <span class="t-en">Close (Esc)</span>
-            <span class="t-zh">關閉 (Esc)</span>
+            <span class="t-en">Close<span class="kbd-hint"> (Esc)</span></span>
+            <span class="t-zh">關閉<span class="kbd-hint"> (Esc)</span></span>
           </button>
         </div>
       </div>
@@ -579,10 +771,12 @@ export async function buildSite() {
     for (let j = 0; j < entry.images.length; j++) {
       plates.push(await processImage(entry.slug, entry.images[j], j));
     }
+    const audio = entry.audio ? await processAudio(entry.slug, entry.audio) : null;
     processedAsc.push({
       ...entry,
       number,
       plates,
+      audio,
       ogRel: plates[0]?.ogRel || null,
     });
   }
