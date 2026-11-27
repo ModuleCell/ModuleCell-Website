@@ -19,9 +19,10 @@
 - Edit brand copy, studio statement, email, and social links in `site.config.json`, then run `node scripts/build.mjs`.
 
 ## Daily Publish Workflow (for Antigravity / AI Assistant)
-When the user drops files into `_inbox/` or provides images (1–6 plates) plus a short note in Chinese or English:
-1. Determine the date (`YYYY-MM-DD`, default today) and move/copy raw images into `_raw/<date>/` (clearing processed items from `_inbox/`).
-2. Write or refine concise bilingual `title` (`en` / `zh`), `caption` (`en` / `zh`), and image `alt` texts (no categories or tags needed).
-3. Create `content/<date>/entry.json` (or run `node scripts/new-entry.mjs ...`).
-4. Run `node scripts/build.mjs` to generate compressed `media/<date>/*-thumb.webp`, `*-full.webp`, `og.jpg`, and updated `index.html`, `work/<date>/index.html`, `about/index.html`, and `sitemap.xml`.
-5. Run `node scripts/serve.mjs` to preview locally at `http://localhost:4173` and wait for the owner's OK before committing or pushing.
+- **Paired Creation Studio**: `g:\Other computers\ModuleCell-25\01_Career\04_Hobby\05_Daily Creation` — all creative drafts, raw photos, audio, Blender scenes, and notes live there under `YYYY_MMDD_<Short_Topic>\`. Keep working drafts out of this website folder.
+- When the user finishes a creation in `05_Daily Creation`, drops files into `_inbox/`, or provides images (1–6 plates, plus optional audio) and a short note in Chinese or English:
+  1. Determine the entry ID: `YYYY-MM-DD` (default today), or `YYYY-MM-DD-<slug>` if publishing multiple works on the same date. Copy final selected plate(s) (and optional audio file) into `_raw/<entry-id>/` (and clear any processed items from `_inbox/`).
+  2. Write or refine concise bilingual `title` (`en` / `zh`), `medium` (`en` / `zh`), `caption` (`en` / `zh`), and image `alt` texts (no categories or tags). Include `createdAt` (`YYYY-MM-DDTHH:mm:ss`) for exact newest-first ordering and optional `focus: [x, y]` crop anchors.
+  3. Create `content/<entry-id>/entry.json` (or run `node scripts/new-entry.mjs ...`).
+  4. Run `node scripts/build.mjs` to generate compressed `media/<entry-id>/*-thumb.webp`, `*-full.webp`, `og.jpg`, optional audio assets, and updated `index.html`, `work/<entry-id>/index.html`, `about/index.html`, and `sitemap.xml`.
+  5. Run `node scripts/serve.mjs` to preview locally at `http://127.0.0.1:4173` and wait for the owner's OK before committing or pushing.

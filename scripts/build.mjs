@@ -137,6 +137,21 @@ async function processAudio(slug, audioItem) {
   };
 }
 
+async function processInteractive(slug, interactiveItem) {
+  const srcPath = await resolveSourceImage(slug, interactiveItem.file);
+  const outDir = path.join(ROOT, 'work', slug, 'interactive');
+  await ensureDir(outDir);
+  const outPath = path.join(outDir, 'index.html');
+  if (await needsRebuild(srcPath, outPath)) {
+    await fs.copyFile(srcPath, outPath);
+  }
+  return {
+    hrefRel: 'interactive/index.html',
+    height: interactiveItem.height || null,
+    hidePlates: Boolean(interactiveItem.hidePlates),
+  };
+}
+
 function escapeHtml(str = '') {
   return String(str)
     .replaceAll('&', '&amp;')
@@ -366,6 +381,9 @@ function renderHomePage(config, entriesDesc) {
       const audioBadge = entry.audio
         ? `<span class="card-count-badge card-audio-badge" aria-label="Audio piece${entry.audio.duration ? `, ${entry.audio.duration}` : ''}"><svg class="audio-badge-icon" viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M12.5 2.5v8.2a2.3 2.3 0 1 1-1.2-2V5.3L6 6.6v5.6a2.3 2.3 0 1 1-1.2-2V4.6l7.7-2.1Z" fill="currentColor"/></svg><span>${escapeHtml(entry.audio.duration || 'AUDIO')}</span></span>`
         : '';
+      const interactiveBadge = entry.interactive
+        ? `<span class="card-count-badge card-interactive-badge" aria-label="Interactive piece"><svg class="interactive-badge-icon" viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><circle cx="8" cy="8" r="2.1" fill="currentColor"/><circle cx="8" cy="8" r="5.6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><span>INTERACTIVE</span></span>`
+        : '';
 
       const focusAttrs = cover.focus
         ? ` data-focus-x="${cover.focus[0]}" data-focus-y="${cover.focus[1]}" style="--mc-origin-x:${cover.focus[0]}%;--mc-origin-y:${cover.focus[1]}%;"`
@@ -379,7 +397,7 @@ function renderHomePage(config, entriesDesc) {
               alt="${escapeHtml(cover.altEn || entry.title.en)}"
               width="${cover.thumbWidth}"
               height="${cover.thumbHeight}"${priorityAttr}>
-            ${audioBadge || multiBadge}
+            ${interactiveBadge || audioBadge || multiBadge}
           </div>
         </a>
         <div class="card-placard">
@@ -500,8 +518,13 @@ function renderDetailPage(config, entry, prevEntry, nextEntry) {
       <header class="work-header">
         <div class="work-meta-col">
           <span class="work-number">No. ${entry.number}</span>
-          <time datetime="${entry.date}">${formatDotDate(entry.date)}</time>
-          <span>${String(entry.plates.length).padStart(2, '0')} ${entry.plates.length > 1 ? 'PLATES' : 'PLATE'}</span>${
+          <time datetime="${entry.date}">${formatDotDate(entry.date)}</time>${
+            entry.interactive?.hidePlates
+              ? ''
+              : `\n          <span>${String(entry.plates.length).padStart(2, '0')} ${entry.plates.length > 1 ? 'PLATES' : 'PLATE'}</span>`
+          }${
+            entry.interactive ? `\n          <span>INTERACTIVE</span>` : ''
+          }${
             entry.audio
               ? `\n          <span>AUDIO${entry.audio.duration ? ` &middot; ${escapeHtml(entry.audio.duration)}` : ''}</span>`
               : ''
@@ -595,9 +618,43 @@ ${
     : ''
 }
 
+${
+  entry.interactive
+    ? `
+      <section class="work-interactive" aria-label="Interactive Artwork">
+        <div class="interactive-shell">
+          <div class="interactive-bar">
+            <span class="interactive-kicker">
+              <span class="interactive-dot" aria-hidden="true"></span>
+              <span class="t-en">Live Interactive Piece</span>
+              <span class="t-zh">即時互動展演</span>
+            </span>
+            <a href="./${escapeHtml(entry.interactive.hrefRel)}" class="interactive-open-link" target="_blank" rel="noopener noreferrer">
+              <span class="t-en">Open Fullscreen &nearr;</span>
+              <span class="t-zh">全螢幕開啟 &nearr;</span>
+            </a>
+          </div>
+          <iframe
+            class="interactive-frame"
+            src="./${escapeHtml(entry.interactive.hrefRel)}"
+            title="${escapeHtml(entry.title.en)} — Interactive Canvas"${
+              entry.interactive.height ? ` style="--interactive-height:${escapeHtml(entry.interactive.height)};"` : ''
+            }
+            allow="fullscreen"
+            loading="lazy"></iframe>
+        </div>
+      </section>`
+    : ''
+}
+
+${
+  entry.interactive?.hidePlates
+    ? ''
+    : `
       <section class="work-plates" aria-label="Artwork Plates">
 ${platesHtml}
-      </section>
+      </section>`
+}
 
       <nav class="work-pager" aria-label="Entry navigation">
         ${prevHtml}
@@ -651,12 +708,19 @@ function renderAboutPage(config, totalEntries) {
     enParas || zhParas
       ? `\n          <div class="about-paragraphs t-en">\n            ${enParas}\n          </div>\n          <div class="about-paragraphs t-zh">\n            ${zhParas}\n          </div>`
       : '';
-  const socialsHtml = config.about.socials
+  const socialsList = Array.isArray(config.about.socials) ? config.about.socials : [];
+  const socialsHtml = socialsList
     .map(
       (s) =>
         `<a href="${escapeHtml(s.url)}" class="aside-link" target="_blank" rel="noopener noreferrer">${escapeHtml(s.label)}</a>`
     )
     .join('\n            ');
+  const emailBlock = config.about.email
+    ? `\n          <div>\n            <div class="aside-block-label">\n              <span class="t-en">Contact</span>\n              <span class="t-zh">聯絡</span>\n            </div>\n            <div class="aside-block-value">\n              <a href="mailto:${escapeHtml(config.about.email)}" class="aside-link">${escapeHtml(config.about.email)}</a>\n            </div>\n          </div>`
+    : '';
+  const socialsBlock = socialsList.length > 0
+    ? `\n          <div>\n            <div class="aside-block-label">\n              <span class="t-en">Links</span>\n              <span class="t-zh">社群</span>\n            </div>\n            <div class="aside-socials">\n              ${socialsHtml}\n            </div>\n          </div>`
+    : '';
 
   return `${head}
 <body>
@@ -689,27 +753,7 @@ function renderAboutPage(config, totalEntries) {
               <span class="t-zh">累積作品</span>
             </div>
             <div class="aside-block-value">${String(totalEntries).padStart(3, '0')} Works</div>
-          </div>
-
-          <div>
-            <div class="aside-block-label">
-              <span class="t-en">Contact</span>
-              <span class="t-zh">聯絡</span>
-            </div>
-            <div class="aside-block-value">
-              <a href="mailto:${escapeHtml(config.about.email)}" class="aside-link">${escapeHtml(config.about.email)}</a>
-            </div>
-          </div>
-
-          <div>
-            <div class="aside-block-label">
-              <span class="t-en">Links</span>
-              <span class="t-zh">社群</span>
-            </div>
-            <div class="aside-socials">
-              ${socialsHtml}
-            </div>
-          </div>
+          </div>${emailBlock}${socialsBlock}
         </aside>
       </div>
     </section>
@@ -772,11 +816,13 @@ export async function buildSite() {
       plates.push(await processImage(entry.slug, entry.images[j], j));
     }
     const audio = entry.audio ? await processAudio(entry.slug, entry.audio) : null;
+    const interactive = entry.interactive ? await processInteractive(entry.slug, entry.interactive) : null;
     processedAsc.push({
       ...entry,
       number,
       plates,
       audio,
+      interactive,
       ogRel: plates[0]?.ogRel || null,
     });
   }

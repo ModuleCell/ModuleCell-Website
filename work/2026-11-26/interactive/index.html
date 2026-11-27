@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olfactory Chord · 400 Receptors → Spectral Interference</title>
+  <style>
+    :root {
+      --paper: #FAF8F4;
+      --ink: #141413;
+      --muted: rgba(20, 20, 19, 0.56);
+      --hairline: rgba(20, 20, 19, 0.13);
+      --panel-bg: rgba(250, 248, 244, 0.78);
+      --accent-r: #E63946;
+      --accent-g: #00A878;
+      --accent-b: #1D63FF;
+    }
+
+    body.night {
+      --paper: #070709;
+      --ink: #F4F2EC;
+      --muted: rgba(244, 242, 236, 0.58);
+      --hairline: rgba(244, 242, 236, 0.16);
+      --panel-bg: rgba(10, 10, 14, 0.72);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Inter", "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.45s ease, color 0.45s ease;
+    }
+
+    #stage {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 24px;
+      left: 28px;
+      right: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 0.35s ease;
+    }
+
+    .brand { pointer-events: auto; }
+
+    .brand h1 {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .brand .subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .telemetry {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rgb-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chan {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    .dot.r { background: var(--accent-r); }
+    .dot.g { background: var(--accent-g); }
+    .dot.b { background: var(--accent-b); }
+
+    .divider {
+      width: 1px;
+      height: 16px;
+      background: var(--hairline);
+    }
+
+    .dock-wrap {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      max-width: calc(100vw - 32px);
+      z-index: 10;
+      transition: opacity 0.35s ease;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      pointer-events: none;
+      opacity: 0.85;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .dock {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 16px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--hairline);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .scent-form {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .scent-input {
+      width: 260px;
+      appearance: none;
+      border: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.42);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      padding: 6px 11px;
+      border-radius: 9px;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    body.night .scent-input {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .scent-input::placeholder { color: var(--muted); }
+
+    .scent-input:focus {
+      border-color: var(--ink);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    body.night .scent-input:focus {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 11.5px;
+      letter-spacing: 0.03em;
+      padding: 6px 10px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      color: var(--ink);
+      background: var(--hairline);
+    }
+
+    button.active {
+      color: var(--ink);
+      background: var(--hairline);
+      border-color: var(--hairline);
+      font-weight: 500;
+    }
+
+    button.primary {
+      color: var(--ink);
+      border-color: var(--hairline);
+    }
+
+    body.ui-hidden .topbar,
+    body.ui-hidden .dock-wrap {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .toast {
+      position: fixed;
+      top: 74px;
+      right: 28px;
+      padding: 7px 13px;
+      border-radius: 10px;
+      background: var(--panel-bg);
+      border: 1px solid var(--hairline);
+      backdrop-filter: blur(10px);
+      font-size: 11.5px;
+      color: var(--ink);
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 760px) {
+      .topbar { top: 16px; left: 16px; right: 16px; flex-direction: column; gap: 8px; }
+      .scent-input { width: 190px; }
+      .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+  <canvas id="overlay"></canvas>
+
+  <header class="topbar">
+    <div class="brand">
+      <h1 id="scentTitle">Olfactory Chord · 嗅覺和弦</h1>
+      <div class="subtitle" id="scentSub">400 受體光譜干涉 (20×20) · 拖曳受體探索色彩變化</div>
+    </div>
+    <div class="telemetry">
+      <div class="rgb-pill">
+        <span class="chan"><span class="dot r"></span><span id="valR">000</span></span>
+        <span class="chan"><span class="dot g"></span><span id="valG">000</span></span>
+        <span class="chan"><span class="dot b"></span><span id="valB">000</span></span>
+      </div>
+      <div class="divider"></div>
+      <span id="chordCount">1 / 400 OR</span>
+    </div>
+  </header>
+
+  <div class="dock-wrap">
+    <div class="hint" id="hint">點擊空白處加入受體（水波・心跳・呼吸）· 拖曳受體移動與變色 · 短按受體移除 · [H] 隱藏介面</div>
+    <div class="dock">
+      <form class="scent-form" id="scentForm" autocomplete="off">
+        <input
+          type="text"
+          id="scentInput"
+          class="scent-input"
+          placeholder="輸入氣味，例如：雨後松林、烤肉桂、海鹽薄荷…"
+          aria-label="輸入氣味"
+        />
+        <button type="submit" class="primary" id="btnSynthesize">生成</button>
+      </form>
+      <div class="divider"></div>
+      <div class="action-group">
+        <button id="btnGrid" class="active" title="顯示 400 受體點陣 (G)">400 受體</button>
+        <button id="btnMode" title="切換光明 / 暗夜模式 (D)">暗夜</button>
+        <button id="btnPause" title="暫停 / 播放 (Space)">暫停</button>
+        <button id="btnExport" class="primary" title="匯出 2400×2400 無介面 PNG">匯出 PNG</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // =========================================================================
+    // Olfactory Chord — 400 Receptors × Continuous Spectral RGB Interference
+    //
+    // 3 Kinetic Modes (randomly assigned to each added receptor):
+    //   0 = 水波 (Ripple)
+    //   1 = 心跳 (Heartbeat)
+    //   2 = 呼吸 (Breath)
+    //
+    // Color Model:
+    //   Each of the 400 receptor coordinates (20×20) maps continuously onto a
+    //   high-saturation full spectral wheel, combined with thin-film prismatic
+    //   interference in the fragment shader for vivid, luminous chromatic waves.
+    // =========================================================================
+
+    const MAX_SOURCES = 16;
+    const GRID_N = 20;
+
+    const MOTION_MODES = [
+      { id: 0, zh: '水波', en: 'Ripple' },
+      { id: 1, zh: '心跳', en: 'Heartbeat' },
+      { id: 2, zh: '呼吸', en: 'Breath' }
+    ];
+
+    const I18N = {
+      en: {
+        defaultTitle: 'Olfactory Chord',
+        defaultSub: '400-Receptor Spectral Interference (20×20) · Drag nodes to shift hue',
+        customSub: (n) => `${n} / 400 OR · Spectral Interference Chord`,
+        hint: 'Click to add (Ripple · Heartbeat · Breath) · Drag to move & shift color · Click node to remove · [H] Hide UI',
+        placeholder: 'Type any scent: pine rain, warm cinnamon, sea salt…',
+        btnSynthesize: 'Generate',
+        btnGrid: '400 OR',
+        modeNight: 'Night',
+        modeLight: 'Light',
+        pause: 'Pause',
+        play: 'Play',
+        exportPng: 'Export PNG',
+        toastAdd: (id, m) => `Added ${id} · ${m}`,
+        toastMove: (id, m) => `Moved to ${id} · ${m}`,
+        toastRemove: (id) => `Removed ${id}`,
+        toastGen: (t, n) => `Generated "${t}" (${n} / 400 OR)`,
+        toastUndo: (n) => `Undid last step (${n} / 400 OR)`,
+        toastExport: 'Exported 2400×2400 PNG'
+      },
+      zh: {
+        defaultTitle: 'Olfactory Chord · 嗅覺和弦',
+        defaultSub: '400 受體光譜干涉 (20×20) · 拖曳受體探索色彩變化',
+        customSub: (n) => `${n} / 400 OR · 光譜干涉和弦`,
+        hint: '點擊空白處加入受體（水波・心跳・呼吸）· 拖曳受體移動與變色 · 短按受體移除 · [H] 隱藏介面',
+        placeholder: '輸入氣味，例如：雨後松林、烤肉桂、海鹽薄荷…',
+        btnSynthesize: '生成',
+        btnGrid: '400 受體',
+        modeNight: '暗夜',
+        modeLight: '光明',
+        pause: '暫停',
+        play: '播放',
+        exportPng: '匯出 PNG',
+        toastAdd: (id, m) => `新增 ${id} · ${m}`,
+        toastMove: (id, m) => `移至 ${id} · ${m}`,
+        toastRemove: (id) => `已移除 ${id}`,
+        toastGen: (t, n) => `已生成「${t}」(${n} / 400 OR)`,
+        toastUndo: (n) => `已復原上一步 (${n} / 400 OR)`,
+        toastExport: '已匯出 2400×2400 PNG'
+      }
+    };
+
+    function detectLang() {
+      try {
+        if (window.parent && window.parent !== window) {
+          const pLang = window.parent.document.documentElement.dataset.lang;
+          if (pLang === 'en' || pLang === 'zh') return pLang;
+        }
+      } catch {}
+      try {
+        const saved = localStorage.getItem('mc_lang');
+        if (saved === 'en' || saved === 'zh') return saved;
+      } catch {}
+      return (navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
+    }
+
+    let currentLang = detectLang();
+    let customScentTitle = '';
+
+    function t() { return I18N[currentLang] || I18N.en; }
+    function motionLabel(m) { return currentLang === 'zh' ? m.zh : m.en; }
+
+    function applyLanguage(lang) {
+      if (lang !== 'en' && lang !== 'zh') return;
+      currentLang = lang;
+      document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+      const dict = t();
+      if (customScentTitle) {
+        document.getElementById('scentTitle').textContent = customScentTitle;
+        document.getElementById('scentSub').textContent = dict.customSub(activeChord.length);
+      } else {
+        document.getElementById('scentTitle').textContent = dict.defaultTitle;
+        document.getElementById('scentSub').textContent = dict.defaultSub;
+      }
+      document.getElementById('hint').textContent = dict.hint;
+      document.getElementById('scentInput').placeholder = dict.placeholder;
+      document.getElementById('btnSynthesize').textContent = dict.btnSynthesize;
+      document.getElementById('btnGrid').textContent = dict.btnGrid;
+      document.getElementById('btnMode').textContent = isNight ? dict.modeLight : dict.modeNight;
+      document.getElementById('btnPause').textContent = isPaused ? dict.play : dict.pause;
+      document.getElementById('btnExport').textContent = dict.exportPng;
+    }
+
+    // Live-sync with parent ModuleCell EN / 中文 toggle
+    try {
+      if (window.parent && window.parent !== window) {
+        const obs = new MutationObserver(() => {
+          const pLang = window.parent.document.documentElement.dataset.lang;
+          if (pLang && pLang !== currentLang) applyLanguage(pLang);
+        });
+        obs.observe(window.parent.document.documentElement, {
+          attributes: true,
+          attributeFilter: ['data-lang']
+        });
+      }
+    } catch {}
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'mc_lang' && (e.newValue === 'en' || e.newValue === 'zh')) {
+        applyLanguage(e.newValue);
+      }
+    });
+
+    // Smooth HSL -> vivid RGB [0..1]
+    function hslToRgb(h, s, l) {
+      h = ((h % 1) + 1) % 1;
+      const c = (1 - Math.abs(2 * l - 1)) * s;
+      const x = c * (1 - Math.abs(((h * 6) % 2) - 1));
+      const m = l - c / 2;
+      let r = 0, g = 0, b = 0;
+      const sector = Math.floor(h * 6);
+      if (sector === 0)      { r = c; g = x; b = 0; }
+      else if (sector === 1) { r = x; g = c; b = 0; }
+      else if (sector === 2) { r = 0; g = c; b = x; }
+      else if (sector === 3) { r = 0; g = x; b = c; }
+      else if (sector === 4) { r = x; g = 0; b = c; }
+      else                   { r = c; g = 0; b = x; }
+      return [r + m, g + m, b + m];
+    }
+
+    function rgbToHex(rgb) {
+      return '#' + rgb.map(v => Math.round(Math.max(0, Math.min(1, v)) * 255).toString(16).padStart(2, '0')).join('');
+    }
+
+    // Continuous full-spectrum chromatic mapping across the 20×20 receptor space
+    function getSpectralColor(col, row) {
+      const nx = (col + 0.5) / GRID_N - 0.5; // -0.5 .. 0.5
+      const ny = (row + 0.5) / GRID_N - 0.5; // -0.5 .. 0.5
+      const angle = Math.atan2(ny, nx);      // -PI .. PI
+      const radius = Math.min(1, Math.hypot(nx, ny) * 1.45);
+      // Sweeps continuously: Cobalt -> Cyan -> Emerald -> Gold -> Vermilion -> Magenta -> Violet
+      const hue = (angle / (Math.PI * 2) + 0.62 + radius * 0.14) % 1;
+      const sat = 0.88 + 0.12 * radius;
+      const light = 0.50;
+      const rgb = hslToRgb(hue, sat, light);
+      return {
+        hue,
+        rgb,
+        hex: rgbToHex(rgb)
+      };
+    }
+
+    function randomMotion() {
+      return Math.floor(Math.random() * MOTION_MODES.length);
+    }
+
+    const stage = document.getElementById('stage');
+    const overlay = document.getElementById('overlay');
+    const octx = overlay.getContext('2d');
+
+    const gl = stage.getContext('webgl', {
+      preserveDrawingBuffer: true,
+      antialias: true,
+      alpha: false
+    });
+
+    if (!gl) {
+      document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif">WebGL is required.</div>';
+      throw new Error('WebGL unavailable');
+    }
+
+    const vertSrc = `
+      attribute vec2 a_pos;
+      varying vec2 v_uv;
+      void main() {
+        v_uv = a_pos * 0.5 + 0.5;
+        gl_Position = vec4(a_pos, 0.0, 1.0);
+      }
+    `;
+
+    // Vivid Spectral + Thin-Film Prismatic Interference Fragment Shader
+    const fragSrc = `
+      precision highp float;
+
+      varying vec2 v_uv;
+
+      uniform vec2  u_res;
+      uniform float u_time;
+      uniform int   u_count;
+      uniform vec4  u_sources[${MAX_SOURCES}]; // xy = uv, z = motion (0..2), w = amp
+      uniform vec4  u_colors[${MAX_SOURCES}];  // rgb = vivid spectral color, w = phase offset
+      uniform float u_night;                   // 0.0 = 光明, 1.0 = 暗夜
+
+      float hash(vec2 p) {
+        p = fract(p * vec2(123.34, 456.21));
+        p += dot(p, p + 45.32);
+        return fract(p.x * p.y);
+      }
+
+      // Iridescent cosine palette for prismatic interference fringes
+      vec3 prismShift(float t) {
+        return 0.5 + 0.5 * cos(6.28318 * (t + vec3(0.00, 0.33, 0.67)));
+      }
+
+      void main() {
+        float aspect = u_res.x / u_res.y;
+        vec2 p = v_uv - 0.5;
+        vec2 pAspect = vec2(p.x * aspect, p.y);
+
+        vec3 fieldPos = vec3(0.0);
+        vec3 fieldNeg = vec3(0.0);
+        vec3 signedField = vec3(0.0);
+        vec3 energy = vec3(0.0);
+        float scalarWave = 0.0;
+        float totalEnergy = 0.0;
+
+        for (int i = 0; i < ${MAX_SOURCES}; i++) {
+          if (i >= u_count) break;
+          vec4 s = u_sources[i];
+          vec4 c = u_colors[i];
+
+          vec2 sp = s.xy - 0.5;
+          vec2 spAspect = vec2(sp.x * aspect, sp.y);
+          float d = length(pAspect - spAspect);
+
+          float mode = s.z;
+          float amp  = s.w;
+          float ph   = c.w;
+
+          float atten = exp(-d * 1.85) / (0.18 + d * 1.15);
+          float w = 0.0;
+
+          if (mode < 0.5) {
+            // 0: 水波 (Ripple)
+            w = sin(d * 48.0 - u_time * 1.55 + ph) * 0.76
+              + cos(d * 24.0 + u_time * 0.55 - ph) * 0.24;
+          } else if (mode < 1.5) {
+            // 1: 心跳 (Heartbeat)
+            float beatCycle = fract(u_time * 0.74 + ph * 0.15 - d * 1.10);
+            float lub = exp(-pow((beatCycle - 0.14) / 0.055, 2.0));
+            float dub = exp(-pow((beatCycle - 0.30) / 0.065, 2.0)) * 0.75;
+            float pulse = lub + dub;
+            w = (pulse * 1.65 - 0.38) * (0.78 + 0.22 * cos(d * 22.0));
+            atten *= (0.85 + 0.75 * pulse);
+          } else {
+            // 2: 呼吸 (Breath)
+            float bCycle = u_time * 0.58 + ph;
+            float breath = sin(bCycle);
+            float swell  = 0.5 + 0.5 * breath;
+            float shift  = breath * 6.0;
+            w = sin(d * 34.0 + shift) * 0.74
+              + cos(d * 17.0 - shift * 0.5) * 0.26;
+            atten = exp(-d * mix(2.35, 1.55, swell)) / (0.18 + d * 1.15);
+            atten *= (0.75 + 0.52 * swell);
+          }
+
+          // Subtle chromatic dispersion across R/G/B wavelengths per receptor
+          vec3 dispCol = c.rgb;
+          float e = atten * amp;
+          signedField += dispCol * (w * e);
+          fieldPos    += dispCol * (max(0.0,  w) * e);
+          fieldNeg    += (1.0 - dispCol * 0.55) * (max(0.0, -w) * e * 0.35);
+          energy      += dispCol * e;
+          scalarWave  += w * e;
+          totalEnergy += e;
+        }
+
+        // Normalize into vivid interference bands
+        float normScale = 1.0 / (0.85 + totalEnergy * 0.42);
+        vec3 normSigned = signedField * normScale;
+        vec3 domHue = energy / (max(max(energy.r, energy.g), max(energy.b, 0.001)));
+
+        // Constructive crests & thin-film iridescent interference accents
+        vec3 posBand = pow(clamp(fieldPos * normScale * 1.65, 0.0, 1.0), vec3(0.88));
+        float interference = abs(scalarWave * normScale);
+        vec3 prism = prismShift(scalarWave * normScale * 0.55 + totalEnergy * 0.14 - u_time * 0.04);
+
+        // Rich saturated wave color blending dominant receptor hue + iridescent fringe
+        vec3 vividCol = mix(domHue, prism, 0.34);
+        vividCol = clamp(vividCol * 1.18, 0.0, 1.0);
+
+        float signal = clamp(pow(interference * 1.35, 0.85) + clamp(totalEnergy * 0.14, 0.0, 0.45), 0.0, 1.0);
+        float crestSharp = smoothstep(0.32, 0.92, interference);
+        float nodalLine = smoothstep(0.07, 0.0, interference) * smoothstep(0.04, 0.25, totalEnergy);
+
+        // --- 光明 (Vivid Risograph / Stained-Glass Optical Paper) ---
+        vec3 paperBase = vec3(0.980, 0.973, 0.957); // #FAF8F4
+        // Deep jewel-like pigment saturation on bright archival paper
+        vec3 richInk = mix(vividCol, posBand * vividCol + vividCol * 0.42, 0.55);
+        // Push saturation strongly so overlaps feel luminous, never muddy
+        float lumL = dot(richInk, vec3(0.299, 0.587, 0.114));
+        richInk = clamp(mix(vec3(lumL), richInk, 1.48), 0.0, 1.0);
+
+        vec3 colLight = mix(paperBase, richInk, clamp(signal * 0.92, 0.0, 0.94));
+        // Luminous iridescent highlight along strongest constructive crests
+        colLight = mix(colLight, mix(prism, vec3(1.0), 0.22), crestSharp * 0.36);
+        // Crisp fine contour lines along destructive wave nodes
+        colLight = mix(colLight, colLight * 0.72, nodalLine * 0.42);
+
+        // --- 暗夜 (Blazing Bioluminescent / Prism Laser Interference) ---
+        vec3 nightBase = vec3(0.028, 0.028, 0.036);
+        vec3 glowCol = vividCol * (posBand * 1.35 + vec3(signal * 0.85));
+        glowCol += prism * (crestSharp * 0.75);
+        // White-hot luminous core on constructive peaks
+        glowCol += vec3(1.0, 0.98, 0.95) * pow(crestSharp, 2.2) * 0.55;
+        vec3 colNight = nightBase + glowCol;
+        // Filmic saturation-preserving tone map
+        colNight = colNight / (1.0 + colNight * 0.32);
+
+        vec3 col = mix(colLight, colNight, u_night);
+
+        // Subtle vignette & micro paper/film grain
+        float distC = length(p);
+        col *= 1.0 - smoothstep(0.48, 0.98, distC) * mix(0.035, 0.24, u_night);
+        float grain = (hash(gl_FragCoord.xy + fract(u_time) * 13.7) - 0.5) * mix(0.018, 0.026, u_night);
+        col += grain;
+
+        gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+      }
+    `;
+
+    function compile(type, src) {
+      const sh = gl.createShader(type);
+      gl.shaderSource(sh, src);
+      gl.compileShader(sh);
+      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+        throw new Error(gl.getShaderInfoLog(sh));
+      }
+      return sh;
+    }
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vertSrc));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fragSrc));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const locPos = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(locPos);
+    gl.vertexAttribPointer(locPos, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes     = gl.getUniformLocation(prog, 'u_res');
+    const uTime    = gl.getUniformLocation(prog, 'u_time');
+    const uCount   = gl.getUniformLocation(prog, 'u_count');
+    const uSources = gl.getUniformLocation(prog, 'u_sources');
+    const uColors  = gl.getUniformLocation(prog, 'u_colors');
+    const uNight   = gl.getUniformLocation(prog, 'u_night');
+
+    // State
+    let activeChord = [];
+    let chordHistory = [];
+    let hoveredActiveIdx = -1;
+    let draggingIdx = -1;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let didDrag = false;
+    let preDragSnapshot = null;
+    let isPaused = false;
+    let showGrid = true;
+    let isNight = false;
+    let nightBlend = 0;
+    let simTime = 0;
+    let lastTs = performance.now();
+    let currentCustomSlug = 'olfactory_chord';
+
+    function pushHistory() {
+      chordHistory.push(activeChord.map(s => ({ ...s })));
+      if (chordHistory.length > 30) chordHistory.shift();
+    }
+
+    function undoChord() {
+      if (chordHistory.length === 0) return;
+      activeChord = chordHistory.pop();
+      updateTelemetry();
+      showToast(t().toastUndo(activeChord.length));
+    }
+
+    function receptorToUV(col, row, w, h) {
+      const aspect = w / h;
+      const span = 0.72;
+      const gx = ((col + 0.5) / GRID_N - 0.5) * span;
+      const gy = ((row + 0.5) / GRID_N - 0.5) * span;
+      if (aspect >= 1) {
+        return { u: 0.5 + gx / aspect, v: 0.5 - gy };
+      } else {
+        return { u: 0.5 + gx, v: 0.5 - gy * aspect };
+      }
+    }
+
+    function screenToReceptor(clientX, clientY) {
+      const rect = stage.getBoundingClientRect();
+      const nx = (clientX - rect.left) / rect.width;
+      const ny = (clientY - rect.top) / rect.height;
+      const aspect = rect.width / rect.height;
+      const span = 0.72;
+      let gx, gy;
+      if (aspect >= 1) {
+        gx = (nx - 0.5) * aspect / span + 0.5;
+        gy = (ny - 0.5) / span + 0.5;
+      } else {
+        gx = (nx - 0.5) / span + 0.5;
+        gy = (ny - 0.5) / (span * aspect) + 0.5;
+      }
+      const col = Math.max(0, Math.min(GRID_N - 1, Math.floor(gx * GRID_N)));
+      const row = Math.max(0, Math.min(GRID_N - 1, Math.floor(gy * GRID_N)));
+      return { col, row };
+    }
+
+    function findNearestActiveReceptor(clientX, clientY, maxPx = 22) {
+      const rect = stage.getBoundingClientRect();
+      const mx = clientX - rect.left;
+      const my = clientY - rect.top;
+      let bestIdx = -1;
+      let bestDist = maxPx;
+      for (let i = 0; i < activeChord.length; i++) {
+        const s = activeChord[i];
+        const { u, v } = receptorToUV(s.col, s.row, rect.width, rect.height);
+        const d = Math.hypot(mx - u * rect.width, my - (1 - v) * rect.height);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = i;
+        }
+      }
+      return bestIdx;
+    }
+
+    function hashString(str) {
+      let h = 2166136261 >>> 0;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function mulberry32(seed) {
+      let a = seed >>> 0;
+      return function() {
+        a |= 0;
+        a = (a + 0x6D2B79F5) | 0;
+        let t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    // Semantic Scent Keywords -> target spectral angles (vivid, contrasting chords)
+    const SPECTRAL_CUES = [
+      { angle: 0.0,  words: ['火','辣','肉桂','胡椒','煙','烤','焙','咖啡','紅','暖','熱','太陽','甜','焦糖','巧克力','可可','琥珀','線香','fire','smoke','roast','coffee','cinnamon','warm','sweet','amber','spice','red'] },
+      { angle: 1.1,  words: ['橘','柑','橙','柚','檸檬','金','蜜','奶油','麵包','吐司','香草','果','桃','芒','秋','citrus','orange','lemon','yuzu','honey','vanilla','bread','butter','fruit','peach','gold'] },
+      { angle: 2.3,  words: ['草','青','葉','松','柏','林','森','木','檜','雪松','苔','土','泥','茶','抹茶','烏龍','竹','春','grass','green','pine','forest','wood','cedar','moss','tea','matcha','earth','leaf'] },
+      { angle: 3.4,  words: ['薄荷','冷','冰','雪','冬','海','鹽','雨','霧','露','風','水','空氣','臭氧','清','涼','皂','棉','mint','cold','ice','snow','winter','sea','ocean','salt','rain','petrichor','mist','fresh','air'] },
+      { angle: 4.8,  words: ['花','玫瑰','茉莉','桂花','薰衣草','櫻','梅','紫','莓','酒','紅酒','夜','夢','香氛','舊','書','紙','flower','floral','rose','jasmine','lavender','sakura','berry','wine','night','paper','book'] }
+    ];
+
+    function synthesizeScentFromText(rawText) {
+      const text = rawText.trim();
+      if (!text) return;
+
+      pushHistory();
+      const lower = text.toLowerCase();
+      const rand = mulberry32(hashString(lower));
+
+      const matchedAngles = [];
+      for (const cue of SPECTRAL_CUES) {
+        if (cue.words.some(w => lower.includes(w))) {
+          matchedAngles.push(cue.angle);
+        }
+      }
+
+      // If no explicit keyword, pick 2–3 high-contrast harmonic angles around the wheel
+      if (matchedAngles.length === 0) {
+        const base = rand() * Math.PI * 2;
+        matchedAngles.push(base, base + 2.1, base + 4.2);
+      } else if (matchedAngles.length === 1) {
+        // Add a complementary/split-complementary accent for dramatic color interplay
+        matchedAngles.push(matchedAngles[0] + 2.4);
+      }
+
+      const totalNodes = 5 + Math.floor(rand() * 4); // 5..8 vivid nodes
+      const chord = [];
+      let attempts = 0;
+
+      for (let i = 0; i < totalNodes; i++) {
+        const targetAngle = matchedAngles[i % matchedAngles.length];
+        let placed = false;
+        while (!placed && attempts < 300) {
+          attempts++;
+          const ang = targetAngle + (rand() - 0.5) * 0.95;
+          const rad = 0.16 + rand() * 0.30; // stay well inside the 20×20 field
+          const col = Math.max(1, Math.min(GRID_N - 2, Math.round((0.5 + Math.cos(ang) * rad) * (GRID_N - 1))));
+          const row = Math.max(1, Math.min(GRID_N - 2, Math.round((0.5 + Math.sin(ang) * rad) * (GRID_N - 1))));
+          const tooClose = chord.some(s => Math.hypot(s.col - col, s.row - row) < 2.6);
+          if (!tooClose) {
+            chord.push({
+              col,
+              row,
+              motion: Math.floor(Math.random() * MOTION_MODES.length),
+              amp: 0.9 + rand() * 0.25,
+              phase: rand() * 6.28
+            });
+            placed = true;
+          }
+        }
+      }
+
+      activeChord = chord;
+      customScentTitle = text;
+      currentCustomSlug = text.replace(/[^\w\u4e00-\u9fff]+/g, '_').slice(0, 24) || 'custom';
+      document.getElementById('scentTitle').textContent = text;
+      document.getElementById('scentSub').textContent = t().customSub(chord.length);
+      updateTelemetry();
+      showToast(t().toastGen(text, chord.length));
+    }
+
+    function updateTelemetry() {
+      let rSum = 0, gSum = 0, bSum = 0;
+      for (const s of activeChord) {
+        const sp = getSpectralColor(s.col, s.row);
+        rSum += sp.rgb[0] * s.amp;
+        gSum += sp.rgb[1] * s.amp;
+        bSum += sp.rgb[2] * s.amp;
+      }
+      const norm = Math.max(1, activeChord.length * 0.55);
+      document.getElementById('valR').textContent = String(Math.min(255, Math.round((rSum / norm) * 230))).padStart(3, '0');
+      document.getElementById('valG').textContent = String(Math.min(255, Math.round((gSum / norm) * 230))).padStart(3, '0');
+      document.getElementById('valB').textContent = String(Math.min(255, Math.round((bSum / norm) * 230))).padStart(3, '0');
+      document.getElementById('chordCount').textContent = `${activeChord.length} / 400 OR`;
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.floor(window.innerWidth * dpr);
+      const h = Math.floor(window.innerHeight * dpr);
+      stage.width = w;
+      stage.height = h;
+      overlay.width = w;
+      overlay.height = h;
+      gl.viewport(0, 0, w, h);
+    }
+
+    function drawOverlayToContext(ctx, w, h, dpr, includeHover) {
+      if (!showGrid) return;
+
+      // Pure 400 olfactory receptor dots (20×20) — no category boxes
+      ctx.fillStyle = isNight ? 'rgba(244, 242, 236, 0.16)' : 'rgba(20, 20, 19, 0.15)';
+      for (let r = 0; r < GRID_N; r++) {
+        for (let c = 0; c < GRID_N; c++) {
+          const { u, v } = receptorToUV(c, r, w, h);
+          ctx.beginPath();
+          ctx.arc(u * w, (1 - v) * h, 1.15 * dpr, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Active receptors
+      for (let i = 0; i < activeChord.length; i++) {
+        const s = activeChord[i];
+        const sp = getSpectralColor(s.col, s.row);
+        const motion = MOTION_MODES[s.motion];
+        const { u, v } = receptorToUV(s.col, s.row, w, h);
+        const x = u * w;
+        const y = (1 - v) * h;
+        const isHovered = includeHover && (i === hoveredActiveIdx || i === draggingIdx);
+
+        ctx.save();
+        // Crisp contrast halo so active dots pop on vivid waves
+        ctx.strokeStyle = isNight ? 'rgba(255,255,255,0.85)' : 'rgba(20,20,19,0.75)';
+        ctx.globalAlpha = isHovered ? 0.95 : 0.65;
+        ctx.lineWidth = (isHovered ? 2.0 : 1.3) * dpr;
+        ctx.beginPath();
+        ctx.arc(x, y, (isHovered ? 12.0 : 7.5) * dpr, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = sp.hex;
+        ctx.globalAlpha = 1.0;
+        ctx.beginPath();
+        ctx.arc(x, y, (isHovered ? 4.2 : 3.2) * dpr, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (isHovered) {
+          const prefix = i === draggingIdx ? '✥ ' : '';
+          const label = `${prefix}OR-${String(s.row * GRID_N + s.col + 1).padStart(3, '0')} · ${motionLabel(motion)}`;
+          ctx.font = `${11 * dpr}px Inter, "Noto Sans TC", sans-serif`;
+          ctx.fillStyle = isNight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(20, 20, 19, 0.92)';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(label, x + 16 * dpr, y);
+        }
+        ctx.restore();
+      }
+    }
+
+    function renderFrame(targetW, targetH) {
+      const srcData = new Float32Array(MAX_SOURCES * 4);
+      const colData = new Float32Array(MAX_SOURCES * 4);
+      const count = Math.min(activeChord.length, MAX_SOURCES);
+
+      for (let i = 0; i < count; i++) {
+        const s = activeChord[i];
+        const sp = getSpectralColor(s.col, s.row);
+        const { u, v } = receptorToUV(s.col, s.row, targetW, targetH);
+        srcData[i * 4 + 0] = u;
+        srcData[i * 4 + 1] = v;
+        srcData[i * 4 + 2] = s.motion;
+        srcData[i * 4 + 3] = s.amp;
+
+        colData[i * 4 + 0] = sp.rgb[0];
+        colData[i * 4 + 1] = sp.rgb[1];
+        colData[i * 4 + 2] = sp.rgb[2];
+        colData[i * 4 + 3] = s.phase;
+      }
+
+      gl.uniform2f(uRes, targetW, targetH);
+      gl.uniform1f(uTime, simTime);
+      gl.uniform1i(uCount, count);
+      gl.uniform4fv(uSources, srcData);
+      gl.uniform4fv(uColors, colData);
+      gl.uniform1f(uNight, nightBlend);
+
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+
+    function tick(now) {
+      const dt = Math.min(0.05, (now - lastTs) / 1000);
+      lastTs = now;
+
+      const targetNight = isNight ? 1.0 : 0.0;
+      nightBlend += (targetNight - nightBlend) * Math.min(1, dt * 6.0);
+
+      if (!isPaused) simTime += dt;
+
+      renderFrame(stage.width, stage.height);
+      octx.clearRect(0, 0, overlay.width, overlay.height);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      drawOverlayToContext(octx, overlay.width, overlay.height, dpr, true);
+
+      requestAnimationFrame(tick);
+    }
+
+    function exportPlate() {
+      const size = 2400;
+      const prevW = stage.width;
+      const prevH = stage.height;
+
+      stage.width = size;
+      stage.height = size;
+      gl.viewport(0, 0, size, size);
+      renderFrame(size, size);
+
+      const out = document.createElement('canvas');
+      out.width = size;
+      out.height = size;
+      const ctx = out.getContext('2d');
+      ctx.drawImage(stage, 0, 0, size, size);
+      drawOverlayToContext(ctx, size, size, 2.0, false);
+
+      const modeTag = isNight ? 'night' : 'light';
+      const link = document.createElement('a');
+      link.download = `2026_1126_olfactory_${currentCustomSlug}_${modeTag}.png`;
+      link.href = out.toDataURL('image/png');
+      link.click();
+
+      stage.width = prevW;
+      stage.height = prevH;
+      gl.viewport(0, 0, prevW, prevH);
+      showToast(t().toastExport);
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove('show'), 2400);
+    }
+
+    // Pointer interactions: drag active receptors to move & shift color, short-click to remove, click empty to add
+    stage.style.touchAction = 'none';
+
+    stage.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      const hitIdx = findNearestActiveReceptor(e.clientX, e.clientY, 22);
+      if (hitIdx >= 0) {
+        draggingIdx = hitIdx;
+        hoveredActiveIdx = hitIdx;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        didDrag = false;
+        preDragSnapshot = activeChord.map(s => ({ ...s }));
+        stage.style.cursor = 'grabbing';
+        stage.setPointerCapture(e.pointerId);
+      } else {
+        draggingIdx = -1;
+        didDrag = false;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+      }
+    });
+
+    stage.addEventListener('pointermove', (e) => {
+      if (draggingIdx >= 0) {
+        if (!didDrag && Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) > 5) {
+          didDrag = true;
+        }
+        if (didDrag && activeChord[draggingIdx]) {
+          const pos = screenToReceptor(e.clientX, e.clientY);
+          const s = activeChord[draggingIdx];
+          if (s.col !== pos.col || s.row !== pos.row) {
+            s.col = pos.col;
+            s.row = pos.row;
+            updateTelemetry();
+          }
+        }
+        stage.style.cursor = 'grabbing';
+        return;
+      }
+
+      const idx = findNearestActiveReceptor(e.clientX, e.clientY, 22);
+      hoveredActiveIdx = idx;
+      stage.style.cursor = idx >= 0 ? 'grab' : 'crosshair';
+    });
+
+    stage.addEventListener('pointerup', (e) => {
+      if (e.button !== 0) return;
+
+      if (draggingIdx >= 0) {
+        const idx = draggingIdx;
+        draggingIdx = -1;
+        if (stage.hasPointerCapture(e.pointerId)) {
+          stage.releasePointerCapture(e.pointerId);
+        }
+
+        if (didDrag) {
+          if (preDragSnapshot) {
+            chordHistory.push(preDragSnapshot);
+            if (chordHistory.length > 30) chordHistory.shift();
+          }
+          const moved = activeChord[idx];
+          if (moved) {
+            const motion = MOTION_MODES[moved.motion];
+            const id = `OR-${String(moved.row * GRID_N + moved.col + 1).padStart(3, '0')}`;
+            showToast(t().toastMove(id, motionLabel(motion)));
+          }
+          hoveredActiveIdx = idx;
+          stage.style.cursor = 'grab';
+        } else {
+          pushHistory();
+          const removed = activeChord.splice(idx, 1)[0];
+          hoveredActiveIdx = -1;
+          stage.style.cursor = 'crosshair';
+          updateTelemetry();
+          const id = `OR-${String(removed.row * GRID_N + removed.col + 1).padStart(3, '0')}`;
+          showToast(t().toastRemove(id));
+        }
+        preDragSnapshot = null;
+        didDrag = false;
+        return;
+      }
+
+      if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) <= 6) {
+        const { col, row } = screenToReceptor(e.clientX, e.clientY);
+        pushHistory();
+        if (activeChord.length >= MAX_SOURCES) activeChord.shift();
+        const motionId = randomMotion();
+        activeChord.push({
+          col,
+          row,
+          motion: motionId,
+          amp: 1.0,
+          phase: Math.random() * 6.28
+        });
+        const motion = MOTION_MODES[motionId];
+        updateTelemetry();
+        const id = `OR-${String(row * GRID_N + col + 1).padStart(3, '0')}`;
+        showToast(t().toastAdd(id, motionLabel(motion)));
+      }
+    });
+
+    stage.addEventListener('pointerleave', () => {
+      if (draggingIdx < 0) {
+        hoveredActiveIdx = -1;
+        stage.style.cursor = 'crosshair';
+      }
+    });
+
+    stage.addEventListener('contextmenu', (e) => {
+      const hitIdx = findNearestActiveReceptor(e.clientX, e.clientY, 24);
+      if (hitIdx >= 0) {
+        e.preventDefault();
+        pushHistory();
+        const removed = activeChord.splice(hitIdx, 1)[0];
+        hoveredActiveIdx = -1;
+        updateTelemetry();
+        const id = `OR-${String(removed.row * GRID_N + removed.col + 1).padStart(3, '0')}`;
+        showToast(t().toastRemove(id));
+      }
+    });
+
+    // Form & Controls
+    const scentForm = document.getElementById('scentForm');
+    const scentInput = document.getElementById('scentInput');
+    scentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (scentInput.value.trim()) {
+        synthesizeScentFromText(scentInput.value);
+        scentInput.blur();
+      }
+    });
+
+    document.getElementById('btnGrid').addEventListener('click', (e) => {
+      showGrid = !showGrid;
+      e.currentTarget.classList.toggle('active', showGrid);
+    });
+
+    document.getElementById('btnMode').addEventListener('click', (e) => {
+      isNight = !isNight;
+      document.body.classList.toggle('night', isNight);
+      e.currentTarget.textContent = isNight ? t().modeLight : t().modeNight;
+      e.currentTarget.classList.toggle('active', isNight);
+    });
+
+    document.getElementById('btnPause').addEventListener('click', (e) => {
+      isPaused = !isPaused;
+      e.currentTarget.textContent = isPaused ? t().play : t().pause;
+      e.currentTarget.classList.toggle('active', isPaused);
+    });
+
+    document.getElementById('btnExport').addEventListener('click', exportPlate);
+
+    window.addEventListener('keydown', (e) => {
+      const tag = document.activeElement && document.activeElement.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        if (e.key === 'Escape') document.activeElement.blur();
+        return;
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+        e.preventDefault();
+        undoChord();
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        document.getElementById('btnPause').click();
+      } else if (e.key === 'h' || e.key === 'H') {
+        document.body.classList.toggle('ui-hidden');
+      } else if (e.key === 'g' || e.key === 'G') {
+        document.getElementById('btnGrid').click();
+      } else if (e.key === 'd' || e.key === 'D') {
+        document.getElementById('btnMode').click();
+      }
+    });
+
+    // Initial state: single vivid receptor near center
+    window.addEventListener('resize', resize);
+    resize();
+    activeChord = [
+      { col: 11, row: 9, motion: 0, amp: 1.0, phase: 0.0 }
+    ];
+    applyLanguage(currentLang);
+    updateTelemetry();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>

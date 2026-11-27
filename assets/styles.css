@@ -632,6 +632,75 @@ main {
   margin-bottom: clamp(28px, 4vw, 44px);
 }
 
+/* Embedded Live Interactive Artwork */
+.work-interactive {
+  margin-bottom: clamp(32px, 5vw, 52px);
+}
+
+.interactive-shell {
+  background: var(--bg-linen);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+}
+
+.interactive-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-secondary);
+}
+
+.interactive-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.interactive-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2E7D5B;
+}
+
+.interactive-open-link {
+  color: var(--ink-secondary);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+.interactive-open-link:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+.interactive-frame {
+  display: block;
+  width: 100%;
+  height: var(--interactive-height, clamp(540px, 76vh, 840px));
+  border: 0;
+  background: var(--bg-paper);
+}
+
+.card-interactive-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.interactive-badge-icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
 .audio-player {
   background: var(--bg-linen);
   border: 1px solid var(--hairline);

@@ -18,11 +18,7 @@
       "en": "Los Angeles, California",
       "zh": "美國加州・洛杉磯"
     },
-    "email": "hello@modulecell.com",
-    "socials": [
-      { "label": "Instagram", "url": "https://instagram.com/modulecell" },
-      { "label": "LinkedIn", "url": "https://linkedin.com/company/modulecell" },
-      { "label": "X / Twitter", "url": "https://x.com/modulecell" }
-    ]
+    "email": "cchiang@modulecell.com",
+    "socials": []
   }
 }
