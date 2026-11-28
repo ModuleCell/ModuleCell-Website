@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-27",
+  "createdAt": "2026-11-27T23:55:00",
+  "title": {
+    "en": "Five Tastes Shibori",
+    "zh": "五味紮染"
+  },
+  "medium": {
+    "en": "Interactive WebGL · Gustatory Textile Study",
+    "zh": "互動光影紮染・五味聯覺創作"
+  },
+  "caption": {
+    "en": "Five flavors—sour, sweet, bitter, spicy, and salty—translated into five hand-dyed cotton techniques: concentric shibori rings, billowy cloud mist, splashed sumi ink, irregular atomizer spray, and Jovian cloud-sea bands. Type any dish to weave its five-taste ratio automatically, or paint directly onto the cloth.",
+    "zh": "將酸、甜、苦、辣、鹹五種味覺，一對一轉譯為五種棉布染繪技法：藍染同心圓（酸）、雲霧暈染（甜）、破墨潑墨（苦）、不規則點狀噴霧（辣）與木星雲海帶狀暈染（鹹）。輸入任意食物即可自動解析五味配方並即興染製，或親手切換五味筆觸在棉布上疊染。"
+  },
+  "interactive": {
+    "file": "index.html",
+    "height": "clamp(560px, 78vh, 860px)",
+    "hidePlates": true
+  },
+  "images": [
+    {
+      "file": "2026_1127_five_tastes_shibori.png",
+      "focus": [48, 48],
+      "alt": {
+        "en": "Five-taste shibori composition on archival white cotton cloth layering indigo concentric tie-dye rings, sky-blue and rose cloud mist, violet Jovian banded swirls, magenta mist spray, and splashed sumi ink",
+        "zh": "五味紮染全幅棉布畫格：靛藍同心圓紮染、天藍與粉紅雲霧、紫色木星雲海氣流帶、洋紅點狀噴霧與濃墨飛濺交織於純白棉布之上"
+      }
+    }
+  ]
+}

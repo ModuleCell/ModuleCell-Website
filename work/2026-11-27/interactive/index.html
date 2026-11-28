@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Five Tastes Shibori · 五味紮染</title>
+  <style>
+    :root {
+      --cloth: #FAF9F6;
+      --ink: #161614;
+      --muted: rgba(22, 22, 20, 0.56);
+      --hairline: rgba(22, 22, 20, 0.14);
+      --glass: rgba(250, 249, 246, 0.82);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--cloth);
+      color: var(--ink);
+      font-family: "Inter", "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    #stage {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .header {
+      position: fixed;
+      top: 22px;
+      left: 28px;
+      right: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 0.35s ease;
+    }
+
+    .brand h1 {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .brand .sub {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    .top-right {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .food-form {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 5px 4px 13px;
+      border-radius: 999px;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .food-form:focus-within {
+      border-color: rgba(22, 22, 20, 0.36);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .food-input {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 12px;
+      width: 205px;
+      outline: none;
+    }
+
+    .food-input::placeholder { color: var(--muted); }
+
+    .food-submit {
+      appearance: none;
+      border: 1px solid var(--hairline);
+      background: rgba(22, 22, 20, 0.06);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.18s ease, transform 0.12s ease;
+    }
+
+    .food-submit:hover { background: rgba(22, 22, 20, 0.12); }
+    .food-submit:active { transform: scale(0.97); }
+
+    .text-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .text-btn:hover { color: var(--ink); border-bottom-color: var(--hairline); }
+
+    /* Bottom Left: Single-Row Mode Switcher + Rainbow Dye Palette */
+    .left-dock {
+      position: fixed;
+      left: 28px;
+      bottom: 22px;
+      z-index: 10;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      transition: opacity 0.35s ease;
+    }
+
+    .mode-bar,
+    .color-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline);
+    }
+
+    .mode-bar { gap: 4px; padding: 5px 8px; }
+
+    .mode-btn {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 11.5px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .mode-btn:hover { color: var(--ink); background: rgba(22, 22, 20, 0.06); }
+    .mode-btn.active {
+      color: var(--ink);
+      font-weight: 500;
+      background: rgba(22, 22, 20, 0.09);
+      border-color: var(--hairline);
+    }
+
+    .color-label {
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-right: 2px;
+      white-space: nowrap;
+    }
+
+    .swatch-btn {
+      appearance: none;
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(22, 22, 20, 0.18);
+      cursor: pointer;
+      padding: 0;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.45), 0 1px 2px rgba(0, 0, 0, 0.14);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .swatch-btn:hover { transform: scale(1.12); }
+    .swatch-btn.active {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 2px var(--cloth), 0 0 0 3.5px var(--ink);
+      transform: scale(1.06);
+    }
+
+    .custom-color-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 3px;
+      padding-left: 9px;
+      border-left: 1px solid var(--hairline);
+    }
+
+    #customColor {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid rgba(22, 22, 20, 0.24);
+      border-radius: 50%;
+      background: conic-gradient(#E6006B, #FF6B00, #F0C808, #19A974, #1CA3EC, #274C77, #7B2CBF, #E6006B);
+      cursor: pointer;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #customColor::-webkit-color-swatch-wrapper { padding: 0; }
+    #customColor::-webkit-color-swatch { border: none; border-radius: 50%; }
+    #customColor::-moz-color-swatch { border: none; border-radius: 50%; }
+
+    .hex-readout {
+      font-size: 10.5px;
+      font-family: "IBM Plex Mono", "Inter", monospace;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      min-width: 54px;
+    }
+
+    /* Bottom Right Studio Actions */
+    .studio-actions {
+      position: fixed;
+      right: 28px;
+      bottom: 24px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline);
+      transition: opacity 0.35s ease;
+    }
+
+    .act-btn {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 11.5px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .act-btn:hover { color: var(--ink); background: rgba(22, 22, 20, 0.07); }
+    .act-btn.primary { color: var(--ink); border-color: var(--hairline); }
+
+    .toast {
+      position: fixed;
+      top: 72px;
+      right: 28px;
+      padding: 7px 13px;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--hairline);
+      backdrop-filter: blur(10px);
+      font-size: 11.5px;
+      color: var(--ink);
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    body.ui-hidden .header,
+    body.ui-hidden .left-dock,
+    body.ui-hidden .studio-actions {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (max-width: 1240px) {
+      .hex-readout, .color-label { display: none; }
+      .left-dock { left: 16px; bottom: 18px; gap: 6px; }
+      .mode-bar { padding: 5px 6px; gap: 2px; }
+      .mode-btn { padding: 5px 8px; font-size: 11px; gap: 4px; }
+      .color-bar { padding: 6px 9px; gap: 6px; }
+      .swatch-btn { width: 19px; height: 19px; }
+      .studio-actions { right: 16px; bottom: 18px; padding: 6px 8px; gap: 4px; }
+      .act-btn { padding: 5px 8px; font-size: 11px; }
+    }
+
+    @media (max-width: 900px) {
+      .header { top: 14px; left: 16px; right: 16px; flex-direction: column; gap: 10px; }
+      .food-input { width: 170px; }
+      .left-dock { left: 16px; bottom: 66px; flex-wrap: wrap; }
+      .studio-actions { right: 16px; bottom: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+
+  <header class="header">
+    <div class="brand">
+      <h1 id="titleEl">Cloud Shibori · 雲霧紮染</h1>
+      <div class="sub" id="subEl">點擊或輕滑滴入色霧，看染料沿棉布雲紋自然暈開並靜止 · [R] 重新雲染 · [C] 換新棉布 · [H] 隱藏介面</div>
+    </div>
+    <div class="top-right">
+      <form class="food-form" id="foodForm" autocomplete="off">
+        <input
+          type="text"
+          id="foodInput"
+          class="food-input"
+          placeholder="輸入食物，如：薄荷蘇打、草莓奶昔、藍莓…"
+          aria-label="輸入食物讓 AI 雲霧紮染"
+        />
+        <button type="submit" class="food-submit" id="btnFoodPaint">AI 雲染</button>
+      </form>
+      <button class="text-btn" id="btnLang">EN</button>
+    </div>
+  </header>
+
+  <div class="left-dock">
+    <div class="mode-bar" role="radiogroup" aria-label="Five Tastes Dyeing Technique">
+      <button class="mode-btn" data-mode="2" id="btnModeSour" title="酸 · 同心圓紮染 (Sour · Concentric Rings)">◎ <span class="lbl">酸</span></button>
+      <button class="mode-btn active" data-mode="0" id="btnModeSweet" title="甜 · 雲霧暈染 (Sweet · Cloud Mist)">☁ <span class="lbl">甜</span></button>
+      <button class="mode-btn" data-mode="1" id="btnModeBitter" title="苦 · 潑墨水韻 (Bitter · Splashed Ink)">✦ <span class="lbl">苦</span></button>
+      <button class="mode-btn" data-mode="4" id="btnModeSpicy" title="辣 · 不規則點狀噴霧 (Spicy · Mist Spray)">∴ <span class="lbl">辣</span></button>
+      <button class="mode-btn" data-mode="3" id="btnModeSalty" title="鹹 · 帶狀潮汐暈染 (Salty · Ribbon Wash)">〰 <span class="lbl">鹹</span></button>
+    </div>
+    <div class="color-bar" id="colorBar" aria-label="Rainbow Dye Palette">
+      <span class="color-label" id="colorLabel">染料色</span>
+      <button class="swatch-btn" data-hex="#E6006B" style="background:#E6006B" title="Red / Pink · 紅"></button>
+      <button class="swatch-btn" data-hex="#FF6B00" style="background:#FF6B00" title="Orange · 橙"></button>
+      <button class="swatch-btn" data-hex="#F0C808" style="background:#F0C808" title="Yellow · 黃"></button>
+      <button class="swatch-btn" data-hex="#2EC4B6" style="background:#2EC4B6" title="Mint Green · 綠"></button>
+      <button class="swatch-btn active" data-hex="#28B5F4" style="background:#28B5F4" title="Sky Blue · 藍"></button>
+      <button class="swatch-btn" data-hex="#2B4C7E" style="background:#2B4C7E" title="Indigo · 靛"></button>
+      <button class="swatch-btn" data-hex="#8338EC" style="background:#8338EC" title="Violet · 紫"></button>
+      <button class="swatch-btn" data-hex="#18181B" style="background:#18181B" title="Sumi Ink · 墨黑"></button>
+      <div class="custom-color-wrap">
+        <input type="color" id="customColor" value="#28B5F4" title="自訂任意染料色" aria-label="Custom dye color picker" />
+        <span class="hex-readout" id="hexReadout">#28B5F4</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="studio-actions">
+    <button class="act-btn" id="btnAuto">自動雲染</button>
+    <button class="act-btn" id="btnClear">換新棉布</button>
+    <button class="act-btn primary" id="btnExport">匯出染布</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // =========================================================================
+    // Cloud Shibori · 雲霧紮染 (Focused Single-Effect Study)
+    // Pure Ice-Dye / Cloud Tie-Dye on Soft Crinkled White Cotton Cloth (WebGL)
+    // =========================================================================
+
+    const MAX_CLOUDS = 48;
+
+    const params = new URLSearchParams(window.location.search);
+    const qLang = params.get('lang');
+    let lang = (qLang === 'en' || qLang === 'zh')
+      ? qLang
+      : ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+
+    const canvas = document.getElementById('stage');
+    const gl = canvas.getContext('webgl', { antialias: true, alpha: false, preserveDrawingBuffer: true });
+    if (!gl) {
+      document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif">WebGL is required for Cloud Shibori.</div>';
+      throw new Error('WebGL unavailable');
+    }
+
+    const titleEl = document.getElementById('titleEl');
+    const subEl = document.getElementById('subEl');
+    const foodForm = document.getElementById('foodForm');
+    const foodInput = document.getElementById('foodInput');
+    const btnFoodPaint = document.getElementById('btnFoodPaint');
+    const colorLabelEl = document.getElementById('colorLabel');
+    const customColorEl = document.getElementById('customColor');
+    const hexReadoutEl = document.getElementById('hexReadout');
+    const swatchBtns = Array.from(document.querySelectorAll('.swatch-btn'));
+    const modeBtns = Array.from(document.querySelectorAll('.mode-btn'));
+    const btnModeSour = document.getElementById('btnModeSour');
+    const btnModeSweet = document.getElementById('btnModeSweet');
+    const btnModeBitter = document.getElementById('btnModeBitter');
+    const btnModeSpicy = document.getElementById('btnModeSpicy');
+    const btnModeSalty = document.getElementById('btnModeSalty');
+    const btnLang = document.getElementById('btnLang');
+    const btnAuto = document.getElementById('btnAuto');
+    const btnClear = document.getElementById('btnClear');
+    const btnExport = document.getElementById('btnExport');
+    const toastEl = document.getElementById('toast');
+
+    let toastTimer = null;
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1900);
+    }
+
+    function applyLang() {
+      const zh = lang === 'zh';
+      document.documentElement.lang = zh ? 'zh-Hant' : 'en';
+      titleEl.textContent = zh ? 'Five Tastes Shibori · 五味紮染' : 'Five Tastes Shibori';
+      subEl.textContent = zh
+        ? '酸(◎同心圓) · 甜(☁雲霧) · 苦(✦潑墨) · 辣(∴噴霧) · 鹹(〰帶狀) · [1-5] 切換五味 · [R] 自動 · [C] 換布'
+        : 'Sour(◎Rings) · Sweet(☁Cloud) · Bitter(✦Ink) · Spicy(∴Spray) · Salty(〰Ribbon) · [1-5] Taste · [R] Auto · [C] Clear';
+      btnModeSour.querySelector('.lbl').textContent = zh ? '酸' : 'Sour';
+      btnModeSweet.querySelector('.lbl').textContent = zh ? '甜' : 'Sweet';
+      btnModeBitter.querySelector('.lbl').textContent = zh ? '苦' : 'Bitter';
+      btnModeSpicy.querySelector('.lbl').textContent = zh ? '辣' : 'Spicy';
+      btnModeSalty.querySelector('.lbl').textContent = zh ? '鹹' : 'Salty';
+      btnLang.textContent = zh ? 'EN' : '中文';
+      foodInput.placeholder = zh ? '輸入食物，如：酸辣湯、海鹽焦糖拿鐵、麻辣鍋…' : 'Type a food: hot & sour soup, salted caramel latte…';
+      btnFoodPaint.textContent = zh ? 'AI 五味染' : 'AI Taste';
+      colorLabelEl.textContent = zh ? '染料色' : 'Dye';
+      btnAuto.textContent = zh ? '自動五味' : 'Auto-Taste';
+      btnClear.textContent = zh ? '換新棉布' : 'Fresh Cloth';
+      btnExport.textContent = zh ? '匯出染布' : 'Export PNG';
+    }
+
+    // =========================================================================
+    // WebGL Cloud / Mist Tie-Dye Fragment Shader
+    // =========================================================================
+    const vertSrc = `
+      attribute vec2 a_pos;
+      varying vec2 v_uv;
+      void main() {
+        v_uv = a_pos * 0.5 + 0.5;
+        gl_Position = vec4(a_pos, 0.0, 1.0);
+      }
+    `;
+
+    const fragSrc = `
+      precision highp float;
+
+      #define MAX_CLOUDS 48
+
+      varying vec2 v_uv;
+
+      uniform vec2  u_res;
+      uniform float u_clothSeed;
+      uniform int   u_count;
+      // x, y (aspect coords), curRadius (smooth capillary soak -> stops), softness
+      uniform vec4  u_posRad[MAX_CLOUDS];
+      // r, g, b (0..1), density
+      uniform vec4  u_colDen[MAX_CLOUDS];
+      // x: seed, y: maxRadius, z: unused, w: unused
+      uniform vec4  u_extra[MAX_CLOUDS];
+
+      float hash21(vec2 p) {
+        p = fract(p * vec2(123.34, 456.21));
+        p += dot(p, p + 45.32);
+        return fract(p.x * p.y);
+      }
+
+      // Multi-scale irregular spray droplet layer (1-cell jittered, zero grid clipping)
+      float sprayDots(vec2 uv, float scale, float seed, float prob, float minR, float maxR, float fiber) {
+        vec2 g = uv * scale + vec2(seed * 37.1, seed * 73.7);
+        vec2 cell = floor(g);
+        vec2 f = fract(g);
+        float h1 = hash21(cell + seed * 11.3);
+        if (h1 > prob) return 0.0;
+        float h2 = hash21(cell + vec2(19.7, 41.3) + seed * 5.7);
+        float h3 = hash21(cell + vec2(63.1, 13.9) + seed * 17.1);
+        float h4 = hash21(cell + vec2(7.3, 89.1) + seed * 23.3);
+        vec2 center = vec2(0.24 + 0.52 * h2, 0.24 + 0.52 * h3);
+        // Slightly elliptical / cotton-soaked organic dot shape
+        vec2 dd = f - center;
+        float dist = length(vec2(dd.x * (0.85 + 0.30 * h4), dd.y * (1.15 - 0.30 * h4)));
+        float rad = mix(minR, maxR, h4 * h4) * (0.86 + 0.28 * fiber);
+        float alpha = smoothstep(rad, rad * 0.42, dist);
+        return alpha * (0.55 + 0.45 * h3);
+      }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash21(i), hash21(i + vec2(1.0, 0.0)), u.x),
+          mix(hash21(i + vec2(0.0, 1.0)), hash21(i + vec2(1.0, 1.0)), u.x),
+          u.y
+        );
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.52;
+        mat2 m = mat2(0.8, 0.6, -0.6, 0.8);
+        for (int i = 0; i < 6; i++) {
+          v += a * noise(p);
+          p = m * p * 2.02;
+          a *= 0.49;
+        }
+        return v;
+      }
+
+      void main() {
+        vec2 aspect = vec2(u_res.x / u_res.y, 1.0);
+        vec2 p = (v_uv - 0.5) * aspect;
+
+        // --- Multi-layer Soft Cloud-Crumpled Cotton Field ---
+        // Double domain warp creates natural billowy ice-dye / cloud tie-dye folds!
+        vec2 q = vec2(
+          fbm(p * 3.1 + u_clothSeed),
+          fbm(p * 3.1 + u_clothSeed + vec2(4.7, 1.9))
+        );
+        vec2 rWarp = vec2(
+          fbm(p * 5.4 + 2.4 * q + vec2(1.7, 9.2)),
+          fbm(p * 5.4 + 2.4 * q + vec2(8.3, 2.8))
+        );
+
+        // Soft cloud folds (white soft-resist misty veins between billowing dye clouds)
+        float cloudBase = fbm(p * 4.2 + 1.8 * rWarp + u_clothSeed * 0.3);
+        float fineFibers = fbm(p * 18.0 + 0.8 * q);
+
+        // Subtle cotton weave micro-texture
+        vec2 tc = gl_FragCoord.xy * 0.52;
+        float weave = ((sin(tc.x * 2.5) * 0.5 + 0.5) + (sin(tc.y * 2.5) * 0.5 + 0.5)) * 0.5;
+        float grain = (noise(gl_FragCoord.xy * 0.42) - 0.5) * 0.02;
+
+        // Pure crisp white cotton cloth with ultra-soft fold shading
+        vec3 col = vec3(0.988, 0.985, 0.976);
+        col -= (1.0 - cloudBase) * 0.022;
+        col -= weave * 0.011;
+        col += grain;
+
+        // Accumulate translucent cloud-dye & splashed-ink washes (subtractive dyeing)
+        for (int i = 0; i < MAX_CLOUDS; i++) {
+          if (i >= u_count) break;
+          vec4 pr = u_posRad[i];
+          vec4 cd = u_colDen[i];
+          vec4 ex = u_extra[i];
+
+          float curR = pr.z;
+          if (curR <= 0.002) continue;
+          float mode = pr.w; // 0.0 = Cloud Shibori, 1.0 = Splashed Ink (潑墨)
+
+          vec2 d = p - pr.xy;
+          float dyeAmount = 0.0;
+          vec3 dyeTint = cd.rgb;
+
+          if (mode < 0.5) {
+            // --- MODE 0: CLOUD SHIBORI (雲霧紮染) ---
+            vec2 dw = d + (rWarp - 0.5) * (0.14 + curR * 0.32);
+            float dist = length(dw);
+            float nr = dist / curR;
+            float radial = smoothstep(1.18, 0.0, nr);
+            radial = radial * radial * (3.0 - 2.0 * radial);
+
+            float localCloud = fbm(p * 5.8 + 1.6 * rWarp + ex.x * 13.0);
+            float mistPocket = smoothstep(0.24, 0.78, cloudBase * 0.55 + localCloud * 0.55);
+            float feather = mix(0.75, 1.15, fineFibers);
+            dyeAmount = clamp(radial * mistPocket * feather * cd.w, 0.0, 0.92);
+          } else if (mode < 1.5) {
+            // --- MODE 1: SPLASHED INK (潑墨) ---
+            // Organic jagged ink splash silhouette + feathered water-ink halo + dark capillary rim
+            float theta = atan(d.y, d.x);
+            float angWarp = fbm(vec2(cos(theta) * 2.2 + ex.x * 7.0, sin(theta) * 2.2 + ex.x * 5.0));
+            float inkWarp = fbm(p * 11.5 + ex.x * 17.0);
+            vec2 dw = d + (rWarp - 0.5) * (0.04 + curR * 0.16);
+            float dist = length(dw);
+
+            // Asymmetric splash radius with organic ragged ink lobes
+            float effR = curR * (0.68 + 0.62 * angWarp + (inkWarp - 0.5) * 0.34);
+            float nr = dist / max(0.004, effR);
+
+            // Dense saturated ink core + softer smoky outer bleed (破墨層次)
+            float core = smoothstep(1.06, 0.62, nr);
+            float bleedHalo = smoothstep(1.42, 0.72, nr) * 0.42 * smoothstep(0.32, 0.78, fineFibers + (cloudBase - 0.5) * 0.4);
+            // Subtle darker capillary pooling along the ink rim
+            float rim = exp(-pow((nr - 0.88) * 7.5, 2.0)) * 0.24;
+            // Internal ink-water marbling (濃淡墨韻)
+            float marble = 0.78 + 0.28 * fbm(p * 14.0 + rWarp * 1.4 + ex.x * 9.0);
+
+            dyeAmount = clamp((core * marble + bleedHalo + rim) * cd.w, 0.0, 0.96);
+          } else if (mode < 2.5) {
+            // --- MODE 2: AUTHENTIC HAND-TIED BULLSEYE SHIBORI (同心圓藍染紮染) ---
+            // Organic cotton-soaked indigo tie-dye: solid-core pinched center with irregular star creases,
+            // thin ragged white string resist rings, continuous cloudy deep-indigo inner halo,
+            // pale sky-wash middle zone, and irregularly clustered soft-feathered outer fold blocks.
+            float theta = atan(d.y, d.x);
+            vec2 uDir = vec2(cos(theta), sin(theta));
+
+            // Multi-scale cotton bleed & irregular fabric-fold warps (eliminates synthetic vector look)
+            float bleedCoarse = fbm(p * 11.0 + rWarp * 1.4 + ex.x * 13.0);
+            float bleedFine = fbm(p * 28.0 + q * 1.6 + ex.x * 7.0);
+            float angLo = fbm(uDir * 2.1 + ex.x * 9.0);
+            float angMid = fbm(uDir * 5.2 + ex.x * 15.0 + vec2(3.1, 7.4));
+            float angHi = fbm(uDir * 11.0 + ex.x * 5.0 + vec2(8.2, 2.3));
+
+            vec2 dw = d + (rWarp - 0.5) * (0.02 + curR * 0.085);
+            float dist = length(dw);
+            float nr = dist / max(0.004, curR);
+
+            // Hand-tied radial irregularity + capillary edge roughness
+            float r = nr + (angLo - 0.5) * 0.085 + (bleedCoarse - 0.5) * 0.055 + (bleedFine - 0.5) * 0.024;
+
+            // Irregular organic fold pattern (mix of angular FBM clusters + warped soft pleats, NOT uniform spokes!)
+            float irregAngle = theta + (angLo - 0.5) * 0.65 + (bleedCoarse - 0.5) * 0.28;
+            float foldCluster = fbm(vec2(cos(irregAngle) * 4.4 + ex.x * 11.0, sin(irregAngle) * 4.4 + ex.x * 4.0));
+            float softPleat = sin(irregAngle * (10.0 + floor(ex.x * 5.0)) + angMid * 3.2) * 0.5 + 0.5;
+            float organicFold = clamp(foldCluster * 0.68 + softPleat * 0.32 + (bleedFine - 0.5) * 0.25, 0.0, 1.0);
+
+            // Two thin, ragged, organic white string-bound resist rings (like tied twine on cotton)
+            float s1Width = 0.032 + (angMid - 0.5) * 0.014;
+            float s2Width = 0.040 + (angLo - 0.5) * 0.016;
+            float string1 = exp(-pow((r - 0.30) / max(0.018, s1Width), 2.0));
+            float string2 = exp(-pow((r - 0.87) / max(0.022, s2Width), 2.0));
+            float whiteResist = smoothstep(0.32, 0.72, max(string1, string2) + (bleedFine - 0.5) * 0.24);
+
+            // Zone 1: Deep saturated center medallion with soft irregular pinch creases (no hard pinwheel!)
+            float inCenter = smoothstep(0.31, 0.22, r);
+            float centerCrease = smoothstep(0.35, 0.75, angMid * 0.65 + angHi * 0.35) * smoothstep(0.03, 0.16, nr);
+            float centerDark = inCenter * (0.76 + 0.24 * centerCrease);
+
+            // Zone 2: Wide bullseye band (0.30..0.87)
+            float inBand = smoothstep(0.28, 0.35, r) * smoothstep(0.90, 0.81, r);
+
+            // 2a. Continuous cloudy deep-indigo inner ring (0.33..0.67) with ragged feathered outer edge
+            float innerOuterR = 0.63 + (foldCluster - 0.5) * 0.18 + (bleedCoarse - 0.5) * 0.12;
+            float innerCore = smoothstep(0.30, 0.38, r) * smoothstep(innerOuterR + 0.09, innerOuterR - 0.07, r);
+            // Subtle darker radial streaks bleeding out from the inner mass
+            float innerStreaks = innerCore * (0.76 + 0.24 * organicFold);
+
+            // 2b. Irregularly clustered outer fold blocks hugging inside the outer white string (0.68..0.86)
+            float outerBlockZone = smoothstep(0.64, 0.75, r) * smoothstep(0.88, 0.80, r);
+            // Vary block threshold organically so some wedges are wide, some narrow, some open sky-blue
+            float outerBlocks = outerBlockZone * smoothstep(0.46, 0.74, organicFold + (angHi - 0.5) * 0.22);
+
+            float bandDark = clamp(max(innerStreaks, outerBlocks * 0.90), 0.0, 1.0);
+
+            // Zone 3: Soft cloudy outer indigo soak just beyond the outer white string
+            float outerHalo = smoothstep(0.86, 0.96, r) * smoothstep(1.18, 0.93, r) * (0.62 + 0.38 * organicFold);
+
+            // Combine pale sky wash + deep vat-dyed indigo with organic cotton cloudiness
+            float baseWash = clamp(inCenter + inBand * 0.96 + outerHalo * 0.90, 0.0, 1.0);
+            float deepMix = clamp(max(centerDark, max(bandDark, outerHalo)) * mix(0.82, 1.15, bleedCoarse), 0.0, 1.0);
+            float coverage = baseWash * (1.0 - whiteResist * 0.96);
+            float fiberBleed = mix(0.86, 1.12, fineFibers * 0.55 + bleedFine * 0.45);
+
+            // Two-tone vat-dye palette: soft luminous light wash vs. rich deep indigo in the folds
+            vec3 lightWash = mix(vec3(1.0), cd.rgb, 0.42);
+            vec3 deepVat = mix(cd.rgb * 0.40, cd.rgb * cd.rgb * 0.62, 0.50);
+            dyeTint = mix(lightWash, deepVat, deepMix);
+            dyeAmount = clamp(coverage * fiberBleed * cd.w, 0.0, 0.95);
+          } else if (mode < 3.5) {
+            // --- MODE 3: JOVIAN CLOUD SEA BANDED WASH (木星雲海帶狀暈染 / 鹹) ---
+            // Zonal atmospheric jet streams with Kelvin-Helmholtz shear eddies, marbled multi-tone belts,
+            // and an embedded anticyclonic oval vortex deflecting surrounding cloud bands.
+            float ang = ex.z;
+            float ca = cos(-ang);
+            float sa = sin(-ang);
+            vec2 rv = vec2(d.x * ca - d.y * sa, d.x * sa + d.y * ca);
+
+            // Broad sweeping Jovian cloud band envelope
+            float lenR = max(0.02, curR * 2.45);
+            float widR = max(0.015, curR * 0.82);
+
+            // Embedded anticyclonic oval storm (Great Red Spot) nestled off-center in the belts
+            vec2 vPos = vec2((ex.x - 0.5) * 0.55 * lenR, (fract(ex.x * 7.31) - 0.5) * 0.36 * widR);
+            vec2 vRel = rv - vPos;
+            vec2 vEll = vec2(vRel.x / max(0.01, widR * 0.38), vRel.y / max(0.01, widR * 0.24));
+            float vDist = length(vEll);
+
+            // Smooth continuous potential-flow deflection around the oval vortex (zero seam!)
+            float smoothSignY = vEll.y / (abs(vEll.y) + 0.48);
+            float deflect = exp(-vDist * vDist * 0.65) * 0.28 * widR * smoothSignY;
+            float swirlAng = exp(-vDist * 1.35) * 2.5;
+            float sc = cos(swirlAng), ss = sin(swirlAng);
+            vec2 vSwirl = vec2(vRel.x * sc - vRel.y * ss, vRel.x * ss + vRel.y * sc);
+            vec2 flowP = mix(vec2(rv.x, rv.y + deflect), vPos + vSwirl, smoothstep(1.30, 0.22, vDist));
+
+            // Anisotropic Kelvin-Helmholtz shear turbulence stretched along the jet-stream axis
+            vec2 jupUV = vec2(flowP.x * 2.8, flowP.y * 12.0);
+            float shear1 = fbm(jupUV + vec2(ex.x * 11.0, ex.x * 5.0));
+            float shear2 = fbm(jupUV * 2.2 + vec2(shear1 * 3.4, -shear1 * 1.6) + vec2(4.2, 7.1));
+            float wisps  = fbm(vec2(flowP.x * 7.0 + shear2 * 2.4, flowP.y * 22.0 - shear1 * 2.6) + ex.x * 9.0);
+
+            // Warped zonal latitude coordinate (rich alternating turbulent belts & luminous cream zones)
+            float lat = (flowP.y / widR) + (shear1 - 0.5) * 0.30 + (shear2 - 0.5) * 0.18 + (rWarp.y - 0.5) * 0.06;
+            float z1 = sin(lat * 10.5 + ex.x * 6.28) * 0.5 + 0.5;
+            float z2 = sin(lat * 21.0 + shear2 * 3.8 + ex.x * 11.0) * 0.5 + 0.5;
+            float z3 = sin(lat * 36.0 + wisps * 3.4) * 0.5 + 0.5;
+
+            // Band intensity profile: creamy bright zones vs. rich turbulent marbled belts
+            float beltMix = clamp(z1 * 0.48 + z2 * 0.34 + z3 * 0.18, 0.0, 1.0);
+            float brightZone = smoothstep(0.58, 0.86, 1.0 - beltMix); // crisp luminous cream cloud bands
+            float deepBelt   = smoothstep(0.46, 0.84, beltMix + (wisps - 0.5) * 0.32);
+
+            // Oval vortex collar (pale creamy rim) + swirling concentrated storm eye
+            float vCollar = exp(-pow((vDist - 1.04) / 0.24, 2.0)) * 0.72;
+            float vEye = smoothstep(1.02, 0.20, vDist);
+            float vSpiral = 0.55 + 0.45 * sin(vDist * 10.0 - atan(vEll.y, vEll.x) * 2.0 + shear2 * 2.4);
+
+            // Soft feathered elongated cloud-sea envelope on cotton
+            float nu = abs(rv.x) / lenR;
+            float nv = abs(rv.y + (shear1 - 0.5) * 0.15 * widR) / widR;
+            float lenEnv = smoothstep(1.12, 0.20, nu);
+            lenEnv = lenEnv * lenEnv * (3.0 - 2.0 * lenEnv);
+            float widEnv = smoothstep(1.14, 0.14, nv);
+            widEnv = widEnv * widEnv * (3.0 - 2.0 * widEnv);
+
+            // Multi-tone Jovian atmospheric palette derived from selected dye color cd.rgb
+            vec3 creamZone = mix(vec3(0.99, 0.97, 0.94), cd.rgb, 0.14);
+            vec3 warmMid   = mix(vec3(1.0), cd.rgb, 0.64);
+            vec3 rustDeep  = mix(cd.rgb * 0.46, cd.rgb * vec3(0.74, 0.52, 0.42), 0.45);
+            vec3 eyeHot    = clamp(cd.rgb * vec3(1.15, 0.80, 0.60), 0.0, 1.0);
+
+            vec3 jupCol = mix(warmMid, creamZone, brightZone * 0.78);
+            jupCol = mix(jupCol, rustDeep, deepBelt * 0.86);
+            jupCol = mix(jupCol, creamZone, vCollar * 0.78);
+            jupCol = mix(jupCol, mix(warmMid, eyeHot, vSpiral), vEye * 0.94);
+
+            float cloudBody = lenEnv * widEnv * (1.0 - brightZone * 0.18);
+            float fiberBleed = mix(0.88, 1.12, fineFibers * 0.55 + wisps * 0.45);
+            dyeTint = jupCol;
+            dyeAmount = clamp((cloudBody + vEye * 0.35 * lenEnv * widEnv) * fiberBleed * cd.w, 0.0, 0.94);
+          } else {
+            // --- MODE 4: IRREGULAR DOTTED SPRAY / MIST (不規則點狀噴霧 / 吹繪) ---
+            // Organic atomizer burst: 3 rotated scales of irregular wet droplets & fine speckles
+            // over a delicate airbrush mist veil, thinning naturally at the ragged outer edge.
+            float ang = ex.z;
+            float ca = cos(-ang);
+            float sa = sin(-ang);
+            vec2 ds = vec2(d.x * ca - d.y * sa, d.x * sa + d.y * ca);
+            // Slightly elongated asymmetric spray footprint
+            vec2 dw = vec2(ds.x * 0.82, ds.y * 1.12) + (rWarp - 0.5) * (0.06 + curR * 0.22);
+            float dist = length(dw);
+            float nr = dist / max(0.006, curR);
+
+            // Organic irregular spray boundary
+            float sprayShape = fbm(p * 6.5 + ex.x * 19.0);
+            float env = smoothstep(1.16, 0.06, nr + (sprayShape - 0.5) * 0.36);
+            float outerEnv = smoothstep(1.38, 0.18, nr + (sprayShape - 0.5) * 0.42);
+
+            // Rotate coordinate planes at non-commensurate angles so droplets never align on a grid
+            vec2 sp1 = p + (rWarp - 0.5) * 0.015;
+            vec2 sp2 = mat2(0.798, -0.602, 0.602, 0.798) * p + (q - 0.5) * 0.012;
+            vec2 sp3 = mat2(0.530, 0.848, -0.848, 0.530) * p;
+
+            // Layer 1: Occasional larger wet-soaked splatter dots
+            float dLarge = sprayDots(sp1, 24.0, ex.x + 0.13, 0.26 * env, 0.06, 0.21, fineFibers);
+            // Layer 2: Medium irregular spray droplets
+            float dMed   = sprayDots(sp2, 52.0, ex.x + 0.47, 0.44 * outerEnv, 0.06, 0.19, fineFibers);
+            // Layer 3: Fine atomizer mist speckles extending softly outward
+            float dFine  = sprayDots(sp3, 102.0, ex.x + 0.81, 0.58 * outerEnv, 0.06, 0.18, fineFibers);
+
+            float dots = clamp(max(dLarge, max(dMed * 0.92, dFine * 0.78)), 0.0, 1.0);
+            // Faint soft airbrush mist bed in the core
+            float mistBed = env * env * 0.14 * mix(0.75, 1.2, fineFibers);
+
+            // Deeper concentrated pigment inside droplets vs airy translucent mist bed
+            vec3 mistTint = mix(vec3(1.0), cd.rgb, 0.62);
+            vec3 dropTint = mix(cd.rgb, cd.rgb * 0.78, dLarge * 0.55);
+            dyeTint = mix(mistTint, dropTint, smoothstep(0.05, 0.55, dots));
+            dyeAmount = clamp((dots * 0.94 + mistBed) * cd.w, 0.0, 0.95);
+          }
+
+          // Subtractive textile/paper glaze (optically blends cloud, splashed ink & concentric shibori!)
+          vec3 dyed = mix(vec3(1.0), dyeTint, dyeAmount);
+          col *= dyed;
+        }
+
+        // Gentle studio cloth-fold dimensionality
+        col *= 0.985 + cloudBase * 0.025;
+
+        gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+      }
+    `;
+
+    function compile(type, src) {
+      const sh = gl.createShader(type);
+      gl.shaderSource(sh, src);
+      gl.compileShader(sh);
+      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(sh));
+        throw new Error('Shader compile failed');
+      }
+      return sh;
+    }
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vertSrc));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fragSrc));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      throw new Error(gl.getProgramInfoLog(prog));
+    }
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const aPos = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes = gl.getUniformLocation(prog, 'u_res');
+    const uClothSeed = gl.getUniformLocation(prog, 'u_clothSeed');
+    const uCount = gl.getUniformLocation(prog, 'u_count');
+    const uPosRad = gl.getUniformLocation(prog, 'u_posRad');
+    const uColDen = gl.getUniformLocation(prog, 'u_colDen');
+    const uExtra = gl.getUniformLocation(prog, 'u_extra');
+
+    // =========================================================================
+    // Cloud Dye Simulation (Smooth Expansion -> Natural Stop)
+    // =========================================================================
+    let activeMode = 0; // 0 = Cloud Shibori, 1 = Splashed Ink (潑墨)
+    let activeColorHex = '#28B5F4';
+    let clothSeed = Math.random() * 50;
+    let clouds = [];
+    let dyeQueue = [];
+    let queueFrame = 0;
+
+    function hexToRgb01(hex) {
+      const c = hex.replace('#', '');
+      const n = parseInt(c.length === 3 ? c.split('').map((x) => x + x).join('') : c, 16);
+      return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+    }
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    function addCloud(xAspect, yAspect, hex, opts = {}) {
+      const mode = opts.mode !== undefined ? opts.mode : activeMode;
+      const [r, g, b] = hexToRgb01(hex || activeColorHex);
+      const defaultMaxR = mode === 1 ? rand(0.11, 0.22) : (mode === 2 ? rand(0.18, 0.34) : (mode === 3 ? rand(0.24, 0.38) : (mode === 4 ? rand(0.24, 0.42) : rand(0.32, 0.56))));
+      const defaultRate = mode === 1 ? rand(0.055, 0.085) : (mode === 2 ? rand(0.028, 0.046) : (mode === 3 ? rand(0.024, 0.040) : (mode === 4 ? rand(0.065, 0.11) : rand(0.018, 0.032))));
+      const defaultDen = mode === 1 ? rand(0.84, 0.98) : (mode === 2 ? rand(0.80, 0.95) : (mode === 3 ? rand(0.76, 0.92) : (mode === 4 ? rand(0.80, 0.96) : rand(0.72, 0.95))));
+      clouds.push({
+        x: xAspect,
+        y: yAspect,
+        r: opts.startR || (mode === 1 ? 0.02 : 0.015),
+        maxR: opts.maxR || defaultMaxR,
+        rate: opts.rate || defaultRate,
+        mode,
+        rgb: [r, g, b],
+        density: opts.density || defaultDen,
+        seed: Math.random(),
+        angle: opts.angle !== undefined ? opts.angle : rand(-0.48, 0.48)
+      });
+      if (clouds.length > MAX_CLOUDS) clouds.shift();
+
+      // For Splashed Ink (潑墨), fling organic satellite ink droplets around the main splash!
+      if (mode === 1 && !opts.isSatellite) {
+        const mainR = clouds[clouds.length - 1].maxR;
+        const sats = opts.satCount !== undefined ? opts.satCount : (4 + Math.floor(Math.random() * 3));
+        const satSpread = opts.satSpread || 1.0;
+        for (let i = 0; i < sats; i++) {
+          const a = Math.random() * Math.PI * 2;
+          const dist = mainR * rand(1.15, 2.75) * satSpread;
+          addCloud(
+            xAspect + Math.cos(a) * dist,
+            yAspect + Math.sin(a) * dist,
+            hex,
+            {
+              mode: 1,
+              isSatellite: true,
+              startR: 0.004,
+              maxR: rand(0.012, 0.038),
+              rate: rand(0.07, 0.115),
+              density: rand(0.74, 0.95)
+            }
+          );
+        }
+      }
+    }
+
+    // =========================================================================
+    // Gustatory Synesthesia Engine (Multi-Axis Flavor -> Shibori & Ink)
+    // =========================================================================
+    const TASTE_AXES = {
+      sweet: {
+        zh: '甜潤', en: 'Sweet',
+        keys: ['甜', '糖', '蜜', '焦糖', '蜂蜜', '布丁', '蛋糕', '甜點', '香草', '珍珠', '珍奶', '奶茶', '紅豆', '糖漿', '棉花糖', '水蜜桃', '蜜桃', '白桃', '草莓', '芒果', '西瓜', '哈密瓜', '櫻桃', '覆盆子', '藍莓', 'sweet', 'sugar', 'honey', 'caramel', 'cake', 'pudding', 'vanilla', 'peach', 'berry', 'strawberry', 'mango', 'dessert', 'syrup', 'boba'],
+        cloudColors: ['#FF5D8F', '#FFB703', '#FF8FA3'],
+        inkColors: ['#C9184A', '#9D4EDD']
+      },
+      sour: {
+        zh: '酸爽', en: 'Sour',
+        keys: ['酸', '檸檬', '青檸', '萊姆', '柚子', '葡萄柚', '百香果', '醋', '梅子', '話梅', '烏梅', '奇異果', '鳳梨', '柳橙', '橘子', '柑橘', '蔓越莓', '優格', '多多', '果醋', 'sour', 'lemon', 'lime', 'yuzu', 'citrus', 'grapefruit', 'passion', 'vinegar', 'plum', 'kiwi', 'pineapple', 'orange', 'yogurt', 'tart', 'tangy'],
+        cloudColors: ['#F4D35E', '#70E000', '#FF9F1C'],
+        inkColors: ['#2EC4B6', '#FF6B00']
+      },
+      salty: {
+        zh: '鹹礦', en: 'Salty',
+        keys: ['鹹', '鹽', '海鹽', '岩鹽', '醬油', '味噌', '味增', '起司', '芝士', '海苔', '昆布', '鹹蛋', '魚露', '洋芋片', '海水', '海洋', 'salty', 'salt', 'sea', 'soy', 'miso', 'cheese', 'nori', 'kelp', 'brine', 'ocean'],
+        cloudColors: ['#28B5F4', '#4EA8DE', '#5E60CE'],
+        inkColors: ['#1D3557', '#2B4C7E']
+      },
+      bitter: {
+        zh: '苦韻', en: 'Bitter',
+        keys: ['苦', '咖啡', '拿鐵', '美式', '濃縮', '摩卡', '巧克力', '黑巧', '可可', '抹茶', '焙茶', '烏龍', '紅茶', '綠茶', '茶', '炭焙', '焙烤', '焦香', '煙燻', '苦瓜', '黑啤', '啤酒', '艾草', '苦艾', 'bitter', 'coffee', 'espresso', 'latte', 'mocha', 'cocoa', 'cacao', 'chocolate', 'matcha', 'tea', 'oolong', 'roasted', 'smoky', 'smoke', 'char', 'stout', 'ipa'],
+        cloudColors: ['#2A9D8F', '#5C4033', '#2B4C7E'],
+        inkColors: ['#18181B', '#3C2317', '#1B4332']
+      },
+      umami: {
+        zh: '鮮醇', en: 'Umami',
+        keys: ['鮮', '高湯', '拉麵', '牛肉麵', '豚骨', '松露', '黑松露', '香菇', '野菇', '蘑菇', '紅酒', '清酒', '威士忌', '鰻魚', '海膽', '鮭魚', '生魚片', '壽司', '和牛', '燉飯', '濃湯', '番茄', '帕瑪森', 'umami', 'broth', 'ramen', 'truffle', 'mushroom', 'wine', 'sake', 'whisky', 'whiskey', 'dashi', 'wagyu', 'risotto', 'uni', 'sushi', 'tomato', 'savory'],
+        cloudColors: ['#8D5B4C', '#6A040F', '#B56576'],
+        inkColors: ['#2B193D', '#3D1E1E', '#1C2541']
+      },
+      spicy: {
+        zh: '辛辣', en: 'Spicy',
+        keys: ['辣', '麻辣', '辣椒', '花椒', '胡椒', '咖哩', '冬蔭', '泡菜', '芥末', '哇沙米', '薑', '老薑', '蒜', '辛', '椒麻', '火鍋', '水煮', '辛拉麵', 'spicy', 'chili', 'chilli', 'mala', 'pepper', 'curry', 'kimchi', 'wasabi', 'ginger', 'garlic', 'hot', 'fiery', 'szechuan', 'sichuan'],
+        cloudColors: ['#FF6B00', '#E6006B', '#F0C808'],
+        inkColors: ['#9D0208', '#18181B', '#D00000']
+      },
+      fizzy: {
+        zh: '沁涼氣泡', en: 'Fizzy & Crisp',
+        keys: ['氣泡', '蘇打', '汽水', '可樂', '薄荷', '莫西多', '冰', '冰沙', '刨冰', '雪酪', '冷萃', '涼', '清涼', '氣泡水', '香檳', '雪碧', '青草', '紫蘇', '迷迭香', 'soda', 'sparkling', 'fizzy', 'mint', 'mojito', 'ice', 'iced', 'sorbet', 'champagne', 'tonic', 'cola', 'fresh', 'herbal', 'crisp', 'cold'],
+        cloudColors: ['#28B5F4', '#2EC4B6', '#72EFDD'],
+        inkColors: ['#0077B6', '#00B4D8']
+      },
+      creamy: {
+        zh: '奶香柔綿', en: 'Creamy',
+        keys: ['奶', '鮮奶', '牛奶', '奶昔', '奶油', '奶蓋', '拿鐵', '卡布', '冰淇淋', '霜淇淋', '慕斯', '生乳', '芋泥', '芋頭', '豆漿', '燕麥奶', '椰奶', '優格', '舒芙蕾', 'milk', 'cream', 'creamy', 'latte', 'foam', 'mousse', 'ice cream', 'gelato', 'taro', 'coconut', 'oat', 'butter', 'velvet'],
+        cloudColors: ['#F4A261', '#E9C46A', '#CDB4DB'],
+        inkColors: ['#6D597A', '#8D5B4C']
+      }
+    };
+
+    // Curated ingredient-level color harmonies for authentic chromatic identity
+    const INGREDIENT_PALETTES = [
+      { keys: ['薄荷', 'mint', 'mojito', '莫西多'], cloud: ['#2EC4B6', '#28B5F4', '#72EFDD'], ink: ['#0077B6'] },
+      { keys: ['蘇打', '氣泡', '海鹽', 'soda', 'sea', 'salt'], cloud: ['#28B5F4', '#4EA8DE', '#90E0EF'], ink: ['#1D3557', '#0077B6'] },
+      { keys: ['草莓', '覆盆子', '櫻桃', '西瓜', 'strawberry', 'raspberry', 'cherry', 'watermelon'], cloud: ['#E6006B', '#FF5D8F', '#FF99AC'], ink: ['#9D0208', '#C9184A'] },
+      { keys: ['水蜜桃', '白桃', '蜜桃', 'peach'], cloud: ['#FF8FA3', '#FFB5A7', '#FFD166'], ink: ['#E07A5F'] },
+      { keys: ['檸檬', '青檸', '柚子', 'lemon', 'lime', 'yuzu'], cloud: ['#F4D35E', '#FFE14D', '#70E000'], ink: ['#2EC4B6', '#D4A017'] },
+      { keys: ['芒果', '柳橙', '橘', '百香果', '焦糖', '蜂蜜', 'mango', 'orange', 'passion', 'caramel', 'honey'], cloud: ['#FFB703', '#FF6B00', '#F4D35E'], ink: ['#9C4221', '#E85D04'] },
+      { keys: ['抹茶', '宇治', '綠茶', '奇異果', 'matcha', 'green tea', 'kiwi'], cloud: ['#38A3A5', '#57CC99', '#80ED99'], ink: ['#1B4332', '#2D6A4F'] },
+      { keys: ['藍莓', '葡萄', '桑葚', 'blueberry', 'grape', 'berry'], cloud: ['#5E60CE', '#8338EC', '#3A0CA3'], ink: ['#240046', '#2B4C7E'] },
+      { keys: ['芋頭', '芋泥', '薰衣草', 'taro', 'lavender'], cloud: ['#9D4EDD', '#C77DFF', '#7B2CBF'], ink: ['#4A2C6D'] },
+      { keys: ['咖啡', '拿鐵', '濃縮', '美式', '可可', '巧克力', '焙茶', 'coffee', 'espresso', 'latte', 'chocolate', 'cocoa', 'cacao'], cloud: ['#9C6644', '#B08968', '#7F5539'], ink: ['#18181B', '#3C2317'] },
+      { keys: ['紅茶', '烏龍', '珍奶', '奶茶', '伯爵', 'black tea', 'oolong', 'milk tea', 'boba', 'earl grey'], cloud: ['#C67D3B', '#DDA15E', '#9C6644'], ink: ['#4A2511', '#283618'] },
+      { keys: ['紅酒', '梅酒', '烏梅', 'wine', 'plum'], cloud: ['#9D0208', '#8338EC', '#B56576'], ink: ['#370617', '#2B193D'] },
+      { keys: ['麻辣', '辣椒', '咖哩', '泡菜', '番茄', 'spicy', 'chili', 'mala', 'curry', 'kimchi', 'tomato'], cloud: ['#FF6B00', '#E63946', '#F4A261'], ink: ['#9D0208', '#18181B'] },
+      { keys: ['松露', '香菇', '野菇', '高湯', '拉麵', '醬油', 'truffle', 'mushroom', 'ramen', 'soy', 'dashi'], cloud: ['#B08968', '#8D5B4C', '#6C757D'], ink: ['#18181B', '#3D2B1F'] },
+      { keys: ['芥末', '哇沙米', '青草', '紫蘇', 'wasabi', 'herbal', 'basil'], cloud: ['#52B788', '#95D5B2', '#D8F3DC'], ink: ['#1B4332', '#2D6A4F'] },
+      { keys: ['黑芝麻', '芝麻', '墨魚', '竹炭', 'sesame', 'squid ink', 'charcoal'], cloud: ['#6C757D', '#ADB5BD', '#495057'], ink: ['#18181B', '#212529'] }
+    ];
+
+    const RAINBOW_HEX = ['#E6006B', '#FF6B00', '#F0C808', '#2EC4B6', '#28B5F4', '#2B4C7E', '#8338EC'];
+    const INK_FALLBACK_HEX = ['#18181B', '#2B4C7E', '#3C2317', '#4A2C6D'];
+
+    function hashString(str) {
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function makeSeededRand(seed) {
+      let s = seed || 1;
+      return () => {
+        s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+        return s / 4294967296;
+      };
+    }
+
+    function analyzeFoodFlavor(raw) {
+      const text = raw.trim();
+      const lower = text.toLowerCase();
+      const seed = hashString(lower);
+      const sr = makeSeededRand(seed);
+
+      // 1. Score all 8 gustatory axes
+      const scores = {};
+      let totalScore = 0;
+      Object.entries(TASTE_AXES).forEach(([axis, def]) => {
+        let hit = 0;
+        def.keys.forEach((k) => {
+          if (lower.includes(k)) hit += k.length >= 2 ? 1.2 : 0.85;
+        });
+        scores[axis] = hit;
+        totalScore += hit;
+      });
+
+      // If no known keywords matched, synthesize a deterministic poetic profile from hash
+      const axisNames = Object.keys(TASTE_AXES);
+      if (totalScore === 0) {
+        const primary = axisNames[seed % axisNames.length];
+        const secondary = axisNames[(seed >> 3) % axisNames.length];
+        scores[primary] = 1.2;
+        if (secondary !== primary) scores[secondary] = 0.7;
+        totalScore = scores[primary] + (secondary !== primary ? 0.7 : 0);
+      }
+
+      // Normalize weights
+      const w = {};
+      axisNames.forEach((a) => { w[a] = scores[a] / Math.max(0.001, totalScore); });
+
+      // Top 1..3 dominant axes for display
+      const ranked = axisNames
+        .filter((a) => scores[a] > 0)
+        .sort((a, b) => scores[b] - scores[a])
+        .slice(0, 3);
+
+      // 2. Build cloud & ink palettes (ingredient-specific first, then taste-axis colors)
+      const cloudPalette = [];
+      const inkPalette = [];
+      const pushUnique = (arr, hex) => { if (!arr.includes(hex)) arr.push(hex); };
+
+      INGREDIENT_PALETTES.forEach((item) => {
+        if (item.keys.some((k) => lower.includes(k))) {
+          item.cloud.forEach((c) => pushUnique(cloudPalette, c));
+          item.ink.forEach((c) => pushUnique(inkPalette, c));
+        }
+      });
+
+      ranked.forEach((axis) => {
+        const def = TASTE_AXES[axis];
+        if (cloudPalette.length < 4) def.cloudColors.forEach((c) => pushUnique(cloudPalette, c));
+        if (inkPalette.length < 3) def.inkColors.forEach((c) => pushUnique(inkPalette, c));
+      });
+
+      if (cloudPalette.length === 0) {
+        cloudPalette.push(RAINBOW_HEX[seed % 7], RAINBOW_HEX[(seed + 2) % 7], RAINBOW_HEX[(seed + 4) % 7]);
+      }
+      if (inkPalette.length === 0) {
+        inkPalette.push(INK_FALLBACK_HEX[seed % INK_FALLBACK_HEX.length]);
+      }
+
+      // 3. Derive visual choreography parameters from taste weights
+      // Ink ratio: bitter, spicy, umami, roasted push ink up; creamy, sweet, fizzy soften it
+      let inkRatio = 0.14
+        + w.bitter * 0.36
+        + w.spicy * 0.34
+        + w.umami * 0.24
+        + w.sour * 0.14
+        + w.salty * 0.12
+        - w.creamy * 0.16
+        - w.sweet * 0.10;
+      inkRatio = Math.max(0.0, Math.min(0.58, inkRatio));
+
+      // Rhythm / expansion speed
+      const speedMult = 1.0
+        + w.spicy * 0.55
+        + w.sour * 0.38
+        + w.fizzy * 0.32
+        - w.creamy * 0.24
+        - w.umami * 0.18
+        - w.sweet * 0.10;
+
+      // Cloud scale & dye density
+      const scaleMult = 1.0
+        + w.creamy * 0.20
+        + w.sweet * 0.14
+        - w.fizzy * 0.16
+        - w.sour * 0.10;
+
+      const densityBase = 0.78
+        + w.bitter * 0.14
+        + w.umami * 0.12
+        + w.spicy * 0.10
+        - w.creamy * 0.14
+        - w.fizzy * 0.12;
+
+      // Choose composition layout from dominant axis
+      const dominant = ranked[0];
+      let layout = 'bloom';
+      if (dominant === 'fizzy') layout = 'effervescent';
+      else if (dominant === 'spicy') layout = 'burst';
+      else if (dominant === 'sour') layout = 'diagonal';
+      else if (dominant === 'salty' || dominant === 'bitter' || dominant === 'umami') layout = 'horizon';
+
+      return {
+        text, seed, sr, w, ranked,
+        cloudPalette, inkPalette,
+        inkRatio, speedMult, scaleMult, densityBase, layout
+      };
+    }
+
+    function dyeFoodCloud(raw) {
+      const profile = analyzeFoodFlavor(raw);
+      const { text, sr, w, ranked, cloudPalette, inkPalette, inkRatio, speedMult, scaleMult, densityBase, layout } = profile;
+      const sRand = (a, b) => a + sr() * (b - a);
+
+      clouds = [];
+      dyeQueue = [];
+      clothSeed = sr() * 100;
+      const aspect = canvas.width / Math.max(1, canvas.height);
+
+      // Direct 1-to-1 Five Tastes -> Five Dyeing Techniques mapping:
+      // 酸 Sour -> ◎ 同心圓 (Mode 2)
+      // 甜 Sweet -> ☁ 雲霧 (Mode 0)
+      // 苦 Bitter -> ✦ 潑墨 (Mode 1)
+      // 辣 Spicy -> ∴ 噴霧 (Mode 4)
+      // 鹹 Salty -> 〰 帶狀 (Mode 3)
+      const fiveWeights = {
+        sour:   w.sour + w.fizzy * 0.45,
+        sweet:  w.sweet + w.creamy * 0.60,
+        bitter: w.bitter + w.umami * 0.35,
+        spicy:  w.spicy + w.fizzy * 0.20,
+        salty:  w.salty + w.umami * 0.65 + w.fizzy * 0.25
+      };
+      const fiveSum = Object.values(fiveWeights).reduce((a, b) => a + b, 0) || 1;
+      const fiveNorm = {};
+      Object.keys(fiveWeights).forEach((k) => { fiveNorm[k] = fiveWeights[k] / fiveSum; });
+
+      const totalPrimary = 10;
+      const counts = {
+        sour:   Math.round(totalPrimary * fiveNorm.sour),
+        sweet:  Math.round(totalPrimary * fiveNorm.sweet),
+        bitter: Math.round(totalPrimary * fiveNorm.bitter),
+        spicy:  Math.round(totalPrimary * fiveNorm.spicy),
+        salty:  Math.round(totalPrimary * fiveNorm.salty)
+      };
+      // Ensure any active core taste gets at least 1 gesture, and keep total clean (8..11)
+      const coreOrder = ['sour', 'sweet', 'bitter', 'spicy', 'salty'];
+      coreOrder.forEach((k) => {
+        if (fiveWeights[k] > 0.14 && counts[k] === 0) counts[k] = 1;
+      });
+      // Cap high-density ink/ring gestures so canvas stays breathable and painterly
+      counts.bitter = Math.min(3, counts.bitter);
+      counts.sour = Math.min(3, counts.sour);
+      counts.spicy = Math.min(4, counts.spicy);
+      counts.salty = Math.min(4, counts.salty);
+      counts.sweet = Math.min(5, counts.sweet);
+
+      const cloudCount  = counts.sweet;  // 甜 -> Mode 0 (雲霧)
+      const inkCount    = counts.bitter; // 苦 -> Mode 1 (潑墨)
+      const ringCount   = counts.sour;   // 酸 -> Mode 2 (同心圓)
+      const ribbonCount = counts.salty;  // 鹹 -> Mode 3 (帶狀)
+      const sprayCount  = counts.spicy;  // 辣 -> Mode 4 (噴霧)
+
+      // Helper to generate composition coordinates by flavor layout
+      function pickPoint(index, total, isInk) {
+        const t = total > 1 ? index / (total - 1) : 0.5;
+        if (layout === 'horizon') {
+          // Layered landscape band (salty / bitter / umami)
+          const x = ((t - 0.5) * 0.84 + sRand(-0.09, 0.09)) * aspect;
+          const y = isInk ? sRand(-0.22, 0.08) : sRand(-0.26, 0.28);
+          return [x, y];
+        }
+        if (layout === 'diagonal') {
+          // Lively diagonal citrus sweep (sour)
+          const u = (t - 0.5) * 0.86;
+          const x = (u + sRand(-0.11, 0.11)) * aspect;
+          const y = u * 0.72 + sRand(-0.14, 0.14);
+          return [x, y];
+        }
+        if (layout === 'burst') {
+          // Energetic core-to-outer radial bursts (spicy)
+          const ang = t * Math.PI * 2 + sRand(-0.35, 0.35);
+          const rad = isInk ? sRand(0.04, 0.28) : sRand(0.10, 0.38);
+          return [Math.cos(ang) * rad * aspect, Math.sin(ang) * rad];
+        }
+        if (layout === 'effervescent') {
+          // Rising mist & sparkling droplets (fizzy / mint)
+          const x = sRand(-0.42, 0.42) * aspect;
+          const y = -0.34 + t * 0.68 + sRand(-0.08, 0.08);
+          return [x, y];
+        }
+        // Soft billowing cluster (sweet / creamy)
+        const ang = t * Math.PI * 2 + sRand(-0.45, 0.45);
+        const rad = sRand(0.06, 0.34);
+        return [Math.cos(ang) * rad * aspect, Math.sin(ang) * rad];
+      }
+
+      const frameGap = Math.max(5, Math.round(9 / Math.max(0.65, speedMult)));
+      let curFrame = 2;
+
+      // Stage 1: Lay down atmospheric Cloud Shibori washes
+      for (let i = 0; i < cloudCount; i++) {
+        const [x, y] = pickPoint(i, cloudCount, false);
+        dyeQueue.push({
+          frame: curFrame,
+          mode: 0,
+          x,
+          y,
+          hex: cloudPalette[i % cloudPalette.length],
+          maxR: sRand(0.36, 0.58) * scaleMult,
+          rate: sRand(0.018, 0.030) * speedMult,
+          density: Math.max(0.48, Math.min(0.92, densityBase + sRand(-0.10, 0.08)))
+        });
+        curFrame += frameGap;
+      }
+
+      // Stage 1a: Layer Banded Ribbon Wash (帶狀暈染) sweeping gracefully across the cloth
+      for (let rIdx = 0; rIdx < ribbonCount; rIdx++) {
+        const yOff = (rIdx - (ribbonCount - 1) * 0.5) * 0.28 + sRand(-0.08, 0.08);
+        const tilt = layout === 'diagonal' ? sRand(0.28, 0.52) : sRand(-0.24, 0.24);
+        dyeQueue.push({
+          frame: curFrame,
+          mode: 3,
+          x: sRand(-0.18, 0.18) * aspect,
+          y: yOff,
+          hex: cloudPalette[(rIdx + 2) % cloudPalette.length],
+          maxR: sRand(0.28, 0.40) * scaleMult,
+          rate: sRand(0.024, 0.038) * speedMult,
+          density: Math.max(0.64, Math.min(0.90, densityBase)),
+          angle: tilt
+        });
+        curFrame += frameGap;
+      }
+
+      // Stage 1b: Layer Concentric Shibori (同心圓紮染) motifs for rhythmic/layered flavors
+      for (let k = 0; k < ringCount; k++) {
+        const [x, y] = pickPoint(k, Math.max(2, ringCount), false);
+        dyeQueue.push({
+          frame: curFrame,
+          mode: 2,
+          x: x * 0.85,
+          y: y * 0.85,
+          hex: cloudPalette[(k + 1) % cloudPalette.length],
+          maxR: sRand(0.18, 0.32) * scaleMult,
+          rate: sRand(0.028, 0.044) * speedMult,
+          density: Math.max(0.72, Math.min(0.94, densityBase + 0.06))
+        });
+        curFrame += frameGap;
+      }
+
+      // Stage 2: Layer flavor-driven Splashed Ink accents (bitter / spicy / umami / sour tang)
+      for (let j = 0; j < inkCount; j++) {
+        const [x, y] = pickPoint(j, inkCount, true);
+        const isSpicy = w.spicy > 0.22;
+        const isSour = w.sour > 0.25 && !isSpicy;
+        dyeQueue.push({
+          frame: curFrame + 2,
+          mode: 1,
+          x,
+          y,
+          hex: inkPalette[j % inkPalette.length],
+          maxR: isSour ? sRand(0.07, 0.13) : sRand(0.12, 0.21),
+          rate: sRand(0.055, 0.085) * speedMult,
+          density: Math.max(0.70, Math.min(0.96, densityBase + 0.10)),
+          satCount: isSpicy ? 6 : (isSour ? 4 : 3),
+          satSpread: isSpicy ? 1.35 : 1.0
+        });
+        curFrame += Math.max(6, frameGap + 1);
+      }
+
+      // Stage 2b: Layer Irregular Dotted Spray (不規則點狀噴霧) for effervescent/zesty/spiced accents
+      for (let sp = 0; sp < sprayCount; sp++) {
+        const [x, y] = pickPoint(sp, Math.max(2, sprayCount), true);
+        dyeQueue.push({
+          frame: curFrame + 2,
+          mode: 4,
+          x: x * 0.9,
+          y: y * 0.9,
+          hex: (sp % 2 === 0 ? cloudPalette : inkPalette)[sp % cloudPalette.length] || cloudPalette[0],
+          maxR: sRand(0.24, 0.38) * scaleMult,
+          rate: sRand(0.065, 0.105) * speedMult,
+          density: Math.max(0.76, Math.min(0.95, densityBase + 0.08)),
+          angle: sRand(-0.8, 0.8)
+        });
+        curFrame += Math.max(5, frameGap);
+      }
+
+      // Stage 3: Extra crisp effervescent micro-droplets for fizzy/sparkling drinks
+      if (w.fizzy > 0.22) {
+        const bubbles = 5;
+        for (let b = 0; b < bubbles; b++) {
+          dyeQueue.push({
+            frame: curFrame + b * 4,
+            mode: 1,
+            isSatellite: true,
+            x: sRand(-0.38, 0.38) * aspect,
+            y: sRand(-0.22, 0.36),
+            hex: cloudPalette[b % cloudPalette.length],
+            maxR: sRand(0.014, 0.032),
+            rate: sRand(0.08, 0.12),
+            density: sRand(0.62, 0.84)
+          });
+        }
+      }
+
+      queueFrame = 0;
+
+      // Sync active swatch to primary cloud hue so manual follow-up harmonizes
+      setActiveColor(cloudPalette[0]);
+
+      const zh = lang === 'zh';
+      const denom = Math.max(1, cloudCount + ribbonCount + ringCount + sprayCount + inkCount);
+      const tasteMeta = [
+        { k: 'sour',   cnt: ringCount,   zh: '酸', en: 'Sour',   sym: '◎' },
+        { k: 'sweet',  cnt: cloudCount,  zh: '甜', en: 'Sweet',  sym: '☁' },
+        { k: 'bitter', cnt: inkCount,    zh: '苦', en: 'Bitter', sym: '✦' },
+        { k: 'spicy',  cnt: sprayCount,  zh: '辣', en: 'Spicy',  sym: '∴' },
+        { k: 'salty',  cnt: ribbonCount, zh: '鹹', en: 'Salty',  sym: '〰' }
+      ].filter((t) => t.cnt > 0).sort((a, b) => b.cnt - a.cnt);
+
+      const mixParts = tasteMeta.map((t) => {
+        const pct = Math.round((t.cnt / denom) * 100);
+        return `${t.sym}${zh ? t.zh : t.en} ${pct}%`;
+      });
+      const topLabels = tasteMeta.slice(0, 3).map((t) => (zh ? t.zh : t.en)).join('・');
+
+      titleEl.textContent = zh ? `${text} · 五味紮染` : `${text} · Five Tastes Shibori`;
+      subEl.textContent = zh
+        ? `五味配方：${mixParts.join(' · ')}`
+        : `Taste weave: ${mixParts.join(' · ')}`;
+      showToast(zh ? `正在依「${topLabels}」五味技法染製「${text}」…` : `Dyeing “${text}” (${topLabels})…`);
+    }
+
+    function scheduleAutoCloud() {
+      clouds = [];
+      dyeQueue = [];
+      clothSeed = Math.random() * 100;
+      applyLang();
+      const aspect = canvas.width / Math.max(1, canvas.height);
+
+      // Dreamy clouds + flowing ribbon wash + concentric shibori rings + mist spray + splashed-ink accents
+      const preset = [
+        { f:  2, mode: 0, hex: '#28B5F4', x: -0.22 * aspect, y:  0.14, maxR: 0.56, den: 0.80 },
+        { f: 12, mode: 0, hex: '#2EC4B6', x: -0.02 * aspect, y:  0.24, maxR: 0.48, den: 0.74 },
+        { f: 22, mode: 3, hex: '#8338EC', x:  0.04 * aspect, y:  0.06, maxR: 0.35, den: 0.74, angle: 0.22 },
+        { f: 32, mode: 0, hex: '#E6006B', x: -0.18 * aspect, y: -0.20, maxR: 0.44, den: 0.68 },
+        { f: 42, mode: 2, hex: '#2B4C7E', x: -0.16 * aspect, y:  0.02, maxR: 0.25, den: 0.88 },
+        { f: 52, mode: 4, hex: '#E6006B', x:  0.18 * aspect, y:  0.16, maxR: 0.34, den: 0.90, angle: -0.35 },
+        { f: 62, mode: 1, hex: '#18181B', x:  0.10 * aspect, y: -0.04, maxR: 0.15, den: 0.94 },
+        { f: 70, mode: 4, hex: '#28B5F4', x: -0.04 * aspect, y: -0.16, maxR: 0.30, den: 0.88, angle: 0.45 }
+      ];
+      preset.forEach((c) => {
+        dyeQueue.push({
+          frame: c.f,
+          mode: c.mode,
+          x: c.x + rand(-0.04, 0.04),
+          y: c.y + rand(-0.04, 0.04),
+          hex: c.hex,
+          maxR: c.maxR,
+          density: c.den,
+          angle: c.angle
+        });
+      });
+      queueFrame = 0;
+    }
+
+    // =========================================================================
+    // UI & Pointer Bindings
+    // =========================================================================
+    function setActiveColor(hex, fromInput = false) {
+      activeColorHex = hex.toUpperCase();
+      if (!fromInput) customColorEl.value = activeColorHex;
+      hexReadoutEl.textContent = activeColorHex;
+      swatchBtns.forEach((b) => b.classList.toggle('active', b.dataset.hex.toUpperCase() === activeColorHex));
+    }
+
+    function setActiveMode(m) {
+      activeMode = m;
+      modeBtns.forEach((b) => b.classList.toggle('active', Number(b.dataset.mode) === m));
+    }
+
+    modeBtns.forEach((b) => b.addEventListener('click', () => setActiveMode(Number(b.dataset.mode))));
+    swatchBtns.forEach((b) => b.addEventListener('click', () => setActiveColor(b.dataset.hex)));
+    customColorEl.addEventListener('input', (e) => setActiveColor(e.target.value, true));
+
+    foodForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = foodInput.value.trim();
+      if (!val) { scheduleAutoCloud(); return; }
+      dyeFoodCloud(val);
+      foodInput.blur();
+    });
+
+    btnAuto.addEventListener('click', () => {
+      scheduleAutoCloud();
+      showToast(lang === 'zh' ? '正在重新暈染雲霧棉布…' : 'Blooming fresh cloud cloth…');
+    });
+
+    btnClear.addEventListener('click', () => {
+      clouds = [];
+      dyeQueue = [];
+      clothSeed = Math.random() * 100;
+      applyLang();
+      showToast(lang === 'zh' ? '已換上全新純白棉布' : 'Fresh white cotton cloth ready');
+    });
+
+    btnLang.addEventListener('click', () => {
+      lang = lang === 'zh' ? 'en' : 'zh';
+      applyLang();
+    });
+
+    btnExport.addEventListener('click', () => {
+      const prevW = canvas.width, prevH = canvas.height;
+      const size = 2400;
+      canvas.width = size;
+      canvas.height = size;
+      gl.viewport(0, 0, size, size);
+      renderGL(size, size);
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `cloud_shibori_${Date.now()}.png`;
+          a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          showToast(lang === 'zh' ? '已匯出 2400×2400 雲霧紮染 PNG' : 'Exported 2400×2400 Cloud Shibori PNG');
+        }
+        canvas.width = prevW;
+        canvas.height = prevH;
+        gl.viewport(0, 0, prevW, prevH);
+        renderGL(prevW, prevH);
+      }, 'image/png');
+    });
+
+    let isDown = false;
+    let lastPt = null;
+
+    function clientToAspect(cx, cy) {
+      const rect = canvas.getBoundingClientRect();
+      const nx = (cx - rect.left) / rect.width;
+      const ny = 1.0 - (cy - rect.top) / rect.height;
+      const aspect = rect.width / Math.max(1, rect.height);
+      return [(nx - 0.5) * aspect, ny - 0.5];
+    }
+
+    canvas.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      isDown = true;
+      const [ax, ay] = clientToAspect(e.clientX, e.clientY);
+      addCloud(ax, ay, activeColorHex);
+      lastPt = [ax, ay];
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDown) return;
+      const [ax, ay] = clientToAspect(e.clientX, e.clientY);
+      const stepDist = activeMode === 4 ? 0.10 : (activeMode === 1 ? 0.12 : (activeMode === 2 ? 0.22 : (activeMode === 3 ? 0.18 : 0.16)));
+      if (!lastPt || Math.hypot(ax - lastPt[0], ay - lastPt[1]) > stepDist) {
+        const dragMaxR = activeMode === 4 ? rand(0.14, 0.24) : (activeMode === 1 ? rand(0.08, 0.16) : (activeMode === 2 ? rand(0.12, 0.22) : (activeMode === 3 ? rand(0.16, 0.26) : rand(0.28, 0.48))));
+        const strokeAngle = ((activeMode === 3 || activeMode === 4) && lastPt) ? Math.atan2(ay - lastPt[1], ax - lastPt[0]) : undefined;
+        addCloud(ax, ay, activeColorHex, { maxR: dragMaxR, satCount: activeMode === 1 ? 2 : 0, angle: strokeAngle });
+        lastPt = [ax, ay];
+      }
+    });
+
+    window.addEventListener('pointerup', () => { isDown = false; lastPt = null; });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      const k = e.key.toLowerCase();
+      if (k === '1') setActiveMode(2);      // 1: 酸 Sour (同心圓)
+      else if (k === '2') setActiveMode(0); // 2: 甜 Sweet (雲霧)
+      else if (k === '3') setActiveMode(1); // 3: 苦 Bitter (潑墨)
+      else if (k === '4') setActiveMode(4); // 4: 辣 Spicy (噴霧)
+      else if (k === '5') setActiveMode(3); // 5: 鹹 Salty (帶狀)
+      else if (k === 'h') document.body.classList.toggle('ui-hidden');
+      else if (k === 'r') btnAuto.click();
+      else if (k === 'c') btnClear.click();
+    });
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.floor(window.innerWidth * dpr);
+      const h = Math.floor(window.innerHeight * dpr);
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // =========================================================================
+    // Render Loop
+    // =========================================================================
+    const posRadArr = new Float32Array(MAX_CLOUDS * 4);
+    const colDenArr = new Float32Array(MAX_CLOUDS * 4);
+    const extraArr = new Float32Array(MAX_CLOUDS * 4);
+
+    function renderGL(w, h) {
+      const n = Math.min(clouds.length, MAX_CLOUDS);
+      for (let i = 0; i < MAX_CLOUDS; i++) {
+        if (i < n) {
+          const c = clouds[i];
+          posRadArr[i * 4 + 0] = c.x;
+          posRadArr[i * 4 + 1] = c.y;
+          posRadArr[i * 4 + 2] = c.r;
+          posRadArr[i * 4 + 3] = c.mode || 0;
+
+          colDenArr[i * 4 + 0] = c.rgb[0];
+          colDenArr[i * 4 + 1] = c.rgb[1];
+          colDenArr[i * 4 + 2] = c.rgb[2];
+          colDenArr[i * 4 + 3] = c.density;
+
+          extraArr[i * 4 + 0] = c.seed;
+          extraArr[i * 4 + 1] = c.maxR;
+          extraArr[i * 4 + 2] = c.angle || 0;
+          extraArr[i * 4 + 3] = 0;
+        } else {
+          posRadArr[i * 4 + 2] = 0;
+        }
+      }
+
+      gl.uniform2f(uRes, w, h);
+      gl.uniform1f(uClothSeed, clothSeed);
+      gl.uniform1i(uCount, n);
+      gl.uniform4fv(uPosRad, posRadArr);
+      gl.uniform4fv(uColDen, colDenArr);
+      gl.uniform4fv(uExtra, extraArr);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+
+    function tick() {
+      if (dyeQueue.length > 0) {
+        queueFrame++;
+        while (dyeQueue.length > 0 && dyeQueue[0].frame <= queueFrame) {
+          const item = dyeQueue.shift();
+          addCloud(item.x, item.y, item.hex, {
+            mode: item.mode !== undefined ? item.mode : 0,
+            maxR: item.maxR,
+            rate: item.rate,
+            density: item.density,
+            isSatellite: item.isSatellite,
+            satCount: item.satCount,
+            satSpread: item.satSpread,
+            angle: item.angle
+          });
+        }
+      }
+
+      // Smooth billowy expansion -> naturally decelerates & stops!
+      for (let i = 0; i < clouds.length; i++) {
+        const c = clouds[i];
+        const delta = (c.maxR - c.r) * c.rate;
+        if (delta > 0.00012) c.r += delta;
+        else c.r = c.maxR;
+      }
+
+      renderGL(canvas.width, canvas.height);
+      requestAnimationFrame(tick);
+    }
+
+    applyLang();
+    scheduleAutoCloud();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>
