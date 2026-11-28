@@ -256,15 +256,24 @@ async function processImage(slug, imageItem, index) {
   };
 }
 
-function renderHead({ titleEn, titleZh, description, canonicalUrl, ogImageUrl, prefix }) {
+function renderHead({ titleEn, titleZh, description, canonicalUrl, ogImageUrl, prefix, googleTagId }) {
   const safeTitleEn = escapeHtml(titleEn);
   const safeTitleZh = escapeHtml(titleZh);
   const safeDesc = escapeHtml(description);
+  const tagSnippet = googleTagId
+    ? `  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(googleTagId)}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>\n`
+    : '';
 
   return `<!DOCTYPE html>
 <html lang="en" data-lang="en">
 <head>
-  <meta charset="UTF-8">
+${tagSnippet}  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-title-en="${safeTitleEn}" data-title-zh="${safeTitleZh}">${safeTitleEn}</title>
   <meta name="description" content="${safeDesc}">
@@ -368,6 +377,7 @@ function renderHomePage(config, entriesDesc) {
     canonicalUrl: `${config.siteUrl}/`,
     ogImageUrl: entriesDesc[0]?.ogRel ? `${config.siteUrl}/${entriesDesc[0].ogRel}` : '',
     prefix: './',
+    googleTagId: config.googleTagId || '',
   });
 
   const cardsHtml = entriesDesc
@@ -454,6 +464,7 @@ function renderDetailPage(config, entry, prevEntry, nextEntry) {
     canonicalUrl: `${config.siteUrl}/work/${entry.slug}/`,
     ogImageUrl: entry.ogRel ? `${config.siteUrl}/${entry.ogRel}` : '',
     prefix,
+    googleTagId: config.googleTagId || '',
   });
 
   const platesHtml = entry.plates
@@ -698,6 +709,7 @@ function renderAboutPage(config, totalEntries) {
     canonicalUrl: `${config.siteUrl}/about/`,
     ogImageUrl: '',
     prefix,
+    googleTagId: config.googleTagId || '',
   });
 
   const headingEn = escapeHtml(config.about.heading.en).replaceAll('\n', '<br>');
